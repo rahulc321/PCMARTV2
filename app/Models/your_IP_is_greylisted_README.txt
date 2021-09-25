@@ -1,0 +1,1 @@
+Your IP has been greylisted by BitNinja.To delist your IP please visit the server using a web browser.and resolve the CAPTCHA if requested.Please visit this url: http://178.128.92.166/After you delisted your IP you can access the real FTP server again!

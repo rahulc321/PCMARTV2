@@ -1,0 +1,791 @@
+{
+  "menu": [
+    {
+      "url": "#",
+      "name": "Dashboard",
+      "slug": "dashboard",
+      "icon": "desktop",
+      "tag": "2",
+      "tagcustom": "badge badge-light-danger badge-pill badge-round float-right mr-50",
+      "submenu": [
+        {
+          "url": "/",
+          "name": "eCommerce",
+          "slug": "dashboard-ecommerce",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "dashboard/analytics",
+          "name": "Analytics",
+          "slug": "dashboard-analytics",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "navheader": "Apps"
+    },
+    {
+      "url": "app/email",
+      "name": "Email",
+      "slug": "app-email",
+      "icon": "envelope-pull"
+    },
+    {
+      "url": "app/chat",
+      "name": "Chat",
+      "slug": "app-chat",
+      "icon": "comments"
+    },
+    {
+      "url": "app/todo",
+      "name": "Todo",
+      "slug": "app-todo",
+      "icon": "check-alt"
+    },
+    {
+      "url": "app/calendar",
+      "name": "Calendar",
+      "slug": "app-calendar",
+      "icon": "calendar"
+    },
+    {
+      "url": "app/kanban",
+      "name": "Kanban",
+      "slug": "app-kanban",
+      "icon": "grid"
+    },
+    {
+      "url": "#",
+      "name": "Invoice",
+      "slug": "invoice",
+      "icon": "notebook",
+      "submenu": [
+        {
+          "url": "app/invoice/list",
+          "name": "Invoice List",
+          "slug": "app-invoice-list",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "app/invoice/view",
+          "name": "Invoice",
+          "slug": "app-invoice-view",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "app/invoice/edit",
+          "name": "Invoice Edit",
+          "slug": "app-invoice-edit",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "app/invoice/add",
+          "name": "Invoice Add",
+          "slug": "app-invoice-add",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "app/file-manager",
+      "name": "File Manager",
+      "slug": "app-file-manager",
+      "icon": "save"
+    },
+     {
+      "url": "#",
+      "name": "User",
+      "slug": "user",
+      "icon": "users",
+      "submenu": [
+        {
+          "url": "app/users/list",
+          "name": "List",
+          "slug": "app-users-list",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "app/users/view",
+          "name": "View",
+          "slug": "app-users-view",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "app/users/edit",
+          "name": "Edit",
+          "slug": "app-users-edit",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "navheader": "UI Elements"
+    },
+    {
+      "url": "#",
+      "name": "Content",
+      "slug": "content",
+      "icon": "retweet",
+      "submenu": [
+        {
+          "url": "content/grid",
+          "name": "Grid",
+          "slug": "content-grid",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "content/typography",
+          "name": "Typography",
+          "slug": "content-typography",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "content/text-utilities",
+          "name": "Text Utilities",
+          "slug": "content-text-utilities",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "content/syntax-highlighter",
+          "name": "Syntax Highlighter",
+          "slug": "content-syntax-highlighter",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "content/helper-classes",
+          "name": "Helper Classes",
+          "slug": "content-helper-classes",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "content/colors",
+      "name": "Colors",
+      "slug": "content-colors",
+      "icon": "drop"
+    },
+    {
+      "url": "#",
+      "name": "Icons",
+      "slug": "icons",
+      "icon": "bulb",
+      "submenu": [
+        {
+          "url": "icons/livicons",
+          "name": "LivIcons",
+          "slug": "icons-livicons",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "icons/boxicons",
+          "name": "BoxIcons",
+          "slug": "icons-boxicons",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Card",
+      "slug": "card",
+      "icon": "square",
+      "submenu": [
+        {
+          "url": "card/basic",
+          "name": "Basic",
+          "slug": "card-basic",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "card/actions",
+          "name": "Card Actions",
+          "slug": "card-actions",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "card/widgets",
+      "name": "Widgets",
+      "slug": "card-widgets",
+      "icon": "thumbnails-small",
+      "tag": "New",
+      "tagcustom": "badge badge-light-primary badge-pill badge-round float-right"
+    },
+    {
+      "url": "#",
+      "name": "Components",
+      "slug": "components",
+      "icon": "box-add",
+      "submenu": [
+        {
+          "url": "component/alerts",
+          "name": "Alerts",
+          "slug": "component-alerts",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/buttons-basic",
+          "name": "Buttons",
+          "slug": "component-buttons-basic",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/breadcrumbs",
+          "name": "Breadcrumbs",
+          "slug": "component-breadcrumbs",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/carousel",
+          "name": "Carousel",
+          "slug": "component-carousel",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/collapse",
+          "name": "Collapse",
+          "slug": "component-collapse",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/dropdowns",
+          "name": "Dropdowns",
+          "slug": "component-dropdowns",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/list-group",
+          "name": "List Group",
+          "slug": "component-list-group",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/modals",
+          "name": "Modals",
+          "slug": "component-modals",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/pagination",
+          "name": "Pagination",
+          "slug": "component-pagination",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/navbar",
+          "name": "Navbar",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "component-navbar"
+        },
+        {
+          "url": "component/tabs-component",
+          "name": "Tabs Component",
+          "slug": "component-tabs-component",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/pills-component",
+          "name": "Pills Component",
+          "slug": "component-pills-component",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/tooltips",
+          "name": "Tooltips",
+          "slug": "component-tooltips",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/popovers",
+          "name": "Popovers",
+          "slug": "component-popovers",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/badges",
+          "name": "Badges",
+          "slug": "component-badges",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/pill-badges",
+          "name": "Pill Badges",
+          "slug": "component-pill-badges",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/progress",
+          "name": "Progress",
+          "slug": "component-progress",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/media-objects",
+          "name": "Media Objects",
+          "slug": "component-media-objects",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/spinner",
+          "name": "Spinner",
+          "slug": "component-spinner",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "component/bs-toast",
+          "name": "Toasts",
+          "slug": "component-bs-toast",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Extra Components",
+      "slug": "extra-components",
+      "icon": "briefcase",
+      "submenu": [
+        {
+          "url": "extra-component/avatar",
+          "name": "Avatar",
+          "slug": "extra-component-avatar",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "extra-component/chips",
+          "name": "Chips",
+          "slug": "extra-component-chips",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "extra-component/divider",
+          "name": "Divider",
+          "slug": "extra-component-divider",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "navheader": "Forms & Tables"
+    },
+    {
+      "url": "#",
+      "name": "Form Elements",
+      "slug": "form-elements",
+      "icon": "check",
+      "submenu": [
+        {
+          "url": "form/inputs",
+          "name": "Input",
+          "slug": "form-inputs",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/input-groups",
+          "name": "Input Groups",
+          "slug": "form-input-groups",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/number-input",
+          "name": "Number Input",
+          "slug": "form-number-input",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/select",
+          "name": "Select",
+          "slug": "form-select",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/radio",
+          "name": "Radio",
+          "slug": "form-radio",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/checkbox",
+          "name": "Checkbox",
+          "slug": "form-checkbox",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/switch",
+          "name": "Switch",
+          "slug": "form-switch",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/textarea",
+          "name": "Textarea",
+          "slug": "form-textarea",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/quill-editor",
+          "name": "Quill Editor",
+          "slug": "form-quill-editor",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/file-uploader",
+          "name": "File Uploader",
+          "slug": "form-file-uploader",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "form/date-time-picker",
+          "name": "Date & Time Picker",
+          "slug": "form-date-time-picker",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "form/layout",
+      "name": "Form Layout",
+      "slug": "form-layout",
+      "icon": "settings"
+    },
+    {
+      "url": "form/wizard",
+      "name": "Form Wizard",
+      "slug": "form-wizard",
+      "icon": "priority-low"
+    },
+    {
+      "url": "form/validation",
+      "name": "Form Validation",
+      "slug": "form-validation",
+      "icon": "check-alt"
+    },
+    {
+      "url": "form/repeater",
+      "name": "Form Repeater",
+      "slug": "form-repeater",
+      "icon": "priority-low"
+    },
+    {
+      "url": "table",
+      "name": "Table",
+      "slug": "table",
+      "icon": "thumbnails-big"
+    },
+    {
+      "url": "table/extended",
+      "name": "Table extended",
+      "slug": "table-extended",
+      "icon": "thumbnails-small"
+    },
+    {
+      "url": "table/datatable",
+      "name": "Datatable",
+      "slug": "table-datatable",
+      "icon": "morph-map"
+    },
+    {
+      "navheader": "Pages"
+    },
+    {
+      "url": "page/user/profile",
+      "name": "User Profile",
+      "slug": "page-user-profile",
+      "icon": "user"
+    },
+    {
+      "url": "page/faq",
+      "name": "FAQ",
+      "slug": "page-faq",
+      "icon": "question-alt"
+    },
+    {
+      "url": "page/knowledge-base",
+      "name": "Knowledge Base",
+      "slug": "page-knowledge-base",
+      "icon": "info-alt"
+    },
+    {
+      "url": "page/search",
+      "name": "Search",
+      "slug": "page-search",
+      "icon": "search"
+    },
+    {
+      "url": "page/account-settings",
+      "name": "Account Settings",
+      "slug": "page-account-settings",
+      "icon": "wrench"
+    },
+    {
+      "url": "#",
+      "name": "Authentication",
+      "slug": "authentication",
+      "icon": "unlock",
+      "submenu": [
+        {
+          "url": "auth/login",
+          "name": "Login",
+          "slug": "auth-login",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "auth/register",
+          "name": "Register",
+          "slug": "auth-register",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "auth/forgot-password",
+          "name": "Forgot Password",
+          "slug": "auth-forgot-password",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "auth/reset-password",
+          "name": "Reset Password",
+          "slug": "auth-reset-password",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "auth/lock-screen",
+          "name": "Lock Screen",
+          "slug": "auth-lock-screen",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Miscellaneous",
+      "slug": "miscellaneous",
+      "icon": "share",
+      "submenu": [
+        {
+          "url": "misc/coming-soon",
+          "name": "Coming Soon",
+          "slug": "misc-coming-soon",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "#",
+          "name": "Error",
+          "slug": "error",
+          "icon": "bx bx-right-arrow-alt",
+          "submenu": [
+            {
+              "url": "misc/error-404",
+              "name": "404",
+              "slug": "misc-error-404",
+              "icon": "bx bx-right-arrow-alt",
+              "newTab":"_blank"
+            },
+            {
+              "url": "misc/error-500",
+              "name": "500",
+              "slug": "misc-error-500",
+              "icon": "bx bx-right-arrow-alt",
+              "newTab":"_blank"
+            }
+          ]
+        },
+        {
+          "url": "misc/not-authorized",
+          "name": "Not Authorized",
+          "slug": "misc-not-authorized",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "misc/maintenance",
+          "name": "Maintenance",
+          "slug": "misc-maintenance",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        }
+      ]
+    },
+    {
+      "navheader": "Charts & Maps"
+    },
+    {
+      "url": "#",
+      "name": "Charts",
+      "slug": "charts",
+      "icon": "pie-chart",
+      "tag": "3",
+      "tagcustom": "badge badge-pill badge-round badge-light-info float-right mr-50",
+      "submenu": [
+        {
+          "url": "chart/apex",
+          "name": "Apex",
+          "slug": "chart-apex",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "chart/chartjs",
+          "name": "Chartjs",
+          "slug": "chart-chartjs",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "chart/chartist",
+          "name": "Chartist",
+          "slug": "chart-chartist",
+          "icon": "bx bx-right-arrow-alt"
+        }
+      ]
+    },
+    {
+      "url": "maps/leaflet",
+      "name": "Leaflet Maps",
+      "slug": "maps-leaflet",
+      "icon": "globe"
+    },
+    {
+      "navheader": "Extensions"
+    },
+    {
+      "url": "extension/sweet-alerts",
+      "name": "Sweet Alert",
+      "slug": "extension-sweet-alerts",
+      "icon": "warning-alt"
+    },
+    {
+      "url": "extension/toastr",
+      "name": "Toastr",
+      "slug": "extension-toastr",
+      "icon": "morph-map"
+    },
+    {
+      "url": "extension/noui-slider",
+      "name": "NoUi Slider",
+      "slug": "extension-noui-slider",
+      "icon": "settings"
+    },
+    {
+      "url": "extension/drag-drop",
+      "name": "Drag & Drop",
+      "slug": "extension-drag-drop",
+      "icon": "priority-high"
+    },
+    {
+      "url": "extension/tour",
+      "name": "Tour",
+      "slug": "extension-tour",
+      "icon": "paper-plane"
+    },
+    {
+      "url": "extension/swiper",
+      "name": "Swiper",
+      "slug": "extension-swiper",
+      "icon": "morph-orientation-tablet"
+    },
+    {
+      "url": "extension/treeview",
+      "name": "Treeview",
+      "slug": "extension-treeview",
+      "icon": "morph-sort-alt"
+    },
+    {
+      "url": "extension/block-ui",
+      "name": "Block-UI",
+      "slug": "extension-block-ui",
+      "icon": "expand"
+    },
+    {
+      "url": "extension/media-player",
+      "name": "Media Player",
+      "slug": "extension-media-player",
+      "icon": "music"
+    },
+    {
+      "url": "extension/miscellaneous",
+      "name": "Miscellaneous",
+      "slug": "extension-miscellaneous",
+      "icon": "loader-10"
+    },
+    {
+      "url": "extension/locale",
+      "name": "Locale",
+      "slug": "extension-locale",
+      "icon": "globe"
+    },
+    {
+      "url": "extension/ratings",
+      "name": "Ratings",
+      "slug": "extension-ratings",
+      "icon": "star"
+    },
+    {
+      "navheader": "Others"
+    },
+    {
+      "url": "#",
+      "name": "Menu Levels",
+      "slug": "menu-levels",
+      "icon": "morph-menu-arrow-bottom",
+      "submenu": [
+        {
+          "url": "#",
+          "name": "Second Level",
+          "slug": "second-level",
+          "icon": "bx bx-right-arrow-alt"
+        },
+        {
+          "url": "#",
+          "name": "Second Level",
+          "slug": "second-level",
+          "icon": "bx bx-right-arrow-alt",
+          "submenu": [
+            {
+              "url": "#",
+              "name": "Third Level",
+              "slug": "third-level",
+              "icon": "bx bx-right-arrow-alt"
+            },
+            {
+              "url": "#",
+              "name": "Third Level",
+              "slug": "third-level",
+              "icon": "bx bx-right-arrow-alt"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Disabled Menu",
+      "slug": "disabled-menu",
+      "icon": "morph-preview",
+      "classlist": "disabled"
+    },
+    {
+      "navheader": "Support"
+    },
+    {
+      "url": "https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation",
+      "name": "Documentation",
+      "slug": "documentation",
+      "icon": "morph-folder",
+      "newTab":"_blank"
+    },
+    {
+      "url": "https://pixinvent.ticksy.com/",
+      "name": "Raise Support",
+      "slug": "raise-support",
+      "icon": "help",
+      "newTab":"_blank"
+    }
+  ]
+}

@@ -1,0 +1,809 @@
+{
+  "menu": [
+    {
+      "url": "#",
+      "name": "Dashboard",
+      "slug": "dashboard",
+      "id":"#ico",
+      "icon": "desktop",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "/",
+          "name": "eCommerce",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "dashboard-ecommerce"
+        },
+        {
+          "url": "dashboard/analytics",
+          "name": "Analytics",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "dashboard-analytics"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Apps",
+      "slug": "apps",
+      "icon": "comments",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "app/email",
+          "name": "Email",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "app-email"
+        },
+        {
+          "url": "app/chat",
+          "name": "Chat",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "app-chat"
+        },
+        {
+          "url": "app/todo",
+          "name": "Todo",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "app-todo"
+        },
+        {
+          "url": "app/calendar",
+          "name": "Calendar",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "app-calendar"
+        },
+        {
+          "url": "app/kanban",
+          "name": "Kanban",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "app-kanban"
+        },
+        {
+          "url": "#",
+          "name": "Invoice",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "",
+          "submenu": [
+            {
+              "url": "app/invoice/list",
+              "name": "Invoice List",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-invoice-list"
+            },
+            {
+              "url": "app/invoice/view",
+              "name": "Invoice",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-invoice-view"
+            },
+            {
+              "url": "app/invoice/edit",
+              "name": "Invoice Edit",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-invoice-edit"
+            },
+            {
+              "url": "app/invoice/add",
+              "name": "Invoice Add",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-invoice-add"
+            }
+          ]
+        },
+        {
+          "url": "app/file-manager",
+          "name": "File Manager",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "app-file-manager"
+        },
+         {
+          "url": "#",
+          "name": "User",
+          "slug": "user",
+          "icon": "bx bx-right-arrow-alt",
+          "submenu": [
+            {
+              "url": "app/users/list",
+              "name": "List",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-users-list"
+            },
+            {
+              "url": "app/users/view",
+              "name": "View",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-users-view"
+            },
+            {
+              "url": "app/users/edit",
+              "name": "Edit",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "app-users-edit"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "UI",
+      "slug": "ui",
+      "icon": "briefcase",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "#",
+          "name": "Content",
+          "slug": "content",
+          "icon": "bx bx-right-arrow-alt",
+          "submenu": [
+            {
+              "url": "content/grid",
+              "name": "Grid",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "content-grid"
+            },
+            {
+              "url": "content/typography",
+              "name": "Typography",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "content-typography"
+            },
+            {
+              "url": "content/text-utilities",
+              "name": "Text Utilities",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "content-text-utilities"
+            },
+            {
+              "url": "content/syntax-highlighter",
+              "name": "Syntax Highlighter",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "content-syntax-highlighter"
+            },
+            {
+              "url": "content/helper-classes",
+              "name": "Helper Classes",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "content-helper-classes"
+            }
+          ]
+        },
+        {
+          "url": "content/colors",
+          "name": "Colors",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "content-colors"
+        },
+        {
+          "url": "#",
+          "name": "Icons",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "icons",
+          "submenu": [
+            {
+              "url": "icons/boxicons",
+              "name": "BoxIcons",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "icons-boxicons"
+            },
+            {
+              "url": "icons/livicons",
+              "name": "LivIcons",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "icons-livicons"
+            }
+          ]
+        },
+        {
+          "url": "#",
+          "name": "Card",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "card",
+          "submenu": [
+            {
+              "url": "card/basic",
+              "name": "Basic",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "card-basic"
+            },
+            {
+              "url": "card/actions",
+              "name": "Card Actions",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "card-actions"
+            }
+          ]
+        },
+        {
+          "url": "card/widgets",
+          "name": "Widgets",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "card-widgets"
+        },
+        {
+          "url": "#",
+          "name": "Components",
+          "slug": "components",
+          "icon": "bx bx-right-arrow-alt",
+          "submenu": [
+            {
+              "url": "component/alerts",
+              "name": "Alerts",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-alerts"
+            },
+            {
+              "url": "component/buttons-basic",
+              "name": "Buttons",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-buttons-basic"
+            },
+            {
+              "url": "component/breadcrumbs",
+              "name": "Breadcrumbs",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-breadcrumbs"
+            },
+            {
+              "url": "component/carousel",
+              "name": "Carousel",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-carousel"
+            },
+            {
+              "url": "component/collapse",
+              "name": "Collapse",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-collapse"
+            },
+            {
+              "url": "component/dropdowns",
+              "name": "Dropdowns",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-dropdowns"
+            },
+            {
+              "url": "component/list-group",
+              "name": "List Group",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-list-group"
+            },
+            {
+              "url": "component/modals",
+              "name": "Modals",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-modals"
+            },
+            {
+              "url": "component/pagination",
+              "name": "Pagination",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-pagination"
+            },
+            {
+              "url": "component/navbar",
+              "name": "Navbar",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-navbar"
+            },
+            {
+              "url": "component/tabs-component",
+              "name": "Tabs Component",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-tabs-component"
+            },
+            {
+              "url": "component/pills-component",
+              "name": "Pills Component",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-pills-component"
+            },
+            {
+              "url": "component/tooltips",
+              "name": "Tooltips",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-tooltips"
+            },
+            {
+              "url": "component/popovers",
+              "name": "Popovers",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-popovers"
+            },
+            {
+              "url": "component/badges",
+              "name": "Badges",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-badges"
+            },
+            {
+              "url": "component/pill-badges",
+              "name": "Pill Badges",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-pill-badges"
+            },
+            {
+              "url": "component/progress",
+              "name": "Progress",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-progress"
+            },
+            {
+              "url": "component/media-objects",
+              "name": "Media Objects",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-media-objects"
+            },
+            {
+              "url": "component/spinner",
+              "name": "Spinner",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-spinner"
+            },
+            {
+              "url": "component/bs-toast",
+              "name": "Toasts",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "component-bs-toast"
+            }
+          ]
+        },
+        {
+          "url": "#",
+          "name": "Extra Components",
+          "slug": "",
+          "icon": "bx bx-right-arrow-alt",
+          "submenu": [
+            {
+              "url": "extra-component/avatar",
+              "name": "Avatar",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extra-component-avatar"
+            },
+            {
+              "url": "extra-component/chips",
+              "name": "Chips",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extra-component-chips"
+            },
+            {
+              "url": "extra-component/divider",
+              "name": "Divider",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extra-component-divider"
+            }
+          ]
+        },
+        {
+          "url": "#",
+          "name": "Extensions",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "",
+          "submenu": [
+            {
+              "url": "extension/sweet-alerts",
+              "name": "Sweet Alert",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-sweet-alerts"
+            },
+            {
+              "url": "extension/toastr",
+              "name": "Toastr",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-toastr"
+            },
+            {
+              "url": "extension/noui-slider",
+              "name": "NoUi Slider",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-noui-slider"
+            },
+            {
+              "url": "extension/drag-drop",
+              "name": "Drag & Drop",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-drag-drop"
+            },
+            {
+              "url": "extension/tour",
+              "name": "Tour",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-tour"
+            },
+            {
+              "url": "extension/swiper",
+              "name": "Swiper",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-swiper"
+            },
+            {
+              "url": "extension/treeview",
+              "name": "Treeview",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-treeview"
+            },
+            {
+              "url": "extension/block-ui",
+              "name": "Block-UI",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-block-ui"
+            },
+            {
+              "url": "extension/media-player",
+              "name": "Media Player",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-media-player"
+            },
+            {
+              "url": "extension/miscellaneous",
+              "name": "Miscellaneous",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-miscellaneous"
+            },
+            {
+              "url": "extension/locale",
+              "name": "Locale",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "extension-locale"
+            },
+            {
+              "url": "extension/ratings",
+              "name": "Ratings",
+              "icon": "star",
+              "slug": "extension-ratings"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Forms & Tables",
+      "slug": "forms-tables",
+      "dropdown": "1",
+      "icon": "thumbnails-big",
+      "submenu": [
+        {
+          "url": "#",
+          "name": "Form Elements",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "form-elements",
+          "submenu": [
+            {
+              "url": "form/inputs",
+              "name": "Input",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-inputs"
+            },
+            {
+              "url": "form/input-groups",
+              "name": "Input Groups",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-input-groups"
+            },
+            {
+              "url": "form/number-input",
+              "name": "Number Input",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-number-input"
+            },
+            {
+              "url": "form/select",
+              "name": "Select",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-select"
+            },
+            {
+              "url": "form/radio",
+              "name": "Radio",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-radio"
+            },
+            {
+              "url": "form/checkbox",
+              "name": "Checkbox",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-checkbox"
+            },
+            {
+              "url": "form/switch",
+              "name": "Switch",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-switch"
+            },
+            {
+              "url": "form/textarea",
+              "name": "Textarea",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-textarea"
+            },
+            {
+              "url": "form/quill-editor",
+              "name": "Quill Editor",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-quill-editor"
+            },
+            {
+              "url": "form/file-uploader",
+              "name": "File Uploader",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-file-uploader"
+            },
+            {
+              "url": "form/date-time-picker",
+              "name": "Date & Time Picker",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "form-date-time-picker"
+            }
+          ]
+        },
+        {
+          "url": "form/layout",
+          "name": "Form Layout",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "form-layout"
+        },
+        {
+          "url": "form/wizard",
+          "name": "Form Wizard",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "form-wizard"
+        },
+        {
+          "url": "form/validation",
+          "name": "Form Validation",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "form-validation"
+        },
+        {
+          "url": "form/repeater",
+          "name": "Form Repeater",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "form-repeater"
+        },
+        {
+          "url": "table",
+          "name": "Table",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "table"
+        },
+        {
+          "url": "table/extended",
+          "name": "Table extended",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "table-extended"
+        },
+        {
+          "url": "table/datatable",
+          "name": "Datatable",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "table-datatable"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Pages",
+      "icon": "notebook",
+      "slug": "pages",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "page/user/profile",
+          "name": "User Profile",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "page-user-profile"
+        },
+        {
+          "url": "page/faq",
+          "name": "FAQ",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "page-faq"
+        },
+        {
+          "url": "page/knowledge-base",
+          "name": "Knowledge Base",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "page-knowledge-base"
+        },
+        {
+          "url": "page/search",
+          "name": "Search",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "page-search"
+        },
+        {
+          "url": "page/account-settings",
+          "name": "Account Settings",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "page-account-settings"
+        },
+        {
+          "url": "#",
+          "name": "Authentication",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "authentication",
+          "submenu": [
+            {
+              "url": "auth/login",
+              "name": "Login",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "auth-login",
+              "newTab":"_blank"
+            },
+            {
+              "url": "auth/register",
+              "name": "Register",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "auth-register",
+              "newTab":"_blank"
+            },
+            {
+              "url": "auth/forgot-password",
+              "name": "Forgot Password",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "auth-forgot-password",
+              "newTab":"_blank"
+            },
+            {
+              "url": "auth/reset-password",
+              "name": "Reset Password",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "auth-reset-password",
+              "newTab":"_blank"
+            },
+            {
+              "url": "auth/lock-screen",
+              "name": "Lock Screen",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "auth-lock-screen",
+              "newTab":"_blank"
+            }
+          ]
+        },
+        {
+          "url": "#",
+          "name": "Miscellaneous",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "Miscellaneous",
+          "submenu": [
+            {
+              "url": "misc/coming-soon",
+              "name": "Coming Soon",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "misc-coming-soon",
+              "newTab":"_blank"
+            },
+            {
+              "url": "misc/error-404",
+              "name": "404",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "misc-error-404",
+              "newTab":"_blank"
+            },
+            {
+              "url": "misc/error-500",
+              "name": "500",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "misc-error-500",
+              "newTab":"_blank"
+            },
+            {
+              "url": "misc/not-authorized",
+              "name": "Not Authorized",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "misc-not-authorized",
+              "newTab":"_blank"
+            },
+            {
+              "url": "misc/maintenance",
+              "name": "Maintenance",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "misc-maintenance",
+              "newTab":"_blank"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Charts & Maps",
+      "icon": "pie-chart",
+      "slug": "charts-maps",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "chart/apex",
+          "name": "Apex",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "chart-apex"
+        },
+        {
+          "url": "chart/chartjs",
+          "name": "Chartjs",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "chart-chartjs"
+        },
+        {
+          "url": "chart/chartist",
+          "name": "Chartist",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "chart-chartist"
+        },
+        {
+          "url": "maps/leaflet",
+          "name": "Leaflet Maps",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "maps-leaflet"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Others",
+      "icon": "morph-folder",
+      "slug": "others",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "#",
+          "name": "Menu Levels",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "menu-levels",
+          "submenu": [
+            {
+              "url": "#",
+              "name": "Second Level",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "second-level"
+            },
+            {
+              "url": "#",
+              "name": "Second Level",
+              "icon": "bx bx-right-arrow-alt",
+              "slug": "second-level",
+              "submenu": [
+                {
+                  "url": "#",
+                  "name": "Third Level",
+                  "icon": "bx bx-right-arrow-alt",
+                  "slug": "third-level"
+                },
+                {
+                  "url": "#",
+                  "name": "Third Level",
+                  "icon": "bx bx-right-arrow-alt",
+                  "slug": "third-level"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "url": "#",
+          "name": "Disabled Menu",
+          "icon": "bx bx-right-arrow-alt",
+          "slug": "disabled",
+          "classlist": "disabled"
+        },
+        {
+          "url": "https://pixinvent.com/demo/frest-clean-bootstrap-admin-dashboard-template/documentation",
+          "name": "Documentation",
+          "slug": "documentation",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        },
+        {
+          "url": "https://pixinvent.ticksy.com/",
+          "name": "Raise Support",
+          "slug": "support-raise-support",
+          "icon": "bx bx-right-arrow-alt",
+          "newTab":"_blank"
+        }
+      ]
+    }
+  ]
+}
