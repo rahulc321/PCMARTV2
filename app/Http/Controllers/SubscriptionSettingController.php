@@ -179,12 +179,12 @@ class SubscriptionSettingController extends Controller
         $all= $request->all();
        // / echo $request->Organization_Number;die;
         $checkCustI = CustInfo::where('cust_id',$request->Organization_Number)->get();
-      
+        $expDateArray= [];
         foreach($checkCustI as $key=>$ids){
             $ids->delete();
         }
         foreach ($all['cname'] as $keyAI => $singleAI) {
-          	  $subscription = new CustInfo();
+          	$subscription = new CustInfo();
 	          $subscription->cust_id = $request->Organization_Number;
 	          $subscription->name = $singleAI;
 	          $subscription->email = @$all['cemail'][$keyAI];
@@ -201,10 +201,14 @@ class SubscriptionSettingController extends Controller
         
         $checkInfo = CustomerInfo::where('customer_id',$request->Organization_Number)->get();
         $checkSubs = CustomerSubscription::where('customer_id',$request->Organization_Number)->get();
-      
+        
         foreach($checkInfo as $key=>$ids){
+          $expDateArray[] =  $ids->exp_date;
             $ids->delete();
         }
+
+
+       //echo '<pre>';print_r($expDateArray);die;
 
         foreach($checkSubs as $key=>$idas){
             $idas->delete();
@@ -224,18 +228,23 @@ class SubscriptionSettingController extends Controller
             $otherInfo->exp_date_checkbox=@$all['expcheck'][$key];
 
             $perm = Helper::checkPermission();
-                  //echo '<pre>';print_r($perm);die;
+                //  echo '<pre>';print_r($expDateArray);die;
 
-          
-              if($all['exp_date'][$key] != ""){
+             
+               
 
-                if(in_array('contract_due_date',$perm)){
-
-                //echo 'Hello';die;
+              if(in_array('contract_due_date',$perm)){
+                if($all['exp_date'][$key] != ''){
                 $otherInfo->exp_date=@date('Y-m-d',strtotime($all['exp_date'][$key]));
+                }
+              }else{
+                if(@$expDateArray[$key] != ''){
+                $otherInfo->exp_date=@date('Y-m-d',strtotime($expDateArray[$key]));
+                }
+                
               }
 
-             }
+             
             $otherInfo->sno_number=@$all['sno'][$key];
             $otherInfo->user=@$all['user'][$key];
             if($all['sagecover'][$key] != ""){

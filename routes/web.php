@@ -24,7 +24,11 @@ Route::any('/logout1','Auth\LoginController@logout1');
 Route::any('/otp','Auth\LoginController@otp');
 Route::any('/verify-otp','Auth\LoginController@verifyOtp');
 // dashboard Routes
+
+Route::group(['middleware'=>'auth'], function () {
 Route::any('/dashboard','UsersController@dashboardEcommerce')->name('dashboard-ecommerce');
+
+});
 Route::get('/dashboard-view','UsersController@dashboardView');
 Route::get('/dashboardTicket','UsersController@dashboardTicket');
 

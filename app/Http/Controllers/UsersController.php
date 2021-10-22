@@ -59,195 +59,9 @@ class UsersController extends Controller
     //ecommerce
     public function dashboardEcommerce(Request $request){
       error_reporting(0);
-     // die;
-     //\ echo date('Y-m-d H:i:s');die;
-        if(\Auth::user()->is_active!=1){
-            return redirect('/admin');
-        }
-       // echo $request->userid;
-        //dd($request->userid);
-        $dd=1;
-        if($request->userid ==""){
-            $userId= \Auth::user()->id;
-            $this->data['uuname']=\Auth::user()->name;
-        }else{
-          $dd=0;
-            $userId=$request->userid;
-            $this->data['uuname']=User::where('id',$userId)->first()->name;
-        }
-        $dd1=1;
-        if($request->rate ==""){
-            $userId1= \Auth::user()->id;
-            $this->data['uuname']=\Auth::user()->name;
-        }else{
-          $dd1=0;
-            $userId1=$request->rate;
-            $this->data['uuname']=User::where('id',$userId)->first()->name;
-        }
-
-
-        $data= Ticket::get()->pluck('ictran_id');
-        $userIdArray= AssignTicket::get()->pluck('user_id');
-        $this->data['users']= User::whereIn('id',$userIdArray)->get()->toArray();
-        $this->data['customers']= Ictran::whereIn('id',$data)->get()->toArray();
-
-        //echo '<pre>';print_r($this->data['users']);die;
-        $arrayChart=[];
-        foreach ($this->data['users'] as $key => $value) {
-
-        $ticketCount = \DB::table('ticket')
-        //->select('league_name')
-        ->join('ticket_assign', 'ticket_assign.ticket_id', '=', 'ticket.id')
-        ->where('ticket_assign.user_id', $value['id'])->where('ticket.status',2)
-        ->count();
-
-          $arrayChart[]['name']= $value['name'];
-          $arrayChart[$key]['tcount']= $ticketCount;
-           
-        }
-        $this->data['arrayChart']= $arrayChart;
-
-      $this->data['recordOpen']= $recordOpen;
-      $this->data['records']= $records;
-      $this->data['LoginUserData']= $LoginUserData;
-      $this->data['ratings']= $gtData;
-      $this->data['allUser']= $allUser;
-
-
-
-      // New  code
-      $openTicket= Ticket::where('status',0)->count();
-      date_default_timezone_set("Asia/Kuala_Lumpur");
-   // echo date('d-m-Y H:i:s');die;
-      $closedTicket= Ticket::where('status',2)->count();
-      $this->data['closedTicket1']= Ticket::where('status',2)->whereDate('close_date',date('Y-m-d'))->count();
-
-      $totalDays = \DB::table('ticket as w')
-                ->select(array(\DB::Raw('DATE(w.created_at) day')))
-                ->groupBy('day')
-                ->orderBy('w.created_at')
-                ->get();
-      //echo count($totalDays);die;
-      $this->data['tday'] =count($totalDays);
-
-
-      // 2 h grather
-      $twohgreather= Ticket::where('created_at', '<',Carbon::now()->subMinutes(120)->toDateTimeString())
-      ->where('status',0)
-      ->count();
-
-      // 30 minutes greates and 2 hours less
-      $greater30MinutesG= Ticket::
-      where('created_at', '<',Carbon::now()->subMinutes(30)->toDateTimeString())
-      ->where('created_at', '>',Carbon::now()->subMinutes(120)->toDateTimeString())
-      ->where('status',0)
-      ->count();
-
-
-      // 30 minutes less
-      $less30Minutes= Ticket::where('created_at', '>',Carbon::now()->subMinutes(30)->toDateTimeString())
-      // ->where('created_at', '<',$formatted_date)
-      ->where('status',0)
-      ->count();
-
-      /***************************************************************************************************/
-      /****************************************************************************************************/
-      // show chart data
-
-      // 2 h grather
-      /*$twohgreatherChart= Ticket::where('created_at', '<',Carbon::now()->subMinutes(120)->toDateTimeString())
-      ->where('status',2)
-      ->count();
-
-      // 30 minutes greates and 2 hours less
-      $greater30MinutesGChart= Ticket::
-      where('created_at', '<',Carbon::now()->subMinutes(30)->toDateTimeString())
-      ->where('created_at', '>',Carbon::now()->subMinutes(120)->toDateTimeString())
-      ->where('status',2)
-      ->count();
-
-
-      // 30 minutes less
-      $less30MinutesChart= Ticket::where('created_at', '>',Carbon::now()->subMinutes(30)->toDateTimeString())
-      // ->where('created_at', '<',$formatted_date)
-      ->where('status',2)
-      ->count();*/
-
-      if($dd==1){
-      $less30MinutesChart = \DB::select("SELECT TIMESTAMPDIFF(MINUTE, `created_at`, `close_date`) AS difference FROM `ticket` WHERE `status`=2 HAVING difference < 30");
-
-      $twohgreatherChart = \DB::select("SELECT TIMESTAMPDIFF(MINUTE, `created_at`, `close_date`) AS difference FROM `ticket` WHERE `status`=2 HAVING difference > 120");
-
-      $greater30MinutesGChart = \DB::select("SELECT TIMESTAMPDIFF(MINUTE, `created_at`, `close_date`) AS difference FROM `ticket` WHERE `status`=2 HAVING difference > 30 AND difference < 120");
-
-
       
-
-      $this->data['twohgreatherChart']= count($twohgreatherChart);
-      $this->data['less30MinutesChart']= count($less30MinutesChart);
-      $this->data['greater30MinutesGChart']= count($greater30MinutesGChart);
-    }else{
-    /*****************************************************************************************************/
-    // For current user data
-    // SELECT HOUR(SEC_TO_TIME(TIMESTAMPDIFF(SECOND,FROM_UNIXTIME(t.`created`),FROM_UNIXTIME(t.`modified`)))) as `hours` FROM `ticket` t LEFT JOIN ticket_assign ta ON ta.ticket_id=t.id WHERE ta.user_id='".$user_for_filter."' HAVING `hours`<0.5
-
-
-    $less30MinutesChart = \DB::select("SELECT TIMESTAMPDIFF(MINUTE, `ticket`.`created_at`, `ticket`.`close_date`) AS difference FROM `ticket`   LEFT JOIN ticket_assign  ON `ticket_assign`.`ticket_id`=`ticket`.`id` WHERE `ticket_assign`.`user_id`=".$userId." and `ticket`.`status`=2 HAVING difference < 30"); 
-
-
-    $twohgreatherChart = \DB::select("SELECT TIMESTAMPDIFF(MINUTE, `ticket`.`created_at`, `ticket`.`close_date`) AS difference FROM `ticket`   LEFT JOIN ticket_assign  ON `ticket_assign`.`ticket_id`=`ticket`.`id` WHERE `ticket_assign`.`user_id`=".$userId." and `ticket`.`status`=2 HAVING difference > 120");
-
-    $greater30MinutesGChart = \DB::select("SELECT TIMESTAMPDIFF(MINUTE, `ticket`.`created_at`, `ticket`.`close_date`) AS difference FROM `ticket`   LEFT JOIN ticket_assign  ON `ticket_assign`.`ticket_id`=`ticket`.`id` WHERE `ticket_assign`.`user_id`=".$userId." and `ticket`.`status`=2 HAVING difference > 30 AND difference < 120");
-
-
-      $this->data['twohgreatherChart']= count($twohgreatherChart);
-      $this->data['less30MinutesChart']= count($less30MinutesChart);
-      $this->data['greater30MinutesGChart']= count($greater30MinutesGChart);
-
-    }
-    //echo '<pre>';print_r($this->data);die;
-  //echo count($less30MinutesChartLogin);die;
-    /*****************************************************************************************************/
-
-    // For rating
-    if($dd1==1){
-    $rating = \DB::select("SELECT COUNT(CASE WHEN rate=5 THEN 1 END) as rating_5, COUNT(CASE WHEN rate=4 THEN 1 END) as rating_4, COUNT(CASE WHEN rate=3 THEN 1 END) as rating_3, COUNT(CASE WHEN rate=2 THEN 1 END) as rating_2, COUNT(CASE WHEN rate=1 THEN 1 END) as rating_1 FROM feedback");
-
-    $this->data['ratel5']= $rating[0]->rating_5;
-    $this->data['ratel4']= $rating[0]->rating_4;
-    $this->data['ratel3']= $rating[0]->rating_3;
-    $this->data['ratel2']= $rating[0]->rating_2;
-    $this->data['ratel1']= $rating[0]->rating_1;
-
-    }else{
-    $individual_feeback_sql = \DB::select("SELECT COUNT(CASE WHEN f.rate=5 THEN 1 END) as rating_5, COUNT(CASE WHEN f.rate=4 THEN 1 END) as rating_4, COUNT(CASE WHEN f.rate=3 THEN 1 END) as rating_3, COUNT(CASE WHEN f.rate=2 THEN 1 END) as rating_2, COUNT(CASE WHEN f.rate=1 THEN 1 END) as rating_1 FROM feedback f LEFT JOIN ticket_assign ta ON ta.ticket_id=f.ticket_id WHERE ta.user_id='".$userId1."'");
-
-    $this->data['ratel5']= $individual_feeback_sql[0]->rating_5;
-    $this->data['ratel4']= $individual_feeback_sql[0]->rating_4;
-    $this->data['ratel3']= $individual_feeback_sql[0]->rating_3;
-    $this->data['ratel2']= $individual_feeback_sql[0]->rating_2;
-    $this->data['ratel1']= $individual_feeback_sql[0]->rating_1;
-
-    }
-
-   // echo '<pre>';print_r($rating);die;
-
-    
-
-    
-
-
-
-
-      $this->data['openTicket']= $openTicket;
-      $this->data['closedTicket']= $closedTicket;
-      $this->data['twohgreather']= $twohgreather;
-      $this->data['less30Minutes']= $less30Minutes;
-      $this->data['greater30MinutesG']= $greater30MinutesG;
-
-
-        \Session::put('backUrl', url()->current());
-        return view('admin.dashboard.dashboard',$this->data);
+      \Session::put('backUrl', url()->current());
+      return view('admin.dashboard.dashboard',$this->data);
     }
 
      public function dashboardTicket(Request $request){
@@ -1413,10 +1227,10 @@ class UsersController extends Controller
              $fileName= $logofile->getClientOriginalName();
 
 
-             if($fileName !='arcust.dbf'){
+             /*if($fileName !='arcust.dbf'){
                 \Session::flash('error', 'Please choose only arcust.dbf file !!!');
                 return redirect('app/uploads');
-             }
+             }*/
 
             $destinationPath = public_path('arcust/'); // upload path
             $outputImage =  "arcust_".uniqid().".".$logofile->getClientOriginalExtension();
@@ -1457,7 +1271,7 @@ class UsersController extends Controller
                 array_push($actual_data, $row);
             }
 
-           // echo '<pre>';print_r($actual_data);die;
+            echo '<pre>';print_r($table->nextRecord());die;
 
             foreach ($actual_data as $key => $value) {
 
@@ -4180,7 +3994,7 @@ public function sendEmail(Request $request){
               $email= trim($e->email);
             }
  
-        ///return view('emails.marketing',$this->data);die;
+      return view('emails.marketing',$this->data);die;
              try {
             \Mail::send('emails.marketing', $this->data, function($message) use ($email){
             $message->to($email)->subject

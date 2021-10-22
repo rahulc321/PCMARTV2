@@ -262,7 +262,7 @@ $perm = Helper::checkPermission();
           @endif
 
           <?php $module='customer_subscription_show'; ?>
-          @if(in_array($module,$perm) || Auth::user()->user_type==1)
+          @if(in_array($module,$perm))
             <li class="nav-item {{ (request()->is('app/customer-subscription-list')) ? 'active' : '' }}">
               <a href="{{url('/app/customer-subscription-list')}}">
               <i class="bx bxs-user-detail"></i>

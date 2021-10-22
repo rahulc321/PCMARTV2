@@ -93,14 +93,14 @@ class LoginController extends Controller
                 $user->usercode= $random;
                 $user->save();
                  
-                $data = array('otp'=>$random);
+                /*$data = array('otp'=>$random);
                 $email= $request['email'];
                 \Mail::send('emails.login', $data, function($message) use ($email){
                 $message->to($email)->subject
                 ('Login OTP');
                 $message->from('sales@pcmart.com.my','Login OTP');
-                });
-
+                });*/
+                return redirect('/dashboard');
                 return redirect('/otp')->withErrors(['Success', 'Please check your email to enter OTP']); 
 
             }else{

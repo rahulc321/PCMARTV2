@@ -62,17 +62,20 @@
         				$SubscriptionSetting= App\Models\SubscriptionSetting::where('code',@$rec->code)->first();
         				
 
-        				//echo '<pre>';print_r($records1);die;
+        			
         				/**********************************************************/
         				$priceType1=1;
         				$realPrice1='';
  							if($priceType1==1){	
+ 							$userCount = App\Models\CustomerSubscription::where('sno_number',$rec->sno_number)->first();	
+
+ 							//echo '<pre>';print_r($userCount->user);die;
  							$price=$SubscriptionSetting->first_user;
  							$add_user=$SubscriptionSetting->add_user;
  							$tax=$SubscriptionSetting->tax;
 
  							$custUser= $rec->user;
- 							$actUsr=$custUser-1;
+ 							$actUsr=$userCount->user-1;
  							$actPrice=0;
  							if($actUsr > 0){
  								$actPrice=$actUsr*$add_user;
