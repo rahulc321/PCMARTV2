@@ -21,12 +21,58 @@
     $read=1;
     }
 
+    $perm1 = Helper::checkPermission();
+    $read1=0;
+    if(in_array('customer_edit',$perm1)){
+    $read1=1;
+    }
+
+    $perm1 = Helper::checkPermission();
+   // echo '<pre>';print_r($perm1);die;
+    $c_subscription=0;
+    if(in_array('c_subscription',$perm1)){
+    $c_subscription=1;
+    }
+
  
  if($read==0){
-  $read='disabled';
+  $read='read only';
  }else{
   $read='';
  }
+
+ if($read1==0){
+  $read1="readonly";
+  //$dd= 'disabled';
+ }else{
+  $read1='';
+  $dd= '';
+ }
+
+ if($c_subscription == 0){
+  $r="readonly";
+ }else{
+  $r='';
+ }
+
+
+    $oinfo=0;
+    if(in_array('other_info',$perm1)){
+      $oinfo=1;
+    }
+
+    if($oinfo == 0){
+      $o="readonly";
+    }else{
+      $o='';
+    }
+
+    $s="readonly";;
+    if(in_array('Support',$perm1)){
+      $s="";
+    }
+
+     
  ?>
  <style type="text/css">
     .cstmFormC{
@@ -135,7 +181,7 @@
           <label>Organization Number</label>
           <input type="text" class="form-control" placeholder="Organization Number"
           " value="{{$edit->Organization_Number}}"
-          name="Organization_Number" required="">
+          name="Organization_Number" required="" {{$read1}}>
           </div>
           </div>
 
@@ -146,7 +192,7 @@
           <label>Organization Name</label>
           <input type="text" class="form-control" placeholder="Organization Name"
           " value="{{$edit->Organization_Name}}"
-          name="Organization_Name"  >
+          name="Organization_Name"  {{$read1}}>
           </div>
         </div>
         </div>
@@ -181,7 +227,7 @@
                             <label>Address1</label>
                             <input type="text" class="form-control" placeholder="Address1"
                                  " value="{{$edit->Address1}}"
-                                name="Address1"  >
+                                name="Address1"  {{$read1}}>
                         </div>
                       </div>
                       <div class="form-group">
@@ -189,7 +235,7 @@
                             <label>Address2</label>
                             <input type="text" class="form-control" placeholder="Address2"
                                  " value="{{$edit->Address2}}"
-                                name="Address2"  >
+                                name="Address2"  {{$read1}}>
                         </div>
                       </div>
                       <div class="form-group">
@@ -197,7 +243,7 @@
                             <label>Address3</label>
                             <input type="text" class="form-control" placeholder="Address3"
                                  " value="{{$edit->Address3}}"
-                                name="Address3"  >
+                                name="Address3"  {{$read1}}>
                         </div>
                       </div>
                       <div class="form-group">
@@ -205,7 +251,7 @@
                             <label>Address4</label>
                             <input type="text" class="form-control" placeholder="Address4"
                                  " value="{{$edit->Address4}}"
-                                name="Address4"  >
+                                name="Address4" {{$read1}} >
                         </div>
                       </div>
                       <div class="form-group">
@@ -213,7 +259,7 @@
                             <label>Attention</label>
                             <input type="text" class="form-control" placeholder="Attention"
                                  " value="{{$edit->Attention}}"
-                                name="Attention"  >
+                                name="Attention"  {{$read1}}>
                         </div>
                       </div>
                       <div class="form-group">
@@ -221,7 +267,7 @@
                             <label>Contact</label>
                             <input type="text" class="form-control" placeholder="Contact"
                                  " value="{{$edit->Contact}}"
-                                name="Contact"  >
+                                name="Contact"  {{$read1}}>
                         </div>
                       </div>
                       <div class="form-group">
@@ -229,7 +275,7 @@
                             <label>Primary Phone</label>
                             <input type="text" class="form-control" placeholder="Primary_Phone"
                                  " value="{{$edit->Primary_Phone}}"
-                                name="Primary_Phone"  >
+                                name="Primary_Phone"  {{$read1}}>
                         </div>
                       </div>
 
@@ -238,7 +284,7 @@
                             <label>Secondary Phone</label>
                             <input type="text" class="form-control" placeholder="Secondary_Phone"
                                  " value="{{$edit->Secondary_Phone}}"
-                                name="Secondary_Phone"  >
+                                name="Secondary_Phone"  {{$read1}}>
                         </div>
                       </div>
                       
@@ -253,7 +299,7 @@
                             <label>Fax</label>
                             <input type="text" class="form-control" placeholder="Fax"
                                  " value="{{$edit->Fax}}"
-                                name="Fax"  >
+                                name="Fax"  {{$read1}}>
                         </div>
                   </div>
                   <div class="form-group">
@@ -261,7 +307,7 @@
                             <label>Primary Email</label>
                             <input type="text" class="form-control" placeholder="Primary_Email"
                                  " value="{{$edit->Primary_Email}}"
-                                name="Primary_Email"  >
+                                name="Primary_Email"  {{$read1}}>
                         </div>
                   </div>
 
@@ -272,7 +318,7 @@
                             <label>Area</label>
                             <input type="text" class="form-control" placeholder="Area"
                                  " value="{{$edit->Area}}"
-                                name="Area"  >
+                                name="Area" {{$read1}} >
                         </div>
                       </div> 
                       <div class="form-group">
@@ -280,7 +326,7 @@
                             <label>Agent</label>
                             <input type="text" class="form-control" placeholder="Agent"
                                  " value="{{$edit->Agent}}"
-                                name="Agent"  >
+                                name="Agent"  {{$read1}}>
                         </div>
                       </div>
                       <div class="form-group">
@@ -288,7 +334,7 @@
                             <label>ROC</label>
                             <input type="text" class="form-control" placeholder="ROC"
                                  " value="{{$edit->ROC}}"
-                                name="ROC"  >
+                                name="ROC"  {{$read1}}>
                         </div>
                       </div>
                        
@@ -297,13 +343,13 @@
                             <label>GST</label>
                             <input type="text" class="form-control" placeholder="GST"
                                  " value="{{$edit->GST}}"
-                                name="GSTREGNO"  >
+                                name="GSTREGNO" {{$read1}} >
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="controls">
                             <label>Blacklist</label>
-                             <select class="form-control" name="Blacklist">
+                             <select class="form-control" name="Blacklist" {{$read1}}>
                              <option value="B" @if($edit->Blacklist=='B') {{'selected'}} @endif>Yes</option>
                              <option value="A" @if($edit->Blacklist !='B') {{'selected'}} @endif>No</option>
                                
@@ -397,19 +443,19 @@
 
               <tr>
                 <td>{{$product->title}}<input type="hidden" name="id[]" value="{{$product->id}}"><input type="hidden" name="title[]" value="{{$product->title}}"  ></td>
-                <td><input type="checkbox"  class="expcheck" data="{{$key}}" {{$read}} @if($custoinfo['exp_date_checkbox']==1) {{'checked'}} @endif>
-                <input type="hidden" name="expcheck[]" class="expcheck_{{$key}}" value="{{$val}}" >
+                <td><input type="checkbox"  class="expcheck" data="{{$key}}" {{$read}} {{$s}} @if($custoinfo['exp_date_checkbox']==1) {{'checked'}} @endif>
+                <input type="hidden" name="expcheck[]" class="expcheck_{{$key}}" value="{{$val}}" {{$s}}>
                 </td>
-                <td><input type="text" style="width: 100px" name="exp_date[]" value="<?php echo $ex?>" {{$read}}></td>
-                <td><input type="text" name="sno[]" style="width: 178px" value="<?php echo $custoinfo['sno_number']?>"  ></td>
-                <td><input type="text" name="user[]" style="width: 100px" value="<?php echo $custoinfo['user']?>"  ></td>
+                <td><input type="text" style="width: 100px" name="exp_date[]" value="<?php echo $ex?>" {{$read}} {{$s}}></td>
+                <td><input type="text" name="sno[]" style="width: 178px" value="<?php echo $custoinfo['sno_number']?>"  {{$s}}></td>
+                <td><input type="text" name="user[]" style="width: 100px" value="<?php echo $custoinfo['user']?>" {{$s}} ></td>
 
-                <td><input type="checkbox" @if($custoinfo['sage_cover_checkbox']==1) {{'checked'}} @endif name="sagecover_checkbox[]" data="{{$key}}" class="sagecover"  >
+                <td><input type="checkbox" @if($custoinfo['sage_cover_checkbox']==1) {{'checked'}} @endif name="sagecover_checkbox[]" data="{{$key}}" class="sagecover" {{$s}} >
 
-                <input type="hidden" name="sagecover_check[]" class="sagecover_{{$key}}" value="{{$val1}}" >
+                <input type="hidden" name="sagecover_check[]" class="sagecover_{{$key}}" value="{{$val1}}" {{$s}}>
                 </td>
 
-                <td><input type="text" name="sagecover[]" style="width: 100px" value="<?php echo $sage_cover?>"  ></td>
+                <td><input type="text" name="sagecover[]" style="width: 100px" value="<?php echo $sage_cover?>"  {{$s}}></td>
                 <!-- <td></td>
                 <td></td> -->
               </tr>
@@ -417,20 +463,20 @@
               <?php }else{ ?>
 
               <tr>
-                <td>{{$product->title}}<input type="hidden" name="id[]" value="{{$product->id}}"><input type="hidden" name="title[]" value="{{$product->title}}" {{$read}}></td>
+                <td>{{$product->title}}<input type="hidden" name="id[]" value="{{$product->id}}"><input type="hidden" name="title[]" value="{{$product->title}}" {{$read}} {{$s}}></td>
                 <td><input type="checkbox"  class="expcheck" data="{{$key}}" {{$read}} @if($custoinfo['exp_date_checkbox']==1) {{'checked'}} @endif>
-                <input type="hidden" name="expcheck[]" class="expcheck_{{$key}}" value="{{$val}}" >
+                <input type="hidden" name="expcheck[]" class="expcheck_{{$key}}" value="{{$val}}" {{$s}}>
                 </td>
-                <td><input type="text" style="width: 100px" name="exp_date[]" value="<?php echo $custoinfo['exp_date']?>" {{$read}}></td>
-                <td><input type="text" name="sno[]" style="width: 200px !important" value="<?php echo $custoinfo['sno_number']?>" {{$read}}></td>
-                <td><input type="text" name="user[]" style="width: 100px" value="<?php echo $custoinfo['user']?>" {{$read}}></td>
+                <td><input {{$s}} type="text" style="width: 100px" name="exp_date[]" value="<?php echo $custoinfo['exp_date']?>" {{$read}}></td>
+                <td><input {{$s}} type="text" name="sno[]" style="width: 200px !important" value="<?php echo $custoinfo['sno_number']?>" {{$read}}></td>
+                <td><input {{$s}} type="text" name="user[]" style="width: 100px" value="<?php echo $custoinfo['user']?>" {{$read}}></td>
 
-                <td><input type="checkbox" @if($custoinfo['sage_cover_checkbox']==1) {{'checked'}} @endif name="sagecover_checkbox[]" data="{{$key}}" class="sagecover" {{$read}}>
+                <td><input {{$s}} type="checkbox" @if($custoinfo['sage_cover_checkbox']==1) {{'checked'}} @endif name="sagecover_checkbox[]" data="{{$key}}" class="sagecover" {{$read}}>
 
-                <input type="hidden" name="sagecover_check[]" class="sagecover_{{$key}}" value="{{$val1}}" >
+                <input {{$s}} type="hidden" name="sagecover_check[]" class="sagecover_{{$key}}" value="{{$val1}}" >
                 </td>
 
-                <td><input type="text" name="sagecover[]" style="width: 100px" value="<?php echo $custoinfo['sage_cover']?>" {{$read}}></td>
+                <td><input {{$s}} type="text" name="sagecover[]" style="width: 100px" value="<?php echo $custoinfo['sage_cover']?>" {{$read}}></td>
                 <!-- <td></td>
                 <td></td> -->
               </tr>
@@ -447,7 +493,7 @@
         <div class="tab-pane fade" id="messages">
             <div class="messg-tab">
             <!-- <h4 class="">Messages tab content</h4> -->
-            <button type="button" class="btn btn-primary addMoreBtn">Add More</button>
+            <button type="button" class="btn btn-primary addMoreBtn" {{$s}}>Add More</button>
             </div>
             <div class="clone-class-cstm">
             <div class="custmRow">
@@ -458,10 +504,10 @@
                         <div class="controls kk">
                             <label>Code</label>
                             <select class="selectSubs" name="code[]" style="width: 131px !important;
-    padding: 3px !important;">
+    padding: 3px !important;" {{$r}}>
                               <option>Select</option>
                               @foreach($subscriptions as $key=>$subscription)
-                                <option @if( $fsubA['code'] == $subscription->code ){{'selected'}}@endif value="{{$subscription->code}}">{{$subscription->code}}</option>
+                                <option {{$r}} @if( $fsubA['code'] == $subscription->code ){{'selected'}}@endif value="{{$subscription->code}}">{{$subscription->code}}</option>
                               @endforeach
                             </select>
                         </div>
@@ -470,14 +516,14 @@
                       <div class="form-group cstmFormCWd">
                         <div class="controls">
                             <label>SNO</label>
-                            <input type="text" style="width: 146px;"  class="" placeholder="SNO" name="sno_number[]" value="{{$fsubA['sno_number']}}" >
+                            <input type="text" style="width: 146px;"  class="" placeholder="SNO" name="sno_number[]" value="{{$fsubA['sno_number']}}" {{$r}} >
                         </div>
                       </div>
 
                       <div class="form-group cstmFormC act" >
                         <div class="controls">
                             <label>Activation</label>
-                            <input type="text" class="" style="width: 85px;" placeholder="Activation" name="activation_code[]" value="{{$fsubA['activation_code']}}" >
+                            <input type="text" class="" style="width: 85px;" placeholder="Activation" name="activation_code[]" value="{{$fsubA['activation_code']}}" {{$r}}>
                         </div>
                       </div>
                       
@@ -485,13 +531,13 @@
                       <div class="form-group cstmFormC" style="margin-left: 5px;">
                         <div class="controls">
                             <label>User</label>
-                            <input type="text" class="" style="width: 45px;" placeholder="User" name="sub_user[]" value="{{$fsubA['user']}}" maxlength="3">
+                            <input type="text" class="" style="width: 45px;" placeholder="User" name="sub_user[]" value="{{$fsubA['user']}}" maxlength="3" {{$r}}>
                         </div>
                       </div>
                       <div class="form-group cstmFormC" style="margin-left: -39px;">
                         <div class="controls" >
                             <label>Start</label>
-                            <input type="text" class="" style="width: 85px;" placeholder="Start" name="start[]" value="{{ ($fsubA['start']=='0000-00-00' || $fsubA['start'] =='' || $fsubA['start'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($fsubA['start']))}}" >
+                            <input type="text" class="" style="width: 85px;" placeholder="Start" name="start[]" value="{{ ($fsubA['start']=='0000-00-00' || $fsubA['start'] =='' || $fsubA['start'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($fsubA['start']))}}" {{$r}}>
                         </div>
                       </div>
 
@@ -501,27 +547,27 @@
                       <div class="form-group cstmFormC">
                         <div class="controls">
                             <label>Expire</label>
-                            <input type="text" class="" style="width: 85px;" placeholder="Expire" name="expire[]" value="{{ ($fsubA['expire']=='0000-00-00' || $fsubA['expire'] =='' || $fsubA['expire'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($fsubA['expire']))}}" >
+                            <input type="text" class="" style="width: 85px;" placeholder="Expire" name="expire[]" value="{{ ($fsubA['expire']=='0000-00-00' || $fsubA['expire'] =='' || $fsubA['expire'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($fsubA['expire']))}}" {{$r}}>
                         </div>
                       </div>
 
                       <div class="form-group cstmFormC" >
                         <div class="controls">
                             <label>Location</label>
-                            <input type="text" class="" style="width: 85px;" placeholder="Location" name="location[]" value="{{$fsubA['location']}}" >
+                            <input type="text" class="" style="width: 85px;" placeholder="Location" name="location[]" value="{{$fsubA['location']}}" {{$r}}>
                         </div>
                       </div>
 
                       <div class="form-group cstmFormC">
                         <div class="controls">
                             <label>Counter</label>
-                            <input type="text" class="" style="width: 85px;" placeholder="Counter" name="counter[]" value="{{$fsubA['counter']}}" >
+                            <input type="text" class="" style="width: 85px;" placeholder="Counter" name="counter[]" value="{{$fsubA['counter']}}" {{$r}}>
                         </div>
                       </div>
                       <div class="form-group cstmFormCWd">
                         <div class="controls">
                             <label>Remark</label>
-                            <input type="text" class="" style="width: 85px;" placeholder="Remark" name="remark[]" value="{{$fsubA['remark']}}" >
+                            <input type="text" class="" style="width: 85px;" placeholder="Remark" name="remark[]" value="{{$fsubA['remark']}}" {{$r}}>
                         </div>
                       </div>
                     </div>
@@ -555,13 +601,13 @@
                               <div class="form-group cstmFormCWd">
                                 <div class="controls">
                                     <!--label>Sno Number</label-->
-                                    <input type="text" class="" placeholder="SNO" name="sno_number[]" style="width: 146px;" value="{{$singleB['sno_number']}}">
+                                    <input type="text" class="" placeholder="SNO" name="sno_number[]" style="width: 146px;" value="{{$singleB['sno_number']}}" {{$r}}>
                                 </div>
                               </div>
                               <div class="form-group cstmFormC act">
                                 <div class="controls">
                                     <!--label>Activation Code</label-->
-                                    <input type="text"  class="" style="width: 85px;" placeholder="Activation" name="activation_code[]" value="{{$singleB['activation_code']}}" >
+                                    <input type="text"  class="" style="width: 85px;" placeholder="Activation" name="activation_code[]" value="{{$singleB['activation_code']}}" {{$r}}>
                                 </div>
                               </div>
                               
@@ -569,13 +615,13 @@
                               <div class="form-group cstmFormC" style="margin-left: 5px;">
                                 <div class="controls">
                                     <!--label>User</label-->
-                                    <input type="text" style="width: 45px;" class="" placeholder="User" name="sub_user[]" value="{{$singleB['user']}}" maxlength="3">
+                                    <input type="text" style="width: 45px;" class="" placeholder="User" name="sub_user[]" value="{{$singleB['user']}}" maxlength="3" {{$r}}>
                                 </div>
                               </div>
                               <div class="form-group cstmFormC" style="margin-left: -39px;">
                                 <div class="controls">
                                     <!--label>Start</label-->
-                                    <input type="text" class="" style="width: 85px;" placeholder="Start" name="start[]" value="{{ ($singleB['start']=='0000-00-00' || $singleB['start']=='' || $singleB['start'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($singleB['start']))}}">
+                                    <input type="text" class="" style="width: 85px;" placeholder="Start" name="start[]" value="{{ ($singleB['start']=='0000-00-00' || $singleB['start']=='' || $singleB['start'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($singleB['start']))}}" {{$r}}>
                                 </div>
                               </div>
 
@@ -583,30 +629,35 @@
                               <div class="form-group cstmFormC" >
                                 <div class="controls">
                                     <!--label>Expire</label-->
-                                    <input type="text" class="" style="width: 85px;" placeholder="Expire" name="expire[]" value="{{ ($singleB['expire']=='0000-00-00' ||  $singleB['expire']=='' || $singleB['expire'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($singleB['expire']))}}">
+                                    <input type="text" class="" style="width: 85px;" placeholder="Expire" name="expire[]" value="{{ ($singleB['expire']=='0000-00-00' ||  $singleB['expire']=='' || $singleB['expire'] == '1970-01-01') ? ''  : date('d-m-Y',strtotime($singleB['expire']))}}" {{$r}}>
                                 </div>
                               </div>
 
                               <div class="form-group cstmFormC">
                                 <div class="controls">
                                     <!--label>Location</label-->
-                                    <input type="text" class="" style="width: 85px;" placeholder="Location" name="location[]" value="{{$singleB['location']}}">
+                                    <input type="text" class="" style="width: 85px;" placeholder="Location" name="location[]" value="{{$singleB['location']}}" {{$r}}>
                                 </div>
                               </div>
 
                               <div class="form-group cstmFormC">
                                 <div class="controls">
                                     <!--label>Counter</label-->
-                                    <input type="text" class="" style="width: 85px;" placeholder="Counter" name="counter[]" value="{{$singleB['counter']}}">
+                                    <input type="text" class="" style="width: 85px;" placeholder="Counter" name="counter[]" value="{{$singleB['counter']}}" {{$r}}>
                                 </div>
                               </div>
                               <div class="form-group cstmFormCWd">
                                 <div class="controls">
                                     <!--label>Remark</label-->
-                                    <input type="text" class="" style="width: 85px;" placeholder="Remark" name="remark[]" value="{{$singleB['remark']}}">
+                                    <input type="text" class="" style="width: 85px;" placeholder="Remark" name="remark[]" value="{{$singleB['remark']}}" {{$r}}>
                                 </div>
                               </div>
+                              <?php
+                              $perm = Helper::checkPermission();
+                               
+                              if(in_array('customer_subscription_delete',$perm)){ ?>
                               <span class="addRemoveBtn"><i class="bx bx-trash-alt"></i></span>
+                              <?php } ?>
                     </div>
                     
                     </div>
@@ -623,7 +674,7 @@
           <p class="other-info-error">Please enter unique email !!!</p>
           <div class="messg-tab">
             <h4 class="">Other Info</h4>
-            <button type="button" class="btn btn-primary addMoreBtnIn">Add More</button>
+            <button type="button" class="btn btn-primary addMoreBtnIn" {{$o}}>Add More</button>
           </div>
           <div class="clone-class-cstm-in">
             <div class="custmRowIn">
@@ -642,34 +693,34 @@
                         <div class="form-group cstmFormCO">
                           <div class="controls">
                               <label>Name</label>
-                              <input type="text" class="j"  placeholder="Name" name="cname[]" value="{{$fsubAI['name']}}" >
+                              <input type="text" class="j"  placeholder="Name" name="cname[]" value="{{$fsubAI['name']}}" {{$o}}>
                           </div>
                         </div>
                         <div class="form-group cstmFormCO" >
                           <div class="controls">
                               <label>Phone</label>
-                              <input type="text"  class="j" placeholder="Phone" name="cphone[]" value="{{$fsubAI['phone']}}" >
+                              <input type="text"  class="j" placeholder="Phone" name="cphone[]" value="{{$fsubAI['phone']}}" {{$o}}>
                           </div>
                         </div>
 
                         <div class="form-group cstmFormCO">
                           <div class="controls">
                               <label>Email</label>
-                              <input type="text" class="j" placeholder="Email" name="cemail[]" value="{{$fsubAI['email']}}" >
+                              <input type="text" class="j" placeholder="Email" name="cemail[]" value="{{$fsubAI['email']}}" {{$o}}>
                           </div>
                         </div>
 
                         <div class="form-group cstmFormCO">
                           <div class="controls">
                               <label>Teamviewer Id</label>
-                              <input type="text" class="j" placeholder="Teamviewer Id" name="teamviewer_id[]" value="{{$fsubAI['teamviewer_id']}}" >
+                              <input type="text" class="j" placeholder="Teamviewer Id" name="teamviewer_id[]" value="{{$fsubAI['teamviewer_id']}}" {{$o}}>
                           </div>
                         </div>
 
                         <div class="form-group cstmFormCO">
                           <div class="controls">
                               <label>Status</label>
-                              <select class="j" name="status[]">
+                              <select class="j" name="status[]" {{$o}}>
                                 <option @if( $fsubAI['status'] == 1 ){{'selected'}}@endif value="1">Active</option>
                                 <option @if( $fsubAI['status'] == 0 ){{'selected'}}@endif value="0">Non-Active</option>
                               </select>
@@ -689,36 +740,40 @@
 
                               <div class="form-group cstmFormCO">
                                 <div class="controls">
-                                    <input type="text" class="j"  placeholder="Name" name="cname[]" value="{{$singleBI['name']}}" >
+                                    <input type="text" class="j"  placeholder="Name" name="cname[]" value="{{$singleBI['name']}}" {{$o}}>
                                 </div>
                               </div>
                               <div class="form-group cstmFormCO" >
                                 <div class="controls">
-                                    <input type="text" class="j"   placeholder="Phone" name="cphone[]" value="{{$singleBI['phone']}}">
+                                    <input type="text" class="j"   placeholder="Phone" name="cphone[]" value="{{$singleBI['phone']}}" {{$o}}>
                                 </div>
                               </div>
 
                               <div class="form-group cstmFormCO"  >
                                 <div class="controls">
-                                    <input type="text" class="j" placeholder="Email" name="cemail[]" value="{{$singleBI['email']}}">
+                                    <input type="text" class="j" placeholder="Email" name="cemail[]" value="{{$singleBI['email']}}" {{$o}}>
                                 </div>
                               </div>
                               <div class="form-group cstmFormCO">
                                 <div class="controls">
-                                    <input type="text" class="j" placeholder="Teamviewer Id" name="teamviewer_id[]" value="{{$singleBI['teamviewer_id']}}">
+                                    <input type="text" class="j" placeholder="Teamviewer Id" name="teamviewer_id[]" value="{{$singleBI['teamviewer_id']}}" {{$o}}>
                                 </div>
                               </div>
 
                               <div class="form-group cstmFormCO">
                                 <div class="controls">
-                                    <select class="j" name="status[]">
+                                    <select class="j" name="status[]" {{$o}}>
                                       <option @if( $singleBI['status'] == 1 ){{'selected'}}@endif value="1">Active</option>
                                       <option @if( $singleBI['status'] == 0 ){{'selected'}}@endif value="0">Non-Active</option>
                                     </select>
                                 </div>
                               </div>
-
+                              <?php
+                              $perm = Helper::checkPermission();
+                               
+                              if(in_array('customer_subscription_delete',$perm)){ ?>
                               <span class="addRemoveBtn"><i class="bx bx-trash-alt"></i></span>
+                              <?php } ?>
                     </div>
                     
                     </div>
@@ -731,7 +786,7 @@
     </div>
     <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                     @if($read !='readonly')
-                      <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1 customerSubmit">Submit {{$read}}</button>
+                      <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1 customerSubmit">Submit </button>
                     @endif
                       <button type="reset" class="btn btn-light" onclick="goBack()">Cancel</button>
                   </div>

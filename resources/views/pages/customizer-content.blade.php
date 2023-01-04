@@ -11,8 +11,8 @@
         <fieldset>
           <div class="radio">
             <input type="radio" name="layoutOptions" value="false" id="radio-light" class="layout-name" data-layout=""
-              checked>
-            <label for="radio-light">Light</label>
+              <?=(\Auth::user()->theme == 'light') ? 'checked' : '';?>>
+            <label for="radio-light">Light </label>
           </div>
         </fieldset>
       </div>
@@ -20,8 +20,8 @@
         <fieldset>
           <div class="radio">
             <input type="radio" name="layoutOptions" value="false" id="radio-dark" class="layout-name"
-              data-layout="dark-layout">
-            <label for="radio-dark">Dark</label>
+              data-layout="dark-layout" <?=(\Auth::user()->theme == 'dark') ? 'checked' : '';?>>
+            <label for="radio-dark">Dark </label>
           </div>
         </fieldset>
       </div>
@@ -29,7 +29,7 @@
         <fieldset>
           <div class="radio">
             <input type="radio" name="layoutOptions" value="false" id="radio-semi-dark" class="layout-name"
-              data-layout="semi-dark-layout">
+              data-layout="semi-dark-layout"  <?=(\Auth::user()->theme == 'semi-dark') ? 'checked' : '';?>>
             <label for="radio-semi-dark">Semi Dark</label>
           </div>
         </fieldset>

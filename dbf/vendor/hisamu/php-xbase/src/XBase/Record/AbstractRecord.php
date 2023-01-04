@@ -201,15 +201,19 @@ abstract class AbstractRecord implements RecordInterface
 
     public function getMemoObject(string $columnName): ?MemoObject
     {
-        if (!TableType::hasMemo($this->table->getVersion())) {
-            throw new \LogicException('Table not supports Memo');
-        }
+        // if (@!TableType::hasMemo($this->table->getVersion())) {
+        //     throw new \LogicException('Table not supports Memo');
+        // }
 
         if (!$pointer = $this->data[$columnName]) {
             return null;
         }
 
-        return $this->table->getMemo()->get($pointer);
+         if($this->table->getMemo() != ""){
+            return $this->table->getMemo()->get($pointer);
+         }else{
+            return null; 
+         }
     }
 
     /**

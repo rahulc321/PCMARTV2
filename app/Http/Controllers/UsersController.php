@@ -1413,10 +1413,10 @@ class UsersController extends Controller
              $fileName= $logofile->getClientOriginalName();
 
 
-             if($fileName !='arcust.dbf'){
+             /*if($fileName !='arcust.dbf'){
                 \Session::flash('error', 'Please choose only arcust.dbf file !!!');
                 return redirect('app/uploads');
-             }
+             }*/
 
             $destinationPath = public_path('arcust/'); // upload path
             $outputImage =  "arcust_".uniqid().".".$logofile->getClientOriginalExtension();
@@ -1457,7 +1457,7 @@ class UsersController extends Controller
                 array_push($actual_data, $row);
             }
 
-           // echo '<pre>';print_r($actual_data);die;
+            //echo '<pre>';print_r($table->nextRecord());die;
 
             foreach ($actual_data as $key => $value) {
 
@@ -2464,12 +2464,15 @@ class UsersController extends Controller
             $totalValue+=(int)str_replace(',','',$value->Price_RM);
             $totalCount++;
         }
+
         // Renew status invoice_date
-        $renewAll= Ictran::whereMonth('invoice_date',date('m'))->whereYear('invoice_date',2021)->get();
+        $renewAll= Ictran::whereMonth('invoice_date',date('m'))->whereYear('invoice_date',date('Y'))->get();
         $renewCount= 0;
         $renewValue=0;
         foreach ($renewAll as $key => $value1) {
+          if($value1->Price_RM != ''){
             $renewValue+=str_replace(',','',$value1->Price_RM);
+          }
             $renewCount++;
         }
         //dd($renewValue);
@@ -3664,15 +3667,23 @@ class UsersController extends Controller
      $this->data['cust'] = Cust::where('Organization_Number',$this->data['ictran']->CUSTNO)->first();
      $this->data['ticket_number'] = $id;
      $email = $this->data['cust']->Primary_Email;
+     //$email = 'rahul@yopmail.com';
+
+
+    // $prd= Product::where('id',explode(',',$value['product'])[0])->first();
+    // $rinfo= Info::where('id',$prd->company_name)->first();
+
+    // echo '<pre>';print_r($this->data['ictran'])
+    // echo '<pre>';print_r($email);die;
      // echo '<pre>';print_r($this->data['cust']->Primary_Email);die;
       //echo '<pre>';print_r($this->data['cust']->Attention);die;
-
+    // return view('emails.close-ticket',$this->data);die;
     \Mail::send('emails.close-ticket', $this->data, function($message) use ($email){
     $message->to($email)->subject
     ('Ticket Feedback');
     $message->from('sales@pcmart.com.my','Ticket Feedback');
     });
-
+ 
     $tk = Ticket::where('id',$id)->first();
     $tk->status= 2;
     $tk->close_date= date('Y-m-d H:i:s');
@@ -3706,7 +3717,17 @@ class UsersController extends Controller
       $feedback->save();
       }
 
-     return redirect('/thankyou');
+      // Get Dynamic info
+      $ictranId = Ticket::where('id',explode('_', $data)[1])->first()->ictran_id;
+      $ictran = Ictran::where('id',$ictranId)->first();
+      
+
+
+      $prd= Product::where('id',explode(',',$ictran['product'])[0])->first();
+      $rinfo= Info::where('id',$prd->company_name)->first();
+
+      \Session::put('info',$rinfo);
+      return redirect('/thankyou');
     }
 
     // email marketing
@@ -3918,7 +3939,7 @@ class UsersController extends Controller
        
     $records= $records/*->select('ictran.*')*/->where('ictran.renew_status',0);
         
-   
+    $recordsEmail = $records->get();
     $recordr= $records->count();
     if($_GET['btnclick']==0){
     $records=   $records->skip($start)
@@ -3940,7 +3961,22 @@ class UsersController extends Controller
 
    // echo '<pre>';print_r($records);die;
      $data_arr = array();
-     $ids1=[];
+      
+
+      $ids1=[];
+     foreach($recordsEmail as $record){
+
+      $custInfo= Cust::where('Organization_Number',$record['CUSTNO'])->first();
+        $email="";
+        if($custInfo){
+            $email= $custInfo->Primary_Email;
+            $ids1[]=$record['CUSTNO'];
+        }
+
+     }
+
+
+
      foreach($records as $record){
 
         
@@ -3993,7 +4029,7 @@ class UsersController extends Controller
         $email="";
         if($custInfo){
             $email= $custInfo->Primary_Email;
-            $ids1[]=$record['CUSTNO'];
+            //$ids1[]=$record['CUSTNO'];
         }
         // $username = $record->username;
         // $name = $record->name;
@@ -4114,20 +4150,27 @@ public function sendEmail(Request $request){
             if($email==''){
               $email= $e->email;
             }
-    
+            
+          //  echo '<pre>';print_r($this->data['info']['other']);
+            
         //return view('emails.marketing',$this->data);die;
+            $nData= $this->data['info']['other'];
+            $nDataemail= $this->data['info']['email'];
              try {
-            \Mail::send('emails.marketing', $this->data, function($message) use ($email){
+              //echo '<pre>';print_r($value['Organization_Name']);die;
+              echo '<p >'.$value['Organization_Name'].' - '.$email.' - <span style="color:green"> Success</span></p>';
+
+            \Mail::send('emails.marketing', $this->data, function($message) use ($email,$nData,$nDataemail){
             $message->to($email)->subject
             ('Software Renewal - Quotation');
-            $message->from('sales@pcmart.com.my','UBS Software Support - Quotation ');
+            $message->from($nDataemail,$nData);
             });
             } catch (\Exception $e) {
           
             if( count(\Mail::failures()) > 0 ) {
 
               foreach(\Mail::failures() as $email_address) {
-                echo "$email_address <br />";
+                echo '<p >'.$value['Organization_Name'].' - '.$email_address.' - <span style="color:red"> Error</span></p>';
               }
 
             }
@@ -4179,13 +4222,22 @@ public function sendEmail(Request $request){
             if($email==''){
               $email= trim($e->email);
             }
- 
-        ///return view('emails.marketing',$this->data);die;
+         // echo '<pre>';print_r($this->data);
+   // return view('emails.marketing',$this->data);die;
+            $nData= $this->data['info']['other'];
+            $nDataemail= $this->data['info']['email'];
+
              try {
-            \Mail::send('emails.marketing', $this->data, function($message) use ($email){
+
+
+             echo '<p >'.$value['Organization_Name'].' - '.$email.' - <span style="color:green"> Success</span></p>';
+             
+
+
+            \Mail::send('emails.marketing', $this->data, function($message) use ($email,$nData,$nDataemail){
             $message->to($email)->subject
             ('Software Renewal - Quotation');
-            $message->from('sales@pcmart.com.my','UBS Software Support - Quotation ');
+            $message->from($nDataemail,$nData);
             });
 
             } catch (\Exception $e) {
@@ -4193,7 +4245,7 @@ public function sendEmail(Request $request){
             if( count(\Mail::failures()) > 0 ) {
 
               foreach(\Mail::failures() as $email_address) {
-                echo "$email_address <br />";
+                echo '<p >'.$value['Organization_Name'].' - '.$email_address.' - <span style="color:red"> Error</span></p>';
               }
 
             }
@@ -4334,8 +4386,8 @@ public function sendEmail(Request $request){
       $trainingId= Schedulesession::where('sessionId',$ses)->get()->pluck('trainingId')->toArray();
       //dd($trainingId);
       //$this->data['session2']= Training::whereIn('id',$trainingId)->count();
-      $this->data['thisMonth']= Training::whereMonth('invoice_date',date('m'))->whereYear('invoice_date',2021)->count();
-      $this->data['thisMonthValue']= Training::whereMonth('invoice_date',date('m'))->whereYear('invoice_date',2021)->sum('value');
+      $this->data['thisMonth']= Training::whereMonth('invoice_date',date('m'))->whereYear('invoice_date',date('Y'))->count();
+      $this->data['thisMonthValue']= Training::whereMonth('invoice_date',date('m'))->whereYear('invoice_date',date('Y'))->sum('value');
       
       
        $this->data['product'] = trainingSetting::get();
@@ -4755,8 +4807,8 @@ public function sendEmail(Request $request){
         $ss->contactPerson= @$custInfo->Attention;
         $ss->contactNumber= @$custInfo->Primary_Phone;
       }else{
-        $ss->customerName= (@$request->companyNamec != '') ? @$request->companyNamec : '';
-        $ss->companyName= $request->custometName;
+        $ss->customerName= $request->custometName;
+        $ss->companyName= (@$request->companyNamec != '') ? @$request->companyNamec : '';
         $ss->customerId= '';
         $ss->address= $request->address;
         $ss->contactPerson= $request->contactPerson;
@@ -4892,7 +4944,7 @@ $(function () {
           <div class="col-sm-12">
 
           <?php
-            if($scheduleSession['trainerType']==1 || $scheduleSession['trainerType']==''){
+            if($scheduleSession['trainerType']==1 || $scheduleSession['trainerType']==0 || $scheduleSession['trainerType']==''){
               $t= 1;
             }elseif($scheduleSession['trainerType']==2){
               $t= 2;
@@ -4968,7 +5020,7 @@ span.select2-dropdown.select2-dropdown--above {
       ?>
           
           <div class="form-group">
-              <p><input type="checkbox" name="check" class="check" style="margin-left: 15px;" value="<?=$val?>"  <?=$check?>> Pleace check this and add data manualy</p>
+              <p><input type="checkbox" name="check" class="check" style="margin-left: 15px;" value="<?=$val?>"  <?=$check?>> Add Manually</p>
             </div>
 
           <div class="col-sm-6" style="float: left;">
@@ -5031,23 +5083,7 @@ span.select2-dropdown.select2-dropdown--above {
         
           
 
-          <!-- Product -->
-          <div class="col-sm-6 <?=$hide?> <?=$hide5?>" style="float: left;">
-          <div class="form-group">
-              <select class="form-control js-example-basic-multiple"  multiple="multiple" name="product[]">
-                        <option value="">Select Product</option>
-                        <?php
-                        $getP= explode(',',$scheduleSession['product']);
-
-                        $trainingSetting= trainingSetting::get();
-                         foreach($trainingSetting as $setProduct){ ?>
-                          <option value="<?=$setProduct->description?>" <?php if(in_array($setProduct->description,$getP)){ echo 'selected'; } ?>><?=$setProduct->description?></option>
-                      <?php   } ?>
-                         
-            </select>
-            </div>
-          </div>
-          <!-- Product -->
+          
 
           <div class="col-sm-6 <?=$hide5?>" style="float: left;">
           <div class="form-group">
@@ -5063,7 +5099,10 @@ span.select2-dropdown.select2-dropdown--above {
 
           <div class="col-sm-6 <?=$hide?> <?=$hide5?>" style="float: left;">
           <div class="form-group">
-            <input type="text" name="address"   class="form-control address" placeholder="Address" value="<?=($scheduleSession['checkStatus']==0) ? @$custInfo->Address1 : $scheduleSession['address'] ?>">
+           <!--  <input type="text" name="address"   class="form-control address" placeholder="Address" value="<?=($scheduleSession['checkStatus']==0) ? @$custInfo->Address1 : $scheduleSession['address'] ?>"> -->
+            
+            <textarea rows="1"  name="address" class="form-control address" placeholder="Address"><?=($scheduleSession['checkStatus']==0) ? @$custInfo->Address1 : $scheduleSession['address'] ?></textarea>
+
             </div>
           </div>
 
@@ -5106,11 +5145,79 @@ span.select2-dropdown.select2-dropdown--above {
             </div>
           </div>
 
+          <!-- Product -->
+          <div class="col-sm-6 <?=$hide?> <?=$hide5?>" style="float: left;">
+          <div class="form-group">
+              <select class="form-control js-example-basic-multiple"  multiple="multiple" name="product[]">
+                        <option value="">Select Product</option>
+                        <?php
+                        $getP= explode(',',$scheduleSession['product']);
+
+                        $trainingSetting= trainingSetting::get();
+                         foreach($trainingSetting as $setProduct){ ?>
+                          <option value="<?=$setProduct->description?>" <?php if(in_array($setProduct->description,$getP)){ echo 'selected'; } ?>><?=$setProduct->description?></option>
+                      <?php   } ?>
+                         
+            </select>
+            </div>
+          </div>
+          <!-- Product -->
+
 
           <div class="col-sm-6" style="float: left;">
           <div class="form-group">
-           <button type="submit" class="btn btn-success pf">Update</button>
-           <a onclick="return confirm('Are you sure?')" href="<?=url('/app/deleteSchedule')?>/<?=$all['id']?>" class="btn btn-danger">Delete</a>
+
+          <?php
+          // check current time greater or not scheduling date 
+          $scheduleDate = strtotime($scheduleSession['date']);
+          $currentDate = strtotime(date('d-m-Y'));
+          $perm = Helper::checkPermission();
+
+          // echo '<pre>';print_r($perm);
+          //  For Past button condition
+          if(in_array('schedule_past_edit',$perm)){ 
+
+            if($scheduleDate < $currentDate){
+
+           echo  '<button type="submit" class="btn btn-success pf">Update</button>';
+            }
+          }
+          //  For future button condition
+          if(in_array('schedule_future_edit',$perm)){ 
+
+            if($scheduleDate >= $currentDate){
+
+           echo  '<button type="submit" class="btn btn-success pf">Update</button>';
+            }
+          }
+
+
+          // For delete btn condition
+          if(in_array('schedule_past_delete',$perm)){ 
+
+            if($scheduleDate < $currentDate){ ?>
+
+            <a onclick="return confirm('Are you sure?')" href="<?=url('/app/deleteSchedule')?>/<?=$all['id']?>" class="btn btn-danger">Delete</a>
+          <?php  }
+          }
+          //  For future button condition
+          if(in_array('schedule_future_delete',$perm)){ 
+
+            if($scheduleDate >= $currentDate){ ?>
+
+            <a onclick="return confirm('Are you sure?')" href="<?=url('/app/deleteSchedule')?>/<?=$all['id']?>" class="btn btn-danger">Delete</a>
+            
+           <?php }
+          }
+
+          ?>
+
+
+          
+
+
+
+           
             </div>
           </div>
 
@@ -5126,6 +5233,49 @@ span.select2-dropdown.select2-dropdown--above {
       </div>
 
       </form>
+
+
+      <script>
+        $(document).ready(function() {
+  // $('.js-example-basic-single').select2();
+    
+
+   $('.js-example-basic-single').select2({
+    ajax: {
+      url:"<?=url('/')?>/app/getcustInfo",
+      dataType: 'json',
+      data: (params) => {
+        return {
+          q: params.term,
+        }
+      },
+      processResults: (data, params) => {
+      //alert();
+        // if(data.length ==0){
+        //     $('.cname').val(' ');
+        //     $('.address').val(' ');
+        //     $('.cnumber').val(' ');
+        // }
+
+        const results = data.map(item => {
+
+          
+          return {
+            id: item.custid,
+            text: item.Organization_Name,
+          };
+        });
+        return {
+          results: results,
+        }
+      },
+    },
+  });
+
+
+
+});
+      </script>
 
 
      <?php
@@ -5177,7 +5327,7 @@ public  function updateschedule($id, Request $request){
         $ss->contactPerson= $request['contactPerson'];
         $ss->contactNumber= $request['contactNumber'];
       }
-      //$ss->remark= $request->remark; 
+      $ss->remark= $request->remark; 
       $ss->product= ($request->product != '') ? implode(',',$request->product) : ''; 
       $ss->checkStatus= $request->check; 
       $ss->date= date('Y-m-d',strtotime($request->startDate));
@@ -5281,6 +5431,7 @@ public function schedulingData1(Request $request){
         ->where(function ($query) use ($searchValue) {
         $query->orwhere('trainer.name', 'like', '%' .$searchValue . '%')
         ->orwhere('schedulesession.product', 'like', '%' .$searchValue . '%')
+        ->orwhere('schedulesession.companyName', 'like', '%' .$searchValue . '%')
         ->orwhere('schedulesession.customerName', 'like', '%' .$searchValue . '%');
         //->orwhere('schedulesession.date', 'like', '%' .$searchValue . '%')
          
@@ -5297,14 +5448,16 @@ public function schedulingData1(Request $request){
        if($request->type != ""){
        // echo $request->type;die;
         if($request->type==1){
-          $records= $records->orwhere('schedulesession.trainerType', 'like', '%' .$request->type . '%')->whereNull('schedulesession.trainerType');
+          // echo 'sda';
+          $records= $records->whereNull('schedulesession.trainerType')->orWhereIn('schedulesession.trainerType',[1]);
         }else{
-          $records= $records->where('schedulesession.trainerType', 'like', '%' .$request->type . '%');
+          $records= $records->where('schedulesession.trainerType',$request->type );
         }
+
        }
 
        if($request->trainer != ""){
-
+       // echo $request->trainer;die;
          
         $records= $records->where('trainer.id',$request->trainer);
        }
@@ -5334,7 +5487,7 @@ public function schedulingData1(Request $request){
          
       //echo '<pre>';print_r($record);die;
 
-      if($record->trainerType==1 || $record->trainerType==''){
+      if($record->trainerType==1 || $record->trainerType=='' || $record->trainerType==0){
 
         $tt='Training';
 
@@ -5347,11 +5500,18 @@ public function schedulingData1(Request $request){
       }else{
         $tt='Demo';
       }
+
+      //$tt=$record->trainerType;
+
+      $customerName = $record->customerName;
+      if($record->checkStatus == 1){
+        $customerName = $record->companyName;
+      }
       
         $data_arr[] = array(
           "id" => $record->id,
           "name" => $record->name,
-          "customerName" => $record->customerName,
+          "customerName" => $customerName,
           "product" => $record->product,
           "trainerType" => $tt,
           
@@ -5399,7 +5559,11 @@ public function schedulingData1(Request $request){
    public function updateschedulesession($id,Request $request){
    // dd($request->all());
     $update= ScheduleSession::where('id',$id)->first();
-    $update->companyName   =$request->companyName;
+    if($update->companyName ==''){
+    $update->customerName   =$request->companyName;
+    }else{
+      $update->companyName   =$request->companyName;
+    }
     $update->trainerId=$request->trainerId;
     $update->date=date('Y-m-d',strtotime($request->datetimes));
     $update->startTime=date('H:i:s',strtotime($request->startTime));
@@ -5474,52 +5638,27 @@ public function schedulingData1(Request $request){
 
     $oname= $request->oname;
     //$oname= 'international';
+    //dd($request->q);
 
-    $records = Cust::where('Organization_Name', 'like', '%' . $oname . '%')->get();
-
-
-    ?>
-
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-      <script>
-  $(document).on('change','.newClass', function(){
+    $data= [];
+    if($request->q != ''){
+    $records = Cust::where('Organization_Name', 'like', $request->q . '%')->get();
 
 
-  //alert();
-
-  var CUSTNO= $(this).val();
-  $('.cname').val(' ');
-  $('.address').val(' ');
-  $.ajax({
-            url:"<?=url('/')?>/app/getcustInfo2",
-            dataType: "json", // data type of response
-            data:{"_token":"<?=csrf_token()?>",'CUSTNO':CUSTNO},
-            method:"post",
-            success:function(res){
-                    
-                  $('.cname').val(res.Attention);
-                  $('.address').val(res.Address1);
-                  $('.cnumber').val(res.Primary_Phone);
-            }
-        });
-
-});
-</script>
+  
+    
+    foreach($records as $key=>$record){
 
 
-    <?php
-
-     
-
-    foreach($records as $record){ ?>
-
-      
+      $data[]['custid']= $record->Organization_Number;
+      $data[$key]['Organization_Name']= $record->Organization_Name.'-'.$record->Organization_Number;
+    }
+    }
 
 
+    //$data= ['id'=>1,'name'=>'rahul'];
 
-      
-      <option value="<?=$record->Organization_Number?>"><?=$record->Organization_Name.'-'.$record->Organization_Number?></option>
-    <?php  }
+    echo json_encode($data);
 
   }
 

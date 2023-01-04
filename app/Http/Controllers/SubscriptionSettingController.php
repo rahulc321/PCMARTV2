@@ -179,12 +179,12 @@ class SubscriptionSettingController extends Controller
         $all= $request->all();
        // / echo $request->Organization_Number;die;
         $checkCustI = CustInfo::where('cust_id',$request->Organization_Number)->get();
-      
+        $expDateArray= [];
         foreach($checkCustI as $key=>$ids){
             $ids->delete();
         }
         foreach ($all['cname'] as $keyAI => $singleAI) {
-          	  $subscription = new CustInfo();
+          	$subscription = new CustInfo();
 	          $subscription->cust_id = $request->Organization_Number;
 	          $subscription->name = $singleAI;
 	          $subscription->email = @$all['cemail'][$keyAI];
@@ -201,10 +201,14 @@ class SubscriptionSettingController extends Controller
         
         $checkInfo = CustomerInfo::where('customer_id',$request->Organization_Number)->get();
         $checkSubs = CustomerSubscription::where('customer_id',$request->Organization_Number)->get();
-      
+        
         foreach($checkInfo as $key=>$ids){
+          $expDateArray[] =  $ids->exp_date;
             $ids->delete();
         }
+
+
+       //echo '<pre>';print_r($expDateArray);die;
 
         foreach($checkSubs as $key=>$idas){
             $idas->delete();
@@ -224,18 +228,23 @@ class SubscriptionSettingController extends Controller
             $otherInfo->exp_date_checkbox=@$all['expcheck'][$key];
 
             $perm = Helper::checkPermission();
-                  //echo '<pre>';print_r($perm);die;
+                //  echo '<pre>';print_r($expDateArray);die;
 
-          
-              if($all['exp_date'][$key] != ""){
+             
+               
 
-                if(in_array('contract_due_date',$perm)){
-
-                //echo 'Hello';die;
+              if(in_array('contract_due_date',$perm)){
+                if($all['exp_date'][$key] != ''){
                 $otherInfo->exp_date=@date('Y-m-d',strtotime($all['exp_date'][$key]));
+                }
+              }else{
+                if(@$expDateArray[$key] != ''){
+                $otherInfo->exp_date=@date('Y-m-d',strtotime($expDateArray[$key]));
+                }
+                
               }
 
-             }
+             
             $otherInfo->sno_number=@$all['sno'][$key];
             $otherInfo->user=@$all['user'][$key];
             if($all['sagecover'][$key] != ""){
@@ -559,8 +568,21 @@ class SubscriptionSettingController extends Controller
             $totalValue+=str_replace(',','',$value->total_price);
             $totalCount++;
         }
+
+      if($request->month){
+        $year=$request->month;
+        $Lastyear=$request->month-1;
+
+      }else{
+
+        $year=date('Y');
+        $Lastyear=date("Y",strtotime("-1 year"));
+      }
+
+        
         // Renew status invoice_date
-        $renewAll= Transaction::where('status',0)->whereMonth('start',date('m'))->whereYear('start',2021)->get();
+        $renewAll= Transaction::where('status',0)->whereMonth('expire',date('m'))->whereYear('expire',$year)->get();
+
         $renewCount= 0;
         $renewValue=0;
         foreach ($renewAll as $key => $value1) {
@@ -569,24 +591,16 @@ class SubscriptionSettingController extends Controller
         }
         //dd($renewValue);
         // Get %
-        $lastMonth= date('m', strtotime(date('Y-m')." -1 year"));
-        $lastYear= date('Y', strtotime(date('Y-m')." -1 year"));
-        $renewAllPer= Transaction::whereMonth('expire',$lastMonth)->whereYear('expire',$lastYear)->get();
+        $lastMonth= date('m', strtotime(date('Y-m')." -1 year")); 
+        $lastYear= $Lastyear;
+        $renewAllPer= Transaction::whereMonth('expire',$lastMonth)->whereYear('expire',$Lastyear)->get();
         $renewCountPer= 0;
         $renewValueLastMonth=0;
         foreach ($renewAllPer as $key => $value2) {
             $renewValueLastMonth+=str_replace(',','',$value2->total_price);
             $renewCountPer++;
         }
-  if($request->month){
-      $year=$request->month;
-    $Lastyear=$request->month-1;
-
-  }else{
-    
-    $year=date('Y');
-    $Lastyear=date("Y",strtotime("-1 year"));
-  }
+  
   //echo $Lastyear=date("Y",strtotime("-1 year"));echo '<br>';
   // echo $year; echo '<br>';
   // echo $Lastyear; echo '<br>';

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\User;
 use App\Models\LoginTime;
+use App\Events\testevent;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -83,7 +84,8 @@ class LoginController extends Controller
 
     public function loginPost(Request $request){
        //echo  \Hash::make(123456);
-         
+        // event(new testevent('Rahul'));
+        // echo 'ad';die;  
         if (\Auth::attempt(array('email' => $request['email'], 'password' => $request['password']))) {
             $user= User::where('id',Auth::user()->id)->first();
             if(Auth::user()->user_type==1){
@@ -95,11 +97,15 @@ class LoginController extends Controller
                  
                 $data = array('otp'=>$random);
                 $email= $request['email'];
-                \Mail::send('emails.login', $data, function($message) use ($email){
-                $message->to($email)->subject
-                ('Login OTP');
-                $message->from('sales@pcmart.com.my','Login OTP');
-                });
+                // error_reporting(0);
+                // return view('emails.login');die;
+
+
+                // \Mail::send('emails.login', $data, function($message) use ($email){
+                // $message->to($email)->subject
+                // ('Login OTP');
+                // $message->from('sales@pcmart.com.my','Login OTP');
+                // });
 
                 return redirect('/otp')->withErrors(['Success', 'Please check your email to enter OTP']); 
 

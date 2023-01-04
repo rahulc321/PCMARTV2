@@ -78,7 +78,16 @@ $perm = Helper::checkPermission();
        
         </ul> 
         </li> -->
-        <li class="">
+
+        <?php 
+           if(\Request::route()->getName()=='dashboard-ecommerce'){
+            $class="active";
+           }else{
+            $class="";
+           }
+
+        ?>
+        <li class="nav-item {{ $class}}">
         <a href="{{url('/dashboard')}}" class="d-flex align-items-center">
         <i class="bx bxs-home"></i>
         <span class="menu-item text-truncate">Dashboard</span>
@@ -98,26 +107,26 @@ $perm = Helper::checkPermission();
           <?php $module='Role_show'; 
           $showPerm="";
           ?>
-            @if(in_array($module,$perm) || Auth::user()->user_type==1)
+            @if(in_array($module,$perm) )
             <?php $showPerm=1; ?>
             @endif
 
             <?php $module='User_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
+              @if(in_array($module,$perm) )
               <?php $showPerm=1; ?>
             @endif  
 
-          @if($showPerm ==1 || Auth::user()->user_type==1)
+          @if($showPerm ==1 )
           <li class="nav-item has-sub {{ (request()->is('app/role/list')) ? 'sidebar-group-active' : '' }}">
             <a href="# ">
             <i class="bx bx-detail"></i>
             <span class="menu-title text-truncate">Permission</span>
             <span class="badge badge-light-danger badge-pill badge-round float-right mr-50 ml-auto"></span>
             </a>
-            <ul class="menu-content" style="display: none">
+            <ul class="menu-content">
             <?php $module='Role_show'; ?>
-            @if(in_array($module,$perm) || Auth::user()->user_type==1)
-              <li class="nav-item">
+            @if(in_array($module,$perm) )
+              <li class="nav-item {{ (request()->is('app/role/list')) ? 'active' : '' }}">
               <a href="{{url('/app/role/list')}}">
               <i class="bx bxs-check-shield"></i>
               <span class="menu-title text-truncate">Roles</span>
@@ -125,8 +134,8 @@ $perm = Helper::checkPermission();
               </li>
             @endif  
               <?php $module='User_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
-              <li class="nav-item">
+              @if(in_array($module,$perm) )
+              <li class="nav-item {{ (request()->is('app/users/list')) ? 'active' : '' }}">
               <a href="{{url('/app/users/list')}}">
               <i class="bx bxs-user-detail"></i>
               <span class="menu-title text-truncate">Users</span>
@@ -141,16 +150,16 @@ $perm = Helper::checkPermission();
           <?php $module='setting_show'; 
           $showPerm="";
           ?>
-            @if(in_array($module,$perm) || Auth::user()->user_type==1)
+            @if(in_array($module,$perm) )
             <?php $showPerm=1; ?>
             @endif
 
             <?php $module='web_info'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
+              @if(in_array($module,$perm) )
               <?php $showPerm=1; ?>
             @endif
 
-          @if($showPerm ==1 || Auth::user()->user_type==1)
+          @if($showPerm ==1 )
           <li class="nav-item has-sub {{ (request()->is('app/settings/list')) ? 'sidebar-group-active' : '' }}">
             <a href="# ">
              
@@ -158,10 +167,10 @@ $perm = Helper::checkPermission();
             <span class="menu-title text-truncate">Settings</span>
             <span class="badge badge-light-danger badge-pill badge-round float-right mr-50 ml-auto"></span>
             </a>
-            <ul class="menu-content" style="display: none">
+            <ul class="menu-content">
             <?php $module='setting_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
-              <li class="nav-item">
+              @if(in_array($module,$perm) )
+              <li class="nav-item {{ (request()->is('app/settings/list')) ? 'active' : '' }}">
               <a href="{{url('/app/settings/list')}}">
               <i class="bx bx-cart"></i>
               <span class="menu-title text-truncate">Support</span>
@@ -169,8 +178,8 @@ $perm = Helper::checkPermission();
             </li>
             @endif
             <?php $module='subscription_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
-              <li class="nav-item">
+              @if(in_array($module,$perm) )
+              <li class="nav-item {{ (request()->is('app/subscription/list')) ? 'active' : '' }}">
               <a href="{{url('/app/subscription/list')}}">
               <i class="bx bx-message-square-detail"></i>
               <span class="menu-title text-truncate">Subscription</span>
@@ -179,7 +188,7 @@ $perm = Helper::checkPermission();
             @endif 
             <?php $module='training_set_show'; ?>
               @if(in_array($module,$perm))
-              <li class="nav-item">
+              <li class="nav-item {{ (request()->is('app/trainingSetting')) ? 'active' : '' }}">
               <a href="{{url('/app/trainingSetting')}}">
               <i class="bx bx-message-square-detail"></i>
               <span class="menu-title text-truncate">Training</span>
@@ -189,7 +198,7 @@ $perm = Helper::checkPermission();
 
             <?php $module='trainer_show'; ?>
               @if(in_array($module,$perm))
-              <li class="nav-item">
+              <li class="nav-item {{ (request()->is('app/trainer')) ? 'active' : '' }}">
               <a href="{{url('/app/trainer')}}">
               <i class="bx bx-user"></i>
               <span class="menu-title text-truncate">Trainer</span>
@@ -198,8 +207,8 @@ $perm = Helper::checkPermission();
             @endif
 
               <?php $module='web_info'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
-              <li class="nav-item">
+              @if(in_array($module,$perm) )
+              <li class="nav-item {{ (request()->is('app/info')) ? 'active' : '' }}">
               <a href="{{url('/app/info')}}">
               <i class="bx bx-info-circle"></i>
               <span class="menu-title text-truncate">Company Info </span>
@@ -207,7 +216,7 @@ $perm = Helper::checkPermission();
             </li>
             @endif
             <?php $module='convert_date'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
+              @if(in_array($module,$perm) )
           <li class="nav-item {{ (request()->is('app/convert-date')) ? '' : '' }}" style="display: none">
             <a href="{{url('/app/convert-date')}}">
             <i class="bx bx-calendar-alt"></i>
@@ -221,8 +230,10 @@ $perm = Helper::checkPermission();
             <span class="menu-title text-truncate">Copy Companyname</span>
             </a>
           </li>
-
-          <li class="nav-item {{ (request()->is('app/category')) ? '' : '' }}">
+          @endif
+          <?php $module='Category_show'; ?>
+              @if(in_array($module,$perm))
+          <li class="nav-item {{ (request()->is('app/category')) ? 'active' : '' }}">
             <a href="{{url('/app/category')}}">
             <i class="bx bx-copy"></i>
             <span class="menu-title text-truncate">Category</span>
@@ -242,8 +253,8 @@ $perm = Helper::checkPermission();
            
 
           <?php $module='upload_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
-           <li class="nav-item {{ (request()->is('/app/uploads')) ? 'active' : '' }}">
+              @if(in_array($module,$perm) )
+           <li class="nav-item {{ (request()->is('app/uploads')) ? 'active' : '' }}">
             <a href="{{url('/app/uploads')}}">
            <!--  <i class="menu-livicon livicon-evo-holder livicon-evo-error" data-icon="envelope-pull"></i> -->
             <i class="bx bx-upload"></i>
@@ -252,7 +263,7 @@ $perm = Helper::checkPermission();
           </li>
           @endif
           <?php $module='customer_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
+              @if(in_array($module,$perm) )
           <li class="nav-item {{ (request()->is('app/customer')) ? 'active' : '' }}">
             <a href="{{url('/app/customer')}}">
             <i class="bx bxs-user-detail"></i>
@@ -262,7 +273,7 @@ $perm = Helper::checkPermission();
           @endif
 
           <?php $module='customer_subscription_show'; ?>
-          @if(in_array($module,$perm) || Auth::user()->user_type==1)
+          @if(in_array($module,$perm))
             <li class="nav-item {{ (request()->is('app/customer-subscription-list')) ? 'active' : '' }}">
               <a href="{{url('/app/customer-subscription-list')}}">
               <i class="bx bxs-user-detail"></i>
@@ -282,7 +293,7 @@ $perm = Helper::checkPermission();
           @endif
           <?php $module='schedule_show'; ?>
           @if(in_array($module,$perm))
-          <li class="nav-item {{ (request()->is('app/scheduling')) ? '' : '' }}">
+          <li class="nav-item {{ (request()->is('app/scheduling')) ? 'active' : '' }}">
             <a href="{{url('/app/scheduling')}}">
             <i class="bx bx-calendar-event"></i>
             <span class="menu-title text-truncate">Scheduling</span>
@@ -291,7 +302,7 @@ $perm = Helper::checkPermission();
           @endif
 
           <?php $module='contract_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
+              @if(in_array($module,$perm) )
           <li class="nav-item {{ (request()->is('app/service-contract')) ? 'active' : '' }}">
             <a href="{{url('/app/service-contract')}}">
             <i class="bx bxs-receipt"></i>
@@ -300,8 +311,8 @@ $perm = Helper::checkPermission();
           </li>
           @endif
           <?php $module='tickect_show'; ?>
-              @if(in_array($module,$perm) || Auth::user()->user_type==1)
-          <li class="nav-item {{ (request()->is('app/ticket')) ? '' : '' }}">
+              @if(in_array($module,$perm) )
+          <li class="nav-item {{ (request()->is('app/ticket')) ? 'active' : '' }}">
             <a href="{{url('/app/ticket')}}">
             <i class="bx bxs-purchase-tag"></i>
             <span class="menu-title text-truncate">Ticketing</span>
@@ -326,16 +337,16 @@ $perm = Helper::checkPermission();
           </li> -->
 
 
-          <li class="nav-item has-sub {{ (request()->is('app/settings/list')) ? 'sidebar-group-active' : '' }}">
+          <li class="nav-item">
             <a href="# ">
              
              <i class="bx bx-mail-send"></i>
             <span class="menu-title text-truncate">Email Marketing</span>
             <span class="badge badge-light-danger badge-pill badge-round float-right mr-50 ml-auto"></span>
             </a>
-            <ul class="menu-content" style="display: none">
+            <ul class="menu-content" >
               @if(in_array($module,$perm))
-              <li class="nav-item {{ (request()->is('app/email-marketing')) ? '' : '' }}">
+              <li class="nav-item {{ (request()->is('app/email-marketing')) ? 'active' : '' }}">
               <a href="{{url('/app/email-marketing')}}">
               <i class="bx bx-mail-send"></i>
               <span class="menu-title text-truncate">Support</span>
@@ -344,7 +355,7 @@ $perm = Helper::checkPermission();
 
               @endif
               @if(in_array('Subscription_show',$perm))
-              <li class="nav-item {{ (request()->is('app/subs-email-marketing')) ? '' : '' }}">
+              <li class="nav-item {{ (request()->is('app/subs-email-marketing')) ? 'active' : '' }}">
             <a href="{{url('/app/subs-email-marketing')}}">
             <i class="bx bx-mail-send"></i>
             <span class="menu-title text-truncate">Subscription</span>

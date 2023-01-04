@@ -10,6 +10,16 @@
 @if($configData['isCardShadow'] === false){{'no-card-shadow'}}@endif"
 data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-framework="laravel">
 
+<style type="text/css">
+  table.dataTable tbody tr {
+    /* background-color: #fff; */
+    background-color: transparent;
+}
+rect {
+    fill: transparent;
+}
+</style>
+
   <!-- BEGIN: Header-->
   @include('panels.navbar')
   <!-- END: Header-->
@@ -158,13 +168,13 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-fra
 
       getCount();
 
-      setInterval(function(){ 
+      // setInterval(function(){ 
 
 
-        getCount();
+      //   getCount();
 
 
-       }, 2000);
+      //  }, 2000);
  
     });
     </script>

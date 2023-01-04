@@ -29,9 +29,14 @@
   <div id="sidebar" class="sidebar">
     <div class="sidebar-new-schedule">
       <!-- create new schedule button -->
+
+      <?php $module='schedule_add'; ?>
+         @if(in_array($module,Helper::checkPermission()))
       <button id="btn-new-schedule" type="button" class="btn btn-primary btn-block sidebar-new-schedule-btn">
         New schedule
       </button>
+
+      @endif
     </div>
     <!-- sidebar calendar labels -->
     <div id="sidebar-calendars" class="sidebar-calendars">
@@ -210,7 +215,7 @@
                             <label>Type</label>
                             <select class="form-control status" id="type" style="">
                             <option value="">--Select--</option>
-                               <option value="1">Training</option>
+                               <option value="1" selected="">Training</option>
                                <option value="2">Onsite</option>
                                <option value="3">Demo</option>
                                <option value="4">Public Holiday</option>
@@ -327,7 +332,7 @@
         <div class="col-sm-12">
             
             <div class="form-group">
-              <p><input type="checkbox" name="check" class="check" style="margin-left: 15px;" value="0"> Pleace check this and add data manualy</p>
+              <p><input type="checkbox" name="check" class="check" style="margin-left: 15px;" value="0"> Add Manually</p>
             </div>
 
 
@@ -379,7 +384,7 @@
           <div class="form-group trainingselect A1">
             <!-- <input type="text" name="companyName" class="form-control" placeholder="Company Name2"> -->
 
-            <select class="form-control js-example-basic-single oname newClass" name="companyName">
+            <select class="form-control js-example-basic-single oname newClass" onchange="choice1(this)" name="companyName">
                         <option value="">--Select--</option>
                          
                         
@@ -389,35 +394,24 @@
             </div>
 
           <div class="form-group onsiteDemo C1 D1" style="display: none">
-           <input type="text" class="form-control" name="companyNamec" placeholder="Company Name13">
+           <input type="text" class="form-control" name="companyNamec" placeholder="Company">
           </div>
 
 
           </div>
 
 
-          <!-- Product -->
-          <div class="col-sm-6 A1" style="float: left;">
-          <div class="form-group">
-              <select class="form-control js-example-basic-multiple"  multiple="multiple" name="product[]">
-                        <option value="">Select Product</option>
-                        @foreach($trainingSetting as $setProduct)
-                          <option value="{{$setProduct->description}}">{{$setProduct->description}}</option>
-                        @endforeach   
-            </select>
-            </div>
-          </div>
-          <!-- Product -->
+          
 
 
         
           <div class="col-sm-6 A1" style="float: left;">
           <div class="form-group">
-            <input type="text" name="custometName" class="form-control cname" placeholder="Customer Name">
+            <input type="text" name="custometName" class="form-control cname" placeholder="Attention">
             </div>
           </div>
 
-          <div class="col-sm-6 A1" style="float: left;display: none">
+          <div class="col-sm-6" style="float: left;display: none">
           <div class="form-group">
             <input type="text" name="contactPerson" class="form-control" placeholder="Contact Person">
             </div>
@@ -425,7 +419,7 @@
 
           <div class="col-sm-6 A1" style="float: left;">
           <div class="form-group">
-            <input type="text" name="address" class="form-control address" placeholder="Address">
+            <textarea rows="1"  name="address" class="form-control address" placeholder="Address"></textarea>
             </div>
           </div>
 
@@ -467,6 +461,20 @@
             <input type="text" name="remark" class="form-control" placeholder="Remark">
             </div>
           </div>
+
+
+          <!-- Product -->
+          <div class="col-sm-6 A1" style="float: left;">
+          <div class="form-group">
+              <select class="form-control js-example-basic-multiple"  multiple="multiple" name="product[]">
+                        <option value="">Select Product</option>
+                        @foreach($trainingSetting as $setProduct)
+                          <option value="{{$setProduct->description}}">{{$setProduct->description}}</option>
+                        @endforeach   
+            </select>
+            </div>
+          </div>
+          <!-- Product -->
 
 
           <div class="col-sm-6" style="float: left;">
@@ -696,6 +704,12 @@
 
 
 <style type="text/css">
+
+.modal .modal-content{
+      height: 492px !important;
+}
+
+
   button.tui-full-calendar-popup-edit {
     display: none;
 }
@@ -733,21 +747,59 @@ span.select2-selection.select2-selection--multiple {
 
 <script type="text/javascript">
 
-  
+$(document).ready(function() {
+  // $('.js-example-basic-single').select2();
+   $('.js-example-basic-multiple').select2();
+
+   $('.js-example-basic-single').select2({
+    ajax: {
+      url:"{{url('/')}}/app/getcustInfo",
+      dataType: 'json',
+      data: (params) => {
+        return {
+          q: params.term,
+        }
+      },
+      processResults: (data, params) => {
+      //alert();
+        // if(data.length ==0){
+        //     $('.cname').val(' ');
+        //     $('.address').val(' ');
+        //     $('.cnumber').val(' ');
+        // }
+
+        const results = data.map(item => {
+
+          
+          return {
+            id: item.custid,
+            text: item.Organization_Name,
+          };
+        });
+        return {
+          results: results,
+        }
+      },
+    },
+  });
+
+
+
+});
 
 $(document).on('keyup','.select2-search__field', function(){
      var oname = $(this).val();
     // alert(oname);
-    $('.select2-search__field').html(' ');
-       $.ajax({
-            url:"{{url('/')}}/app/getcustInfo",
-            data:{"_token":"{{csrf_token()}}",'oname':oname},
-            method:"post",
-            success:function(res){
+    // $('.select2-search__field').html(' ');
+    //    $.ajax({
+    //         url:"{{url('/')}}/app/getcustInfo",
+    //         data:{"_token":"{{csrf_token()}}",'oname':oname},
+    //         method:"post",
+    //         success:function(res){
                     
-                  $('.oname').html(res);
-            }
-        });
+    //               $('.oname').html(res);
+    //         }
+    //     });
     });
 
 
@@ -794,11 +846,33 @@ $(document).on('change','.cc',function(){
 
 })
 
+
+function choice1(select) {
+     //alert(select.options[select.selectedIndex].value);
+
+     var CUSTNO= select.options[select.selectedIndex].value;
+    $('.cname').val(' ');
+    $('.address').val(' ');
+    $.ajax({
+            url:"<?=url('/')?>/app/getcustInfo2",
+            dataType: "json", // data type of response
+            data:{"_token":"<?=csrf_token()?>",'CUSTNO':CUSTNO},
+            method:"post",
+            success:function(res){
+                    
+                  $('.cname').val(res.Attention);
+                  $('.address').val(res.Address1);
+                  $('.cnumber').val(res.Primary_Phone);
+            }
+        });
+
+}
+
 $(document).on('change','.newClass', function(){
 
 
   alert();
-
+  $('.newClass').trigger("change");
   // var CUSTNO= $(this).val();
   // $('.cname').val(' ');
   // $('.address').val(' ');
@@ -826,7 +900,7 @@ $(document).ready(function(){
 
 
 
-  $('.js-example-basic-multiple').select2();
+  
 
 
   $('.pf').click(function(){
@@ -855,10 +929,21 @@ $(document).ready(function(){
     }
 
     if(selValue==3){
-
+     // alert('BBBBBBBBB')
       $('.training').hide();
       $('.onsite').hide();
       $('.demo').show();
+
+      // newc code
+     if ($('.check').is(':checked')){
+        $('.onsiteDemo').css('display','block');
+        $('.trainingselect').css('display','none');
+
+      }else{
+         $('.trainingselect').css('display','block');
+         $('.onsiteDemo').css('display','none');
+      }
+      //return
 
     }
 
@@ -870,8 +955,21 @@ $(document).ready(function(){
        
 
     }else{
+      //alert('AAAAAAAA')
       $('.A1').show();
       $('.B1').show();
+
+      var is_check= 0;
+      if ($('.check').is(':checked')){
+        is_check =1;
+      }
+
+      if((selValue==3 || selValue==2 || selValue==1) && is_check == 1){
+        $('.onsiteDemo').css('display','block');
+        $('.trainingselect').css('display','none');
+      }
+
+
     }
 
     if(selValue==5){
@@ -1029,7 +1127,7 @@ $(document).ready(function(){
       //   html.push('<span class="bx bxs-map font-size-small align-middle"></span>');
       // }
 
-      var name= '<div style="background-color:'+schedule.bgColor+';color:white;border-radius: 3px;font-size: 10px;">'+schedule.title+'<br><span class="tt">'+schedule.location+'</span></div>';
+      var name= '<div style="background-color:'+schedule.bgColor+';color:white;border-radius: 3px;font-size: 10px;">'+schedule.title+'<br><span class="tt">'+schedule.location+'</span></div><br>';
 
 
 
@@ -1371,12 +1469,23 @@ $(window).on("resize", function () {
           $ttype=1;
           $bgColor= '#00CFDD';
         }
+
+        $time = date('H:i',strtotime($value->startTime)).'-'.date('H:i',strtotime($value->endTime));
+        if($value->trainerType == 4 || $value->trainerType == 5){
+          $time = '';
+        }
+
+       $tlName =  $tname.'('.$time.')';
+        if($time ==''){
+          $tlName = $tname;
+        }
+ 
         ?>
         
        {
         id: '<?=$value->id?>',
         calendarId: '<?=$ttype?>',
-        title: "<?=$tname?>",
+        title: "<?=$tlName?>",
         customerName: 'pppapap',
         category: 'time',
         dueDateClass: '',
@@ -1617,7 +1726,7 @@ $(function () {
 
 
   
-    $('.js-example-basic-single').select2();
+   // $('.js-example-basic-single').select2();
 });
 </script>
 
@@ -1640,6 +1749,10 @@ span.select2-dropdown.select2-dropdown--above {
     top: 1px;
     right: -79px !important;
     width: -77px;
+}
+
+.tui-full-calendar-weekday-schedule.tui-full-calendar-weekday-schedule-time .tui-full-calendar-weekday-schedule-title {
+    padding-left: 5px !important;
 }
    </style>
 @endsection
