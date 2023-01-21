@@ -1,4 +1,5 @@
 @extends('layouts.contentLayoutMaster')
+
 {{-- page title --}}
 @section('title','Edit Customer')
 {{-- vendor styles --}}
@@ -14,6 +15,9 @@
 @endsection
 
 @section('content')
+
+
+
  <?php
     $perm = Helper::checkPermission();
     $read=0;
@@ -118,11 +122,11 @@
 
  
 .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
-    position: relative;
+   /* position: relative;
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
-    overflow-y: scroll;
+    overflow-y: scroll;*/
 }
   }
 
@@ -138,6 +142,9 @@
   }
   .controls.kk {
   margin-left: -11px;
+  }
+  .hide{
+    display: none;
   }
  </style>
 <!-- users edit start -->
@@ -160,6 +167,7 @@
             href="#account" aria-controls="account" role="tab" aria-selected="true">
           <i class="bx bx-user mr-25"></i><span class="d-none d-sm-block">Edit Customer</span>
         </a>
+
         </li>
         <li class="nav-item">
         <!-- <a class="nav-link d-flex align-items-center" id="information-tab" data-toggle="tab"
@@ -212,9 +220,31 @@
         <li class="nav-item">
             <a href="#other-info" class="nav-link" data-toggle="tab">Other Info</a>
         </li>
+
+        <!-- New chnages -->
+        <li class="nav-item">
+            <a href="#subscription" class="nav-link" data-toggle="tab">Subscription</a>
+        </li>
+
+        <li class="nav-item">
+            <a href="#servicec" class="nav-link" data-toggle="tab">Service Contract</a>
+        </li>
+
+        <li class="nav-item">
+            <a href="#ticketing" class="nav-link" data-toggle="tab">Ticketing</a>
+        </li>
+        <li class="nav-item">
+            <a href="#training" class="nav-link" data-toggle="tab">Training</a>
+        </li>
+        
+
+         
     </ul>
 
     <div class="tab-content">
+    
+
+
         <div class="tab-pane fade show active" id="home">
            
                 <div class="row">
@@ -783,6 +813,43 @@
               @endif
           </div>
         </div>
+     
+    <!-- For subscription -->
+     <div class="tab-pane fade" id="subscription">
+        @include('admin.subscription.listSubsUser') 
+        
+      </div>
+    <!-- For subscription -->
+
+
+     <!-- For service contract -->
+      <div class="tab-pane fade" id="servicec">
+         @include('admin.ictran.listictrain')
+      </div>
+
+    <!-- For service contract -->
+
+
+    <!-- For ticket -->
+      <div class="tab-pane fade" id="ticketing">
+        @include('admin.ticket.listUser')  
+      </div>
+    <!-- For ticket -->
+
+     <!-- For training -->
+      <div class="tab-pane fade" id="training">
+        @include('admin.training.listTrainingUser')  
+      </div>
+    <!-- For training -->
+
+
+
+
+
+   
+
+
+
     </div>
     <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                     @if($read !='readonly')
@@ -807,10 +874,14 @@
     </div>
   </div>
 </section>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
 <script>
 
 $(document).ready(function(){
+  $.noConflict();
     $('.expcheck').click(function(){
       var atr= $(this).attr('data');
       if($(this).prop("checked") == true){

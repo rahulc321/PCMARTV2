@@ -1,338 +1,18 @@
-@extends('layouts.contentLayoutMaster')
-{{-- page title --}}
-@section('title','Training')
-{{-- vendor styles --}}
-@section('vendor-styles')
 <?php  error_reporting(0); ?>
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/responsive.bootstrap4.min.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/buttons.bootstrap4.min.css')}}">
-@endsection
-{{-- page styles --}}
-@section('page-styles')
-<link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-users.css')}}">
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
-@endsection
-@section('content')
-<!-- users list start -->
+ 
 <style type="text/css">
-   i.bx.bx-trash-alt {
-   color: red;
-   }
-   .btn {
-   display: inline-block;
-   font-weight: 400;
-   color: #727E8C;
-   text-align: center;
-   vertical-align: middle;
-   -webkit-user-select: none;
-   -moz-user-select: none;
-   -ms-user-select: none;
-   user-select: none;
-   background-color: transparent;
-   border: 0 solid transparent;
-   padding: -0.533rem 9.5rem;
-   /* font-size: 1rem; */
-   /* line-height: 1.6rem; */
-   border-radius: 0.267rem;
-   -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-   padding: 2px;
-   color: white;
-   }
-   span {
-   content: "\0031";
-   }
-   .ww{
-   float: left !important;
-   border-radius: 34px;
-   width: 25px;
-   }
-   table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc, table.dataTable thead>tr>th.sorting, table.dataTable thead>tr>td.sorting_asc, table.dataTable thead>tr>td.sorting_desc, table.dataTable thead>tr>td.sorting {
-   padding-right: 0px !important;
-   }
-   table.dataTable thead>tr>th.sorting_asc, table.dataTable thead>tr>th.sorting_desc, table.dataTable thead>tr>th.sorting, table.dataTable thead>tr>td.sorting_asc, table.dataTable thead>tr>td.sorting_desc, table.dataTable thead>tr>td.sorting {
-   padding-right: 0px !important;
-   padding-left: 1px !important;
-   }
-   .form-group.f {
-   margin-left: 105px;
-   }
+.nav.nav-tabs .nav-item, .nav.nav-pills .nav-item {
+margin-right: 0.2rem;
+}
 </style>
-<section id="widgets-Statistics">
-   <div class="row">
-      <div class="col-xl-3 col-md-4 col-sm-6">
-         <div class="card text-center">
-            <div class="card-body">
-               <div class="badge-circle badge-circle-lg badge-circle-light-info mx-auto my-1">
-                  <i class="bx bx-analyse"></i>
-               </div>
-               <p class="text-muted mb-0 line-ellipsis">None</p>
-               <h2 class="mb-0"><span class="activecont1"><?=$none?></span></h2>
-            </div>
-         </div>
-      </div>
-      <div class="col-xl-3 col-md-4 col-sm-6">
-         <div class="card text-center">
-            <div class="card-body">
-               <div class="badge-circle badge-circle-lg badge-circle-light-warning mx-auto my-1">
-                  <i class="bx  bx-money"></i>
-               </div>
-               <p class="text-muted mb-0 line-ellipsis">Session 2</p>
-               <h2 class="mb-0"><span class="agree4"><?=$session2?></span></h2>
-            </div>
-         </div>
-      </div>
-      <div class="col-xl-3 col-md-4 col-sm-6">
-         <div class="card text-center">
-            <div class="card-body">
-               <div class="badge-circle badge-circle-lg badge-circle-light-danger mx-auto my-1">
-                  <i class="bx bx-check"></i>
-               </div>
-               <p class="text-muted mb-0 line-ellipsis"><span style="color:green"><?=date('F')?></span> Training</p>
-               <h2 class="mb-0"><span class="cancell1"><?=$thisMonth?></span></span></h2>
-            </div>
-         </div>
-      </div>
-      <div class="col-xl-3 col-md-4 col-sm-6">
-         <div class="card text-center">
-            <div class="card-body">
-               <div class="badge-circle badge-circle-lg badge-circle-light-primary mx-auto my-1">
-                  <i class="bx bx-money font-medium-5"></i>
-               </div>
-               <p class="text-muted mb-0 line-ellipsis"><span style="color:green"><?=date('F')?></span> Training $</p>
-               <h2 class="mb-0"><span class="expire2">{{$thisMonthValue}}</span></h2>
-            </div>
-         </div>
-      </div>
-      <div class="col-xl-8 col-md-4 col-sm-6">
-         <div class="card">
-            <form action="{{url('/app/training')}}" id="form2" method="post">
-               @csrf
-               <div class="form-group" style="float: left;margin-left: 10px;">
-                  <label>Year</label>
-                  <select class="form-control typeww" style="width: 100%" name="month">
-                     <option value="">--Select--</option>
-                     @foreach($invoice_date2 as $invoice_dateDate)
-                     <option value="{{$invoice_dateDate}}" <?php if($invoice_dateDate==@$_REQUEST['month']){ echo 'selected'; } ?>>{{$invoice_dateDate}}</option>
-                     @endforeach
-                  </select>
-               </div>
-               <div class="form-group f">
-                  <label>Type</label>
-                  <select class="form-control typeww1" style="width: 16%" name="typeww">
-                     <option value="">--Select--</option>
-                     @foreach($Support_Type as $support)
-                     <option value="{{$support->product}}" <?php if($support->product==@$_REQUEST['typeww']){ echo 'selected'; } ?>>{{$support->product}}</option>
-                     @endforeach
-                  </select>
-               </div>
-               <!--           <input type="submit" value="Submit"> -->
-            </form>
-            <div class="card-body">
-               <div id="column-chart" style="height: 300px; width: 100%;"></div>
-            </div>
-         </div>
-      </div>
-      <!-- <div class="col-xl-4 col-md-4 col-sm-6">
-         <div id="chart3"></div>
-         </div> -->
-      <div class="col-xl-4 col-md-6 col-12 dashboard-visit">
-         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-               <h4 class="card-title">Product</h4>
-               <!--  <i class="bx bx-dots-vertical-rounded font-medium-3 cursor-pointer"></i> -->
-               <form action="{{url('/app/training')}}" id="form3" method="post">
-                  @csrf
-                  <div class="form-group" style="float: left;margin-left: 10px;">
-                     <label>Year</label>
-                     <select class="form-control form3" style="width: 100%" name="form3Year">
-                        <option value="">--Select--</option>
-                        @foreach($invoice_date2 as $invoice_dateDate)
-                        <option value="{{$invoice_dateDate}}" <?php if($invoice_dateDate==@$_REQUEST['form3Year']){ echo 'selected'; } ?>>{{$invoice_dateDate}}</option>
-                        @endforeach
-                     </select>
-                  </div>
-               </form>
-            </div>
-            <div id="chart3"></div>
-            <div class="card-body ff">
-               <style type="text/css">
-                  .col-sm-2 {
-                  max-width: 49.66667%;
-                  }
-                  .card-body.ff {
-                  height: 201px;
-                  padding-top: 67px;
-                  }
-                  .dot {
-                  height: 12px;
-                  width: 11px;
-                  /* background-color: #bbb;*/
-                  border-radius: 59%;
-                  display: inline-block;
-                  /* padding-top: 18px; */
-                  margin-top: 0px;
-                  }
-                  div#chart3 {
-                  margin-top: -27px;
-                  }
-               </style>
-               <?php foreach ($arrayChart as $key => $value) {
-                  //echo '<pre>';print_r($value['sum'] !=0);
-                  
-                  if($value['sum'] !=0){
-                  $back='';
-                  if($key==0){
-                    $back="#e45364";
-                  }elseif($key==1){
-                    $back="#f0ac58";
-                  }elseif($key==2){
-                    $back="#67c7c9";
-                  }elseif($key==3){
-                    $back="#52971c";
-                  }elseif($key==4){
-                    $back="#9c4199";
-                  }else{
-                    $back="#9c4199";
-                  }
-                  
-                  ?>
-               <div class="col-sm-2" style="float: left;"><span style="background-color: <?=$back?>;" class="dot"></span> <span style="font-size: 12px;"><?=$value['name']?></span></div>
-               <?php  } } ?>
-               <!-- <div id="chart2" style="height: 200px; width: 100%;"></div> -->
-               <!-- <ul class="list-inline text-center mt-1 mb-0">
-                  <li class=""><span class="bullet bullet-xs" style="background: #7cbe88"></span> < 1/2</li>
-                  <li class=""><span class="bullet bullet-xs bullet-danger"></span></li>
-                  <li><span class="bullet bullet-xs bullet-warning mr-50"></span>Ebay</li>
-                  </ul> -->
-            </div>
-         </div>
-      </div>
-   </div>
-</section>
+
 <section class="users-list-wrapper">
-   <div class="users-list-filter px-1">
-      <form>
-         <!--  <div class="row border rounded py-2 mb-2">
-            <div class="col-12 col-sm-6 col-lg-3">
-              <label for="users-list-verified">Verified</label>
-              <fieldset class="form-group">
-                <select class="form-control" id="users-list-verified">
-                  <option value="">Any</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </fieldset>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-              <label for="users-list-role">Role</label>
-              <fieldset class="form-group">
-                <select class="form-control" id="users-list-role">
-                  <option value="">Any</option>
-                  <option value="User">User</option>
-                  <option value="Staff">Staff</option>
-                </select>
-              </fieldset>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3">
-              <label for="users-list-status">Status</label>
-              <fieldset class="form-group">
-                <select class="form-control" id="users-list-status">
-                  <option value="">Any</option>
-                  <option value="Active">Active</option>
-                  <option value="Close">Close</option>
-                  <option value="Banned">Banned</option>
-                </select>
-              </fieldset>
-            </div>
-            <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
-              <button type="reset" class="btn btn-primary btn-block glow users-list-clear mb-0">Clear</button>
-            </div>
-            </div> -->
-      </form>
-   </div>
+   
    <div class="users-list-table">
       <div class="card">
          <div class="card-body">
-            <form action="{{url('/app/training')}}" id="form2" method="post">
-               @csrf
-               <div class="form>">
-                  <!-- <div class="form-group" style="float: left;">
-                     <label>Status</label>
-                     <select class="form-control status" id="invoice" style="width:106px">
-                     <option value="">--Select--</option>
-                        
-                       <option value="0">Active</option>
-                       <option value="1">Renew</option>
-                       <option value="2">Agree</option>
-                       <option value="3">Cancel</option>
-                     </select>
-                     </div> -->
-                  <div class="form-group" style="float: left;width:106px;margin-left: 10px">
-                     <label>Product</label>
-                     <select class="form-control status" id="customer" style="" name="product">
-                        <option value="">--Select--</option>
-                        @foreach($product as $pro)
-                        <option value="{{$pro->description}}" @if($_REQUEST['product']==$pro->description) {{'selected'}} @endif>{{$pro->description}}</option>
-                        @endforeach
-                     </select>
-                  </div>
-                  <div class="form-group" style="float: left;width:112px;margin-left: 10px">
-                     <label>Session</label>
-                     <select class="form-control status" id="type" style="" name="session">
-                        <option value="">--Select--</option>
-                        <option value="none" @if($_REQUEST['session']=='none') {{'selected'}} @endif>None</option>
-                        <option value="1" @if($_REQUEST['session']==1) {{'selected'}} @endif>Session 1</option>
-                        <option value="1_2" @if($_REQUEST['session']=='1_2') {{'selected'}} @endif>Session 1-2</option>
-                        <option value="2" @if($_REQUEST['session']==2) {{'selected'}} @endif>Session 2</option>
-                     </select>
-                  </div>
-                  <div class="form-group" style="float: left;width:106px;margin-left: 10px">
-                     <label>Trainer</label>
-                     <select class="form-control status" id="customer" style="" name="trainer">
-                        <option value="">--Select--</option>
-                        @foreach($trainers as $trainer)
-                        <option value="{{$trainer->id}}" @if($_REQUEST['trainer']==$trainer->id) {{'selected'}} @endif>{{$trainer->name}}</option>
-                        @endforeach
-                     </select>
-                  </div>
-                  <div class="form-group" style="float: left;width:106px;margin-left: 10px">
-                     <label>Status</label>
-                     <select class="form-control" name="status">
-                        <option value="">--Select--</option>
-                        <option value="1" @if($_REQUEST['status']==1) {{'selected'}} @endif>Online</option>
-                        <option value="2" @if($_REQUEST['status']==2) {{'selected'}} @endif>Onsite</option>
-                     </select>
-                  </div>
-                  <!-- <div class="form-group" style="float: left;width:106px;margin-left: 10px">
-                     <label>Value</label>
-                     <select class="form-control status" id="value" style="width:106px">
-                     <option value="">--Select--</option>
-                       
-                       <option value="999">< 999</option>
-                       <option value="1000-1999">1000-1999</option>
-                       <option value="2000-2999">2000-2999</option>
-                       <option value="3000-3999">3000-3999</option>
-                       <option value="4000">> 4000</option>
-                        
-                     </select>
-                     </div> -->
-                  <div class="form-group" style="float: left;width:125px;margin-left: 10px">
-                     <label>From</label>
-                     <input type="text" class="form-control" id="startDate" name="startDate" value="{{$_REQUEST['startDate']}}">
-                  </div>
-                  <div class="form-group"  style="float: left;width:125px;margin-left: 10px">
-                     <label>To</label>
-                     <input type="text" id="endDate" value="{{$_REQUEST['endDate']}}" class="form-control" name="endDate">
-                  </div>
-                  <div class="form-group jj">
-                     <label></label>
-                     <button type="submit" class="btn btn-success submit" style="    margin-top: 23px;padding: 6px;"><i class="bx bx-search-alt-2"></i></button>
-                     <a href="{{url('/app/training')}}" class="btn btn-warning" style="    margin-top: 23px;padding: 6px;"><i class="bx bx-reset"></i></a>
-                  </div>
-               </div>
-            </form>
+         <div class="col-lg-12">
+             
             @if (count($errors) > 0)
             <div class="alert alert-success">
                <ul>
@@ -344,7 +24,7 @@
             @endif
             <!-- datatable start -->
             <div class="table-responsive">
-               <table id="empTable" class="table">
+               <table id="empTable8" class="table">
                   <thead>
                      <tr>
                         <th >Invoice</th>
@@ -413,7 +93,7 @@
                               
                               $url= asset('app/sessionView').'/'.$value->id.'/'.$i;
                               ?>
-                           <a href="@if($check > 0) {{'javascript:;'}} @else {{asset('app/session')}}/{{$value->id}}/{{$i}} @endif" class="btn btn-{{$class}} ww test000" onclick="myOverFunction(<?=$value->id.$i?>)" data="<?=$value->id.'_'.$i?>" style="float: left !important;margin-left: 2px;">
+                           <a href="@if($check > 0) {{'javascript:;'}} @else {{asset('app/session')}}/{{$value->id}}/{{$i}} @endif" class="btn btn-{{$class}} ww test000" onclick="myOverFunction(<?=$value->id.$i?>)" data="<?=$value->id.'_'.$i?>" style="float: left !important;margin-left: 2px;border-radius: 70px;height: 36px;color: white;width: 36px;">
                            {{$i}}
                            </a>
                            <!--  <a href="@if($checkSess2 > 0) {{$url}} @else {{asset('app/session')}}/{{$value->id}}/2 @endif" class="btn btn-{{$class1}} ww" style="float: left !important;margin-left: 2px;">
@@ -438,6 +118,7 @@
                </table>
             </div>
             <!-- datatable ends -->
+         </div>
          </div>
       </div>
    </div>
@@ -526,7 +207,7 @@
                                     <div class="form-group">
                                        <div class="controls">
                                           <label>Start Time</label>
-                                          <input type="text" name="startTime"  class="form-control" id="start" value="{{date('G:i a',strtotime($edit['startTime']))}}" <?=$dis?>/>
+                                          <input style="width: 81px;" type="text" name="startTime"  class="form-control" id="start" value="{{date('G:i a',strtotime($edit['startTime']))}}" <?=$dis?>/>
                                        </div>
                                     </div>
                                  </div>
@@ -534,7 +215,7 @@
                                     <div class="form-group">
                                        <div class="controls">
                                           <label>End Time</label>
-                                          <input type="text" name="endTime"  class="form-control" id="end" value="{{date('G:i a',strtotime($edit['endTime']))}}"<?=$dis?> />
+                                          <input style="width: 81px;" type="text" name="endTime"  class="form-control" id="end" value="{{date('G:i a',strtotime($edit['endTime']))}}"<?=$dis?> />
                                        </div>
                                     </div>
                                  </div>
@@ -577,24 +258,13 @@
    $sold= $lastYear; 
    
    ?>
-@endsection
-{{-- vendor scripts --}}
-@section('vendor-scripts')
-@endsection
-{{-- page scripts --}}
-@section('page-scripts')
-<script src="{{asset('js/scripts/pages/app-users.js')}}"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.js" type="text/javascript"></script>
-<!--   <script src="{{url()}}/app-assets/vendors/js/vendors.min.js"></script>
-   <script src="{{url()}}/app-assets/vendors/js/charts/apexcharts.min.js"></script> -->
-<!-- <script src="{{Request::root()}}/app-assets/vendors/js/vendors.min.js"></script> -->
-<script src="{{Request::root()}}/app-assets/vendors/js/charts/apexcharts.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script> 
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ 
+ 
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer></script> -->
+
 <script type="text/javascript">
-   $('#empTable').DataTable({ 
+
+   $('#empTable8').DataTable({ 
        // "aaSorting": [[ 6, "asc" ]] 
         order: [
                  [6, 'asc']
@@ -607,6 +277,7 @@
    
    
    $(function () {
+   
    
            // $( ".test000" ).hover(function() {
            //   var id= $(this).attr('data');
@@ -782,4 +453,3 @@
    
    
 </script>
-@endsection

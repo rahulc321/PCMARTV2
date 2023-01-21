@@ -108,6 +108,31 @@
                         </div>
                       </div>
 
+                       <!-- Orher info -->
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>Other User</label>
+                            <select class="form-control us" name="user_id">
+                            <option value="">--Select--</option>
+                              @foreach($customerInfo as $data)
+
+                              <?php
+                             //echo '<pre>';print_r($data);
+
+                              ?>
+
+                                <option value="{{$data->id}}" rel1="<?=$data->name?>" rel2="<?=$data->email?>" rel3="<?=$data->phone?>" rel4="<?=$data->teamviewer_id?>">{{$data->name.' - '.$data->cust_id}}</option>
+                              @endforeach 
+                            </select>
+                            <p class="infod" style="display: none;font-size: 12px;">
+                            <span><b>Name: </b><span class="name"></span></span>
+                            <span><b>Email: </b><span class="email"></span></span>
+                            <span><b>Phone: </b><span class="phone"></span></span>
+                            <span><b>Teamviewer: </b><span class="tm"></span></span>
+                            </p>
+                        </div>
+                      </div>
+
                        
                   </div>
                   
@@ -127,11 +152,7 @@
   </div>
 </section>
 
-<script>
-function goBack() {
-  window.history.back();
-}
-</script>
+
 <!-- users edit ends -->
 @endsection
 
@@ -144,4 +165,27 @@ function goBack() {
 @section('page-scripts')
 <script src="{{asset('js/scripts/pages/app-users.js')}}"></script>
 <script src="{{asset('js/scripts/navs/navs.js')}}"></script>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+
+$('.us').change(function(){
+  var name = $('.us :selected').attr('rel1')
+  var email = $('.us :selected').attr('rel2')
+  var phone = $('.us :selected').attr('rel3')
+  var tm = $('.us :selected').attr('rel4')
+  showData(name,email,phone,tm);
+});
+
+function showData(name,email,phone,tm){
+   $('.infod').show();
+   $('.name').html(name);
+   $('.email').html(email);
+   $('.phone').html(phone);
+   $('.tm').html(tm);
+}
+
+</script>
 @endsection
