@@ -370,7 +370,7 @@
           ],
       
       
-          "order": [[ 6, "asc" ]],
+          "order": [[ 6, "DESC" ]],
           "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                      // console.log(aData.id);
                      $('td:eq(4)', nRow).css('text-align', 'center');
