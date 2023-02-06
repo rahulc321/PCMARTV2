@@ -112,7 +112,7 @@
                       <div class="form-group">
                         <div class="controls">
                             <label>Other User</label>
-                            <select class="form-control us" name="user_id">
+                            <select class="form-control us" name="otherCustomerId">
                             <option value="">--Select--</option>
                               @foreach($customerInfo as $data)
 
@@ -121,7 +121,7 @@
 
                               ?>
 
-                                <option value="{{$data->id}}" rel1="<?=$data->name?>" rel2="<?=$data->email?>" rel3="<?=$data->phone?>" rel4="<?=$data->teamviewer_id?>">{{$data->name.' - '.$data->cust_id}}</option>
+                                <option value="{{$data->id}}" rel1="<?=$data->name?>" rel2="<?=$data->email?>" rel3="<?=$data->phone?>" rel4="<?=$data->teamviewer_id?>" <?php if($data->id == $assign->otherCustomerId){ echo 'selected'; } ?>>{{$data->name.' - '.$data->phone}}</option>
                               @endforeach 
                             </select>
                             <p class="infod" style="display: none;font-size: 12px;">
@@ -170,6 +170,14 @@
 function goBack() {
   window.history.back();
 }
+
+var name = $('.us :selected').attr('rel1')
+  var email = $('.us :selected').attr('rel2')
+  var phone = $('.us :selected').attr('rel3')
+  var tm = $('.us :selected').attr('rel4')
+  if(name != "undefined"){
+  showData(name,email,phone,tm);
+  }
 
 $('.us').change(function(){
   var name = $('.us :selected').attr('rel1')

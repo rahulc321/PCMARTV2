@@ -222,20 +222,32 @@
         </li>
 
         <!-- New chnages -->
+       <?php $module='customer_subscription_show'; ?>
+        @if(in_array($module,$perm))
         <li class="nav-item">
             <a href="#subscription" class="nav-link" data-toggle="tab">Subscription</a>
         </li>
-
+         @endif
+         <?php $module='contract_show'; ?>
+         @if(in_array($module,$perm) )
         <li class="nav-item">
             <a href="#servicec" class="nav-link" data-toggle="tab">Service Contract</a>
         </li>
-
+        @endif
+        <?php $module='tickect_show'; ?>
+        @if(in_array($module,$perm) )
         <li class="nav-item">
             <a href="#ticketing" class="nav-link" data-toggle="tab">Ticketing</a>
         </li>
+        @endif
+        <?php $module='training_show'; ?>
+        @if(in_array($module,$perm))
         <li class="nav-item">
             <a href="#training" class="nav-link" data-toggle="tab">Training</a>
         </li>
+
+         @endif
+
         
 
          

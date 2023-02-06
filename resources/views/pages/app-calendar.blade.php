@@ -1754,5 +1754,9 @@ span.select2-dropdown.select2-dropdown--above {
 .tui-full-calendar-weekday-schedule.tui-full-calendar-weekday-schedule-time .tui-full-calendar-weekday-schedule-title {
     padding-left: 5px !important;
 }
+.modal .modal-content {
+    height: 100% !important;
+}
+
    </style>
 @endsection

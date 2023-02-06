@@ -338,6 +338,7 @@ class UsersController extends Controller
             ->join("users", "users.id", "=", "ticket_assign.user_id")
             ->join("users as a1", "a1.id", "=", "ticket_assign.assigned_by")
             ->leftjoin("feedback", "feedback.ticket_id", "=", "ticket.id")
+            ->leftjoin("cust_info", "cust_info.id", "=", "ticket_assign.otherCustomerId")
 
             ->select(
                 "ticket.*",
@@ -348,12 +349,14 @@ class UsersController extends Controller
                 "ticket.created_at as cdate",
                 "ticket.status as tstatus",
                 "feedback.*",
+                "cust_info.phone as coPhone",
+                "cust_info.name as coName",
                 "a1.name as asignName"
             )
             ->where(function ($query) use ($searchValue) {
                 $query
                     ->orwhere(
-                        "ticket_assign.phone",
+                        "cust_info.phone",
                         "like",
                         "%" . $searchValue . "%"
                     )
@@ -363,7 +366,7 @@ class UsersController extends Controller
                         "%" . $searchValue . "%"
                     )
                     ->orwhere(
-                        "ticket_assign.contact_person",
+                        "cust_info.name",
                         "like",
                         "%" . $searchValue . "%"
                     )
@@ -455,8 +458,8 @@ class UsersController extends Controller
 
                 "oname" => @$record->oname,
                 "user" => $record->user,
-                "phone" => @$record->phone,
-                "contact_person" => @$record->contact_person,
+                "phone" => @$record->coPhone,
+                "contact_person" => @$record->coName,
                 "description" => @$record->description,
                 "asignName" => @$record->asignName,
                 "time" => ($record->tstatus == 2) ? $time : $this->time_elapsed_string($record->cdate, true),
@@ -3327,6 +3330,10 @@ class UsersController extends Controller
             "Organization_Number",
             $getInfo1->CUSTNO
         )->first();
+
+        // Get all user Info
+        $this->data["customerInfo"] = CustInfo::where('cust_id',$getInfo1->CUSTNO)->where('status',1)->get();
+
         return view("admin.ictran.ticket", $this->data);
     }
     public function ticketStore($id, Request $request)
@@ -3344,6 +3351,7 @@ class UsersController extends Controller
             $assignTicket->description = $request->description;
             $assignTicket->status = 0;
             $assignTicket->phone = $request->phone;
+            $assignTicket->otherCustomerId = $request->otherCustomerId;
             $assignTicket->contact_person = $request->contact_person;
             $assignTicket->assigned_by = \Auth::user()->id;
             $assignTicket->updated_by = \Auth::user()->id;
@@ -3973,6 +3981,7 @@ class UsersController extends Controller
             ->join("users", "users.id", "=", "ticket_assign.user_id")
             ->join("users as a1", "a1.id", "=", "ticket_assign.assigned_by")
             ->leftjoin("feedback", "feedback.ticket_id", "=", "ticket.id")
+            ->leftjoin("cust_info", "cust_info.id", "=", "ticket_assign.otherCustomerId")
             //->leftjoin('ticket_assign', 'ticket_assign.assigned_by', '=', 'users.id')
             //->join('users', 'users.id', '=', 'ticket_assign.assigned_by')
 
@@ -3986,12 +3995,14 @@ class UsersController extends Controller
                 "ticket.status as tstatus",
                 "feedback.*",
                 "ticket.id as tid",
+                "cust_info.phone as coPhone",
+                "cust_info.name as coName",
                 "a1.name as asignName"
             )
             ->where(function ($query) use ($searchValue) {
                 $query
                     ->orwhere(
-                        "ticket_assign.phone",
+                        "cust_info.phone",
                         "like",
                         "%" . $searchValue . "%"
                     )
@@ -4001,7 +4012,7 @@ class UsersController extends Controller
                         "%" . $searchValue . "%"
                     )
                     ->orwhere(
-                        "ticket_assign.contact_person",
+                        "cust_info.name",
                         "like",
                         "%" . $searchValue . "%"
                     )
@@ -4100,8 +4111,8 @@ class UsersController extends Controller
 
                 "oname" => @$record->oname,
                 "user" => $record->user,
-                "phone" => @$record->phone,
-                "contact_person" => @$record->contact_person,
+                "phone" => @$record->coPhone,
+                "contact_person" => @$record->coName,
                 "description" => @$record->description,
                 "asignName" => @$record->asignName,
                 "time" => ($record->tstatus == 2) ? $time : $this->time_elapsed_string($record->cdate),
@@ -4246,6 +4257,7 @@ class UsersController extends Controller
         $update = AssignTicket::where("ticket_id", $id)->first();
         $update->description = $request->description;
         $update->phone = $request->phone;
+        
         $update->contact_person = $request->contact_person;
         $update->save();
 
@@ -4282,6 +4294,7 @@ class UsersController extends Controller
         $update->user_id = $request->user_id;
         $update->description = $request->description;
         $update->phone = $request->phone;
+        $update->otherCustomerId = $request->otherCustomerId;
         $update->status = 1;
         $update->contact_person = $request->contact_person;
         $update->save();
