@@ -17,6 +17,7 @@
     "laravel/passport": "^10.0",
     "laravel/tinker": "^2.0",
     "laravel/ui": "^2.0",
+    "predis/predis": "^2.1",
     "spatie/laravel-permission": "^3.8"
   },
   "require-dev": {

@@ -245,7 +245,7 @@
              $('.expire').html(response.expire);
              },
       
-               "order": [[ 6, "asc" ]],
+               "order": [[ 6, "DESC" ]],
               // "aoColumnDefs": [{ "aTargets": [ 4 ], "bSortable": false}],
               "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                          console.log(aData.id);

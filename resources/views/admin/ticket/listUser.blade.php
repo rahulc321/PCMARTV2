@@ -224,7 +224,7 @@
              
       
           ],
-      
+           "order": [[ 7, "DESC" ]],
           "aoColumnDefs": [{ "bSortable": false, "aTargets": [6] }],
            
           "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {

@@ -27,6 +27,7 @@ use App\Models\trainingSetting;
 use App\Models\SubscriptionSetting;
 use App\Models\CustomerSubscription;
 use App\Helpers\Helper;
+use Illuminate\Support\Facades\Redis;
 
 use XBase\Table;
 use Carbon\Carbon;
@@ -57,6 +58,10 @@ class UsersController extends Controller
     //ecommerce
     public function dashboardEcommerce(Request $request)
     {
+
+       
+
+
         error_reporting(0);
         // die;
         //\ echo date('Y-m-d H:i:s');die;
@@ -285,6 +290,21 @@ class UsersController extends Controller
         $this->data["greater30MinutesG"] = $greater30MinutesG;
 
         \Session::put("backUrl", url()->current());
+
+
+       //   $redis = Redis::connection();
+
+       //  // $redis->set('user_details', json_encode($this->data)
+       //  // );
+
+       //  $response = $redis->get('user_details');
+
+       //  $response = json_decode($response);
+
+       //  $aarr =$response;
+
+       // echo '<pre>';print_r( $aarr);die;
+
         return view("admin.dashboard.dashboard", $this->data);
     }
 
