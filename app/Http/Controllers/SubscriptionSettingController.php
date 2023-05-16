@@ -229,19 +229,35 @@ class SubscriptionSettingController extends Controller
             $request->Organization_Number
         )->get();
         $expDateArray = [];
-        foreach ($checkCustI as $key => $ids) {
-            $ids->delete();
+
+        //echo '<pre>';print_r($all["cstatus"]);die;
+        foreach ($all["cname"] as $keyAI => $ids) {
+            \DB::table('cust_info')
+            ->updateOrInsert(
+            ['id' => @$checkCustI[$keyAI]->id],
+            [
+            'name' => @$all["cname"][$keyAI],
+            'cust_id' => $request->Organization_Number,
+            'email' => @$all["cemail"][$keyAI],
+            'phone' => @$all["cphone"][$keyAI],
+            'teamviewer_id' => @$all["teamviewer_id"][$keyAI],
+            'status' => @$all["cstatus"][$keyAI],
+            ]
+            
+            );
         }
-        foreach ($all["cname"] as $keyAI => $singleAI) {
-            $subscription = new CustInfo();
-            $subscription->cust_id = $request->Organization_Number;
-            $subscription->name = $singleAI;
-            $subscription->email = @$all["cemail"][$keyAI];
-            $subscription->phone = @$all["cphone"][$keyAI];
-            $subscription->teamviewer_id = @$all["teamviewer_id"][$keyAI];
-            $subscription->status = @$all["status"][$keyAI];
-            $subscription->save();
-        }
+
+        //die;
+        // foreach ($all["cname"] as $keyAI => $singleAI) {
+        //     $subscription = new CustInfo();
+        //     $subscription->cust_id = $request->Organization_Number;
+        //     $subscription->name = $singleAI;
+        //     $subscription->email = @$all["cemail"][$keyAI];
+        //     $subscription->phone = @$all["cphone"][$keyAI];
+        //     $subscription->teamviewer_id = @$all["teamviewer_id"][$keyAI];
+        //     $subscription->status = @$all["status"][$keyAI];
+        //     $subscription->save();
+        // }
 
         // echo '<pre>';print_r($all);
 
@@ -380,6 +396,11 @@ class SubscriptionSettingController extends Controller
           $cust->teamviewer_id= $request->teamviewer_id;
           $cust->save();
         } */
+
+        return redirect()->back()->withErrors([
+            "Success",
+            "You have successfully updated !!!",
+        ]);
 
         return redirect("app/customer")->withErrors([
             "Success",
@@ -591,20 +612,33 @@ class SubscriptionSettingController extends Controller
         $subscription->remark = $request->remark;
         $subscription->save();
 
-        return redirect("app/customer-subscription-list")->withErrors([
-            "Success",
-            "You have successfully updated !!!",
-        ]);
+        return ($url = \Session::get("backUrlC"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
+
+            // return \Redirect::back()->withErrors([
+            // "Success",
+            // "You have successfully updated !!",]);
     }
     // For customerDelete module
     public function customerSubscriptionDelete($id)
     {
         $deleteCustomer = Transaction::where("id", $id)->delete();
         if ($deleteCustomer) {
-            return redirect("app/customer-subscription-list")->withErrors([
-                "Success",
-                "You have successfully deleted !!!",
-            ]);
+            // return redirect("app/customer-subscription-list")->withErrors([
+            //     "Success",
+            //     "You have successfully deleted !!!",
+            // ]);
+            return \Redirect::back()->withErrors([
+            "Success",
+            "You have successfully deleted !!!",
+        ]);
         }
     }
 
@@ -766,10 +800,15 @@ class SubscriptionSettingController extends Controller
         $subscription = Transaction::where("id", $id)->first();
         $subscription->status = 1;
         $subscription->save();
-        return \Redirect::back()->withErrors([
-            "Success",
-            "You have successfully renew !!!",
-        ]);
+        return ($url = \Session::get("backUrlC"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
 
         // return redirect('app/service-contract')->withErrors(['Success', 'You have successfully renew !!!']);
     }
@@ -779,10 +818,15 @@ class SubscriptionSettingController extends Controller
         $subscription->status = 2;
         $subscription->save();
 
-        return \Redirect::back()->withErrors([
-            "Success",
-            "You have successfully agree !!!",
-        ]);
+        return ($url = \Session::get("backUrlC"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
         //return redirect('app/service-contract')->withErrors(['Success', 'You have successfully agree !!!']);
     }
     public function cancelled($id)
@@ -790,10 +834,15 @@ class SubscriptionSettingController extends Controller
         $subscription = Transaction::where("id", $id)->first();
         $subscription->status = 3;
         $subscription->save();
-        return \Redirect::back()->withErrors([
-            "Success",
-            "You have successfully cancelled !!!",
-        ]);
+        return ($url = \Session::get("backUrlC"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
         //return redirect('app/service-contract')->withErrors(['Success', 'You have successfully cancelled !!!']);
     }
 }

@@ -448,7 +448,7 @@ class UsersController extends Controller
             //$time= $this->getDateAndTime(date('d-m-Y H:i:s',strtotime($record->created_at)));
             $endDate = new \DateTime("now");
             $now = date("Y-m-d H:i:s");
-            if ($record->tstatus == 2) {
+            if ($record->tstatus == 2 || $record->tstatus == 3) {
                 $endDate = new \DateTime($record->close_date);
                 $now = date("Y-m-d H:i:s", strtotime($record->close_date));
             }
@@ -482,7 +482,7 @@ class UsersController extends Controller
                 "contact_person" => @$record->coName,
                 "description" => @$record->description,
                 "asignName" => @$record->asignName,
-                "time" => ($record->tstatus == 2) ? $time : $this->time_elapsed_string($record->cdate, true),
+                "time" => ($record->tstatus == 2 || $record->tstatus == 3) ? $time : $this->time_elapsed_string($record->cdate, true),
                 "ticketstatus" => $record->tstatus,
                 "timeStatus" => $timeStatus,
                 "tickect_delete" => $tickect_delete,
@@ -507,6 +507,11 @@ class UsersController extends Controller
     public function dashboardView(Request $request)
     {
         $perm = Helper::checkPermission();
+
+        $maxCount = 0;
+        if (in_array("max_count", $perm)) {
+            $maxCount = 1;
+        }
 
         $due = 0;
         if (in_array("contract_due_date", $perm)) {
@@ -628,6 +633,11 @@ class UsersController extends Controller
         $cancell = 0;
         $expire = 0;
 
+
+
+
+
+
         foreach ($useCount as $key => $useCount1) {
             if ($useCount1["renew_status"] == 1) {
                 $renewSum++;
@@ -684,6 +694,16 @@ class UsersController extends Controller
                 $deleteRedTicket = 1;
             }
 
+
+            $costData = \DB::table('costPerSupport')->first();
+            $cPs =1;
+            if($costData){
+                $cPs = $costData->cost_per_support;
+            }
+
+            $replaceValue = round($record["Price_RM"]/$cPs);
+
+
             $data_arr[] = [
                 "id" => $record["id"],
                 "Contract_Number" => $record["Contract_Number"],
@@ -692,6 +712,7 @@ class UsersController extends Controller
                 "product" => implode(",", $product),
                 "Price_RM" => $value == 0 ? "None" : $record["Price_RM"],
                 "button" => "efsd",
+                "cost_per_support" => $replaceValue,
                 "removeDeleteBtn" => $removeDeleteBtn,
                 "contract_delete" => $contract_delete,
                 "removeTiecket" => $removeTiecket,
@@ -699,6 +720,7 @@ class UsersController extends Controller
                 "ticket_red_renew" => $deleteRedTicket,
                 "dueDateColor" => $dueDateColor,
                 "ticket_multiple" => $ticket_multiple,
+                "maxCount" => $maxCount,
                 "count" => $record["count"],
                 "renew_status" => $record["renew_status"],
                 "due_date" =>
@@ -1426,6 +1448,7 @@ class UsersController extends Controller
 
         $this->data["training"] = $allDta;
           
+        \Session::put("backUrlC", url()->current());
         \Session::put("backUrl", url()->current());
         return view("admin.customer.edit", $this->data);
     }
@@ -1679,6 +1702,7 @@ class UsersController extends Controller
             $info->other = $data["other"];
             $info->tax = $data["tax"];
             $info->tax_number = $data["tax_number"];
+            $info->cost_per_support = $data["cost_per_support"];
             $info->save();
             return redirect("app/info")->withErrors([
                 "Success",
@@ -1706,6 +1730,7 @@ class UsersController extends Controller
         $info->skype = $data["skype"];
         $info->other = $data["other"];
         $info->tax = $data["tax"];
+        $info->cost_per_support = $data["cost_per_support"];
         $info->tax_number = $data["tax_number"];
         $info->save();
         return redirect("app/info")->withErrors([
@@ -2718,6 +2743,17 @@ class UsersController extends Controller
         // }
         // $url = \Session::get('backUrl');
         // dd($url);
+
+        // $url = \Session::get("backUrlC");
+        // if($url){
+        //    return \Redirect::to($url)->withErrors([
+        //         "Success",
+        //         "You have successfully updated !!!",
+        //     ]); 
+        // }
+
+
+
         return ($url = \Session::get("backUrl"))
             ? \Redirect::to($url)->withErrors([
                 "Success",
@@ -3061,6 +3097,12 @@ class UsersController extends Controller
     {
         $perm = Helper::checkPermission();
 
+
+        $maxCount = 0;
+        if (in_array("max_count", $perm)) {
+            $maxCount = 1;
+        }
+
         $due = 0;
         if (in_array("contract_due_date", $perm)) {
             $due = 1;
@@ -3167,7 +3209,7 @@ class UsersController extends Controller
         }
 
         if (@$_GET["searchUser"] != "") {
-            $records = $records->where("ictran.Organization_Name", "like", "%" . $_GET["searchUser"] . "%");
+            $records = $records->where("ictran.CUSTNO", "like", "%" . $_GET["searchUser"] . "%");
         }
 
         if ($_GET["value"] != "") {
@@ -3288,6 +3330,18 @@ class UsersController extends Controller
                 $deleteRedTicket = 1;
             }
 
+            // Get cost per support
+            //$costPerSupportPrice = Product::with('supportPrice')->where('title','ACC')->first();
+            //echo '<pre>';print_r($record["Support_Type"]);
+
+            $costData = \DB::table('costPerSupport')->first();
+            $cPs =1;
+            if($costData){
+                $cPs = $costData->cost_per_support;
+            }
+
+            $replaceValue = round($record["Price_RM"]/$cPs);
+
             $data_arr[] = [
                 "id" => $record["id"],
                 "Contract_Number" => $record["Contract_Number"],
@@ -3299,10 +3353,12 @@ class UsersController extends Controller
                 "removeDeleteBtn" => $removeDeleteBtn,
                 "contract_delete" => $contract_delete,
                 "removeTiecket" => $removeTiecket,
+                "cost_per_support" => $replaceValue,
                 "contract_edit" => $contract_edit,
                 "dueDateColor" => $dueDateColor,
                 "ticket_red_renew" => $deleteRedTicket,
                 "ticket_multiple" => $ticket_multiple,
+                "maxCount" => $maxCount,
                 "renew_status" => $record["renew_status"],
                 "count" => $record["count"],
                 "due_date" =>
@@ -3352,7 +3408,9 @@ class UsersController extends Controller
         )->first();
 
         // Get all user Info
-        $this->data["customerInfo"] = CustInfo::where('cust_id',$getInfo1->CUSTNO)->where('status',1)->get();
+        //$this->data["customerInfo"] = CustInfo::where('cust_id',$getInfo1->CUSTNO)->where('status',1)->get();
+        // Changes by rahul according to goh (9may2022)
+        $this->data["customerInfo"] = CustInfo::where('cust_id',$getInfo1->CUSTNO)->get();
 
         return view("admin.ictran.ticket", $this->data);
     }
@@ -3546,8 +3604,7 @@ class UsersController extends Controller
                   <div class="avatar mr-1 m-0"><img src="<?php echo asset(
                       "profile"
                   ) .
-                      "/" .
-                      $user->profile_pic; ?>" alt="avatar" height="39" width="39"></div>
+                      "/" .@$user->profile_pic; ?>" alt="avatar" height="39" width="39"></div>
                 </div>
                 <div class="media-body">
                   <h6 class="media-heading"><span class="text-bold-500" style="color: <?= @$color ?>"><?= $value->Organization_Name ?> </span> 
@@ -4106,7 +4163,7 @@ class UsersController extends Controller
             //$time= $this->getDateAndTime(date('d-m-Y H:i:s',strtotime($record->created_at)));
 
             $endDate = new \DateTime("now");
-            if ($record->tstatus == 2) {
+            if ($record->tstatus == 2 || $record->tstatus == 3) {
                 $endDate = new \DateTime($record->close_date);
             }
             $previousDate = $record->cdate;
@@ -4125,6 +4182,10 @@ class UsersController extends Controller
                 $timeStatus = 3;
             }
 
+            // if($record->tstatus == 3){
+            //    $timeStatus = 2; 
+            // }
+
 
             $data_arr[] = [
                 "tid" => $record->tid,
@@ -4135,7 +4196,7 @@ class UsersController extends Controller
                 "contact_person" => @$record->coName,
                 "description" => @$record->description,
                 "asignName" => @$record->asignName,
-                "time" => ($record->tstatus == 2) ? $time : $this->time_elapsed_string($record->cdate),
+                "time" => ($record->tstatus == 2 || $record->tstatus == 3) ? $time : $this->time_elapsed_string($record->cdate),
                 "ticketstatus" => $record->tstatus,
                 "timeStatus" => $timeStatus,
                 "tickect_delete" => $tickect_delete,
@@ -4245,6 +4306,9 @@ class UsersController extends Controller
         $this->data["edit"] = AssignTicket::where("ticket_id", $id)->first();
         $ticket = Ticket::where("id", $id)->first();
         $ictran_id = Ictran::where("id", $ticket->ictran_id)->first();
+        //dd($this->data["edit"]);
+
+        $this->data["customerInfo"] = CustInfo::where('cust_id',@$ictran_id->CUSTNO)->where('status',1)->get();
 
         $this->data["oname"] = $ictran_id;
         //echo '<pre>';print_r($this->data['edit']);die;
@@ -4267,16 +4331,21 @@ class UsersController extends Controller
     }
     // For update ticket
     public function ticketUpdate($id, Request $request)
-    {
+    {   
+        //echo $id;die;
+        //echo $request->otherCustomerId;die;
         // echo $id;die;
         // echo $request->ictran_id;die;
         $tUpdate = Ticket::where("id", $id)->first();
         $tUpdate->ictran_id = $request->ictran_id;
         $tUpdate->save();
 
+        //dd($tUpdate);
+
         $update = AssignTicket::where("ticket_id", $id)->first();
         $update->description = $request->description;
         $update->phone = $request->phone;
+        $update->otherCustomerId = $request->otherCustomerId;
         
         $update->contact_person = $request->contact_person;
         $update->save();
@@ -4354,6 +4423,35 @@ class UsersController extends Controller
                 ]);
             // return redirect('app/ticket')->withErrors(['Success', 'You have successfully deleted !!!']);
         }
+    }
+
+
+    // For close ticket
+
+    public function cancelTicket($id)
+    {
+
+        $tk = Ticket::where("id", $id)->first();
+        $tk->status = 3;
+        $tk->close_date = date("Y-m-d H:i:s");
+        $tk->save();
+        $tka = AssignTicket::where("ticket_id", $tk->id)->first();
+        $tka->status = 3;
+        $tka->save();
+        return ($url = \Session::get("backUrl"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully cancel ticket !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully cancel ticket !!!",
+            ]);
+        return redirect("app/ticket")->withErrors([
+            "Success",
+            "You have successfully closed cancel !!!",
+        ]);
+
     }
 
     // For close ticket
@@ -4899,7 +4997,7 @@ class UsersController extends Controller
 
                 //  echo '<pre>';print_r($this->data['info']['other']);
 
-                //return view('emails.marketing',$this->data);die;
+               // return view('emails.marketing',$this->data);die;
                 $nData = $this->data["info"]["other"];
                 $nDataemail = $this->data["info"]["email"];
                 try {
@@ -5368,17 +5466,36 @@ class UsersController extends Controller
 
         $setting->save();
 
-        return redirect("app/training")->withErrors([
-            "Success",
-            "You have successfully updated !!!",
-        ]);
+        // return redirect("app/training")->withErrors([
+        //     "Success",
+        //     "You have successfully updated !!!",
+        // ]);
+
+        return ($url = \Session::get("backUrl"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
     }
 
     public function trainingDelete($id)
     {
         $Product = Training::where("id", $id)->delete();
         if ($Product) {
-            return redirect("app/training")->withErrors([
+            // return redirect("app/training")->withErrors([
+            //     "Success",
+            //     "You have successfully deleted !!!",
+            // ]);
+            return ($url = \Session::get("backUrl"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
                 "Success",
                 "You have successfully deleted !!!",
             ]);
@@ -5538,10 +5655,20 @@ class UsersController extends Controller
         $sess->startTime = date("H:i:s", strtotime($request->startTime));
         $sess->endTime = date("H:i:s", strtotime($request->endTime));
         $sess->save();
-        return redirect("app/training")->withErrors([
-            "Success",
-            "You have successfully create session !!!",
-        ]);
+        // return redirect("app/training")->withErrors([
+        //     "Success",
+        //     "You have successfully create session !!!",
+        // ]);
+
+        return ($url = \Session::get("backUrl"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
         // $this->data['trainers']= Trainer::get();
         // $this->data['edit']= Training::where('id',$id)->first();
         // $this->data['sId']= $sId;
@@ -6271,10 +6398,15 @@ span.select2-dropdown.select2-dropdown--above {
     public function deleteSchedule($id)
     {
         $ss = ScheduleSession::where("id", $id)->delete();
-        return redirect("app/scheduling")->withErrors([
-            "Success",
-            "You have successfully Deleted !!!",
-        ]);
+        return ($url = \Session::get("backUrl"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
     }
 
     public function schedulingData1(Request $request)
@@ -6354,6 +6486,11 @@ span.select2-dropdown.select2-dropdown--above {
                 //->orWhere('ticket.status', 'like', '%' .$searchValue . '%');
             });
 
+
+        if (@$_GET["searchUser"] != "") {
+            $records = $records->where("schedulesession.customerName", "like", "%" . $_GET["searchUser"] . "%");
+        }
+
         if ($_GET["startDate"] != "" && $_GET["endDate"]) {
             $startDate = date("Y-m-d", strtotime($_GET["startDate"]));
             $endDate = date("Y-m-d", strtotime($_GET["endDate"]));
@@ -6364,12 +6501,12 @@ span.select2-dropdown.select2-dropdown--above {
         }
 
         if ($request->type != "") {
-            // echo $request->type;die;
+            // wecho $request->type;die;
             if ($request->type == 1) {
                 // echo 'sda';
                 $records = $records
                     ->whereNull("schedulesession.trainerType")
-                    ->orWhereIn("schedulesession.trainerType", [1]);
+                    ->orWhere("schedulesession.trainerType", 1);
             } else {
                 $records = $records->where(
                     "schedulesession.trainerType",
@@ -6494,10 +6631,20 @@ span.select2-dropdown.select2-dropdown--above {
         $update->trainerType = $request->trainerType;
         $update->save();
 
-        return redirect("app/scheduling")->withErrors([
-            "Success",
-            "You have successfully Updared !!!",
-        ]);
+        // return redirect("app/scheduling")->withErrors([
+        //     "Success",
+        //     "You have successfully Updared !!!",
+        // ]);
+
+        return ($url = \Session::get("backUrl"))
+            ? \Redirect::to($url)->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ])
+            : \Redirect::back()->withErrors([
+                "Success",
+                "You have successfully deleted !!!",
+            ]);
     }
 
     public function getOname(Request $request)
@@ -6593,9 +6740,10 @@ span.select2-dropdown.select2-dropdown--above {
         $all = $request->all();
         $info = Ictran::where("id", $all["id"])->first();
 
-        $custInfo = Cust::where("Organization_Number", $info->CUSTNO)->first();
+        $this->data['custInfo'] = Cust::where("Organization_Number", $info->CUSTNO)->first();
+        $this->data["customerInfo"] = CustInfo::where('cust_id',@$info->CUSTNO)->where('status',1)->get()->toArray();
 
-        echo json_encode($custInfo);
+        echo json_encode($this->data);
     }
 
     public function getcustInfo2(Request $request)
@@ -6606,5 +6754,14 @@ span.select2-dropdown.select2-dropdown--above {
         $custInfo = Cust::where("Organization_Number", $all["CUSTNO"])->first();
 
         echo json_encode($custInfo);
+    }
+
+    public function updateCostPerSupport(Request $request,$id){
+        \DB::table('costPerSupport')->updateOrInsert(['id'=>1],['cost_per_support'=>$request->cost_per_support]);
+         return redirect("app/info")->withErrors([
+            "Success",
+            "You have successfully updated !!!",
+        ]);
+
     }
 }
