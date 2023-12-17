@@ -363,9 +363,10 @@
                      <div class="form>">
                         <div class="form-group" style="float: left;">
                            <label>Status</label>
-                           <select class="form-control status" id="status" style="width:75px">
+                           <select class="form-control status" id="status" style="width:85px">
                               <option value="0">Open</option>
                               <option value="2">Close</option>
+                              <option value="3">Cancel</option>
                            </select>
                         </div>
                         <div class="form-group" style="float: left;width:106px;margin-left: 10px">
@@ -813,7 +814,7 @@
              
       
           ],
-      
+          "order": [[ 7, "DESC" ]],
           "aoColumnDefs": [{ "bSortable": false, "aTargets": [6] }],
            
           "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -836,15 +837,24 @@
                        var tickect_edit= 'display:none';
                      }
       
-                     
+                       var actionNone = '';
+                    if(aData.ticketstatus==3){
+                      var actionNone = 'display:none';
+                      //$('td:eq(8)', nRow).html('Cancel').css('color','red');
+                    }
                       
                           
                      if(aData.ticketstatus==2){ 
                      
                        $('td:eq(8)', nRow).html("<a style='"+hideDelete+"' href='javascript:;' class='delete1' data='"+id+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a>");
                        }else{
-                         $('td:eq(8)', nRow).html("<div class='dropdown' ><span class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/reassign')}}/"+id+"'><i class='bx bx-analyse'></i> Re-Assign</a><a class='dropdown-item' href='{{url('app/ticket/close')}}/"+id+"'><i class='bx bx-check'></i> Close</a></div><a href='javascript:;' class='delete' data='"+id+"' style='"+hideDelete+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ticket/edit')}}/"+id+"' style='float: left !important;"+tickect_edit+"'><i class='bx bx-edit-alt' ></i></a>");
+                         $('td:eq(8)', nRow).html("<div style='"+actionNone+"' class='dropdown' ><span class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/reassign')}}/"+id+"'><i class='bx bx-analyse'></i> Re-Assign</a><a  class='dropdown-item' href='{{url('app/ticket/start')}}/"+id+"'><i class='bx bx-analyse'></i> Start</a><a class='dropdown-item' href='{{url('app/ticket/close')}}/"+id+"'><i class='bx bx-check'></i> Close</a><a class='dropdown-item' href='{{url('app/ticket/cancelTicket')}}/"+id+"'><i class='bx bx-close'></i>&nbsp;X Cancel</a></div><a href='javascript:;' class='delete' data='"+id+"' style='"+hideDelete+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ticket/edit')}}/"+id+"' style='float: left !important;"+tickect_edit+"'><i class='bx bx-edit-alt' ></i></a>");
                        }
+
+                    if(aData.ticketstatus==3){
+                      //var actionNone = 'display:none';
+                      $('td:eq(8)', nRow).html('Cancel').css('color','red');
+                    }
       
                      
       

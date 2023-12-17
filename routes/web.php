@@ -93,6 +93,7 @@ Route::group(['prefix' => 'app','middleware'=>'auth'], function () {
   Route::any('/reassign/{id}','UsersController@ticketReassign');
   Route::any('ticket/assignUpdate/{id}','UsersController@assignUpdate');
   Route::any('ticket/close/{id}','UsersController@ticketClose');
+  Route::any('ticket/cancelTicket/{id}','UsersController@cancelTicket');
   Route::any('send-email','UsersController@sendEmail');
   Route::any('createSchedule','UsersController@createSchedule');
   Route::any('getDataCal','UsersController@getDataCal');
@@ -127,7 +128,7 @@ Route::group(['prefix' => 'app','middleware'=>'auth'], function () {
 
 
   Route::any('search','UsersController@search');
-  Route::any('service-contract','UsersController@serviceContract');
+  Route::any('service-contract','UsersController@serviceContract')->name('service-contract');
   Route::any('service-contract1','UsersController@serviceContract1');
   Route::any('ictran/delete/{id}','UsersController@ictranDelete');
 
@@ -190,6 +191,7 @@ Route::any('/dashboard/ictran/edit/{id}','DashboardController@ictranEdit');
 
 
   Route::any('user/update/{id}','UsersController@permstore');
+  Route::any('updateCostPerSupport/{id}','UsersController@updateCostPerSupport');
 
 
   // for settings
@@ -243,6 +245,12 @@ Route::any('/dashboard/ictran/edit/{id}','DashboardController@ictranEdit');
   Route::any('info/{id}','UsersController@infoEdit');
   Route::any('info/update/{id}','UsersController@infoUpdate');
   Route::any('scheduling/delete/{id}','UsersController@schedulingDelete');
+
+  // Need prospact controller
+
+  Route::resource('prospect','Prospactcontroller');
+  Route::resource('upload-settings','Uploadcontroller');
+
 
 
 });

@@ -122,7 +122,7 @@
 
                               ?>
 
-                                <option value="{{$data->id}}" rel1="<?=$data->name?>" rel2="<?=$data->email?>" rel3="<?=$data->phone?>" rel4="<?=$data->teamviewer_id?>">{{$data->name.' - '.$data->phone}}</option>
+                                <option value="{{$data->id}}" rel1="<?=$data->name?>" rel2="<?=$data->email?>" rel3="<?=$data->phone?>" rel4="<?=$data->teamviewer_id?>">{{$data->name.' - '.$data->phone.' (TeamViewer : '.$data->teamviewer_id.')'}}</option>
                               @endforeach 
                             </select>
                             <p class="infod" style="display: none;font-size: 12px;">

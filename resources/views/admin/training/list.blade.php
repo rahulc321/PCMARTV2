@@ -597,7 +597,7 @@
    $('#empTable').DataTable({ 
        // "aaSorting": [[ 6, "asc" ]] 
         order: [
-                 [6, 'asc']
+                 [6, 'DESC']
              ],
      });
    

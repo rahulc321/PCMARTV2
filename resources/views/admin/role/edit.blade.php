@@ -684,7 +684,9 @@
 
                         <input type="checkbox" class="i-checks" id="dashboard" name="keyname[]" value="ticket_multiple" <?php if(in_array('ticket_multiple',$userKey)){ echo 'checked'; } ?>> &nbsp;Multiple
 
-                        <br><br>
+                        <br>
+                        <input type="checkbox" class="i-checks" id="dashboard" name="keyname[]" value="max_count" <?php if(in_array('max_count',$userKey)){ echo 'checked'; } ?>> &nbsp;Max Count
+                        <br>
 
                         <input type="checkbox" class="i-checks" id="dashboard" name="keyname[]" value="ticket_red_renew" <?php if(in_array('ticket_red_renew',$userKey)){ echo 'checked'; } ?>> &nbsp;Red Renew
 

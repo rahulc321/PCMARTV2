@@ -375,7 +375,7 @@ div#chart3 {
             </div>
         @endif
         <h4>Service Contract</h4>
-        <div class="table-responsive">
+        <div class="table-responsive1">
          <table id='empTable' class="table">
                                 <thead>
                                 <tr>
@@ -384,6 +384,7 @@ div#chart3 {
                                     <th width="5%">Type</th>
                                     <th width="25%">Product</th>
                                     <th width="5%">count</th>
+                                    <th width="5%">Max</th>
                                     <th width="13%" style="display: none">Value</th>
                                     <th width="20%">Expire</th>
                                     <th width="14%">Actions&nbsp;&nbsp;&nbsp;</th>
@@ -421,6 +422,7 @@ div#chart3 {
                             <select class="form-control status" id="status" style="width:85px">
                               <option value="0">Open</option>
                               <option value="2">Close</option>
+                              <option value="3">Cancel</option>
                             </select>
                           </div>
 
@@ -480,7 +482,7 @@ div#chart3 {
 
                         <div class="col-md-4"></div>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive1">
                             <table id='empTable1' class="table">
                                 <thead>
                                 <tr>
@@ -555,7 +557,7 @@ div#chart3 {
             </div>
           </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive1">
           <!-- table start -->
           <table id="table-marketing-campaigns" class="table table-borderless table-marketing-campaigns mb-0">
             <thead>
@@ -900,6 +902,7 @@ div#chart3 {
             { data: 'product' },
             
             { data: 'count' },
+            { data: 'cost_per_support' },
             { data: 'due_date' },
             { data: 'due_date' },
             { data: 'button' },
@@ -915,11 +918,11 @@ div#chart3 {
         $('.agree').html(response.agree).css('color','#d86400');
         $('.expire').html(response.expire);
         },
-          "order": [[ 5, "desc" ]],
+          "order": [[ 6, "desc" ]],
          // "aoColumnDefs": [{ "aTargets": [ 4 ], "bSortable": false}],
          "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 
-                 $('td:eq(5)', nRow).css('display', 'none');
+                 $('td:eq(6)', nRow).css('display', 'none');
                  //alert(agreeSum);
                 // $('td:eq(4)', nRow).html("abc");
                   //          var obj = JSON.parse(aData);
@@ -945,9 +948,37 @@ div#chart3 {
                    var removeTiecket=  aData.removeTiecket;
                    var ticket_multiple=  aData.ticket_multiple;
                    var styleticket='';
-                   if(removeTiecket==1 && ticket_multiple==0 || aData.ticket_red_renew==1){
+                   
+
+
+                      // Cost Per support logic
+                       var count = aData.count;
+                       var cps = aData.cost_per_support;
+                         // var count = 1;
+                         // var cps = 2;
+                        var mCount = aData.maxCount;
+                        console.log('mCount',mCount);
+                        var color = 0;
+
+                        if(cps < count){
+                            var color = 1;
+                        }
+
+                        if(mCount == 0){
+                          if(cps < count){
+                            var styleticket= "display:none";
+                            //var color = 1;
+                          }else{
+                            var styleticket= "display:block";
+                          }
+                        }
+
+
+                    if(removeTiecket==1 && ticket_multiple==0 || aData.ticket_red_renew==1){
                     var styleticket= "display:none";
                    }
+
+                       //alert(styleticket);
 
                    var id=  aData.id;
                     if(aData.renew_status==1){
@@ -958,7 +989,7 @@ div#chart3 {
                         $('td:eq(3)', nRow).css('color', 'green');
                         //$('td:eq(4)', nRow).css('display', 'none');
 
-                        $('td:eq(7)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a> <a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a> ");
+                        $('td:eq(8)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a> <a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a> ");
 
                     }else if(aData.renew_status==2){
                          
@@ -968,7 +999,7 @@ div#chart3 {
                         $('td:eq(3)', nRow).css('color', '#d86400');
                         $('td:eq(4)', nRow).css('color', '#d86400');
 
-                        $('td:eq(7)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/renew')}}/"+id+"'><i class='bx bx-analyse'></i> Renew</a><a class='dropdown-item' href='{{url('app/cancelled')}}/"+id+"><i class='bx bxs-x-circle'></i>&nbsp;X Cancel</a></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a> <a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a> ");
+                        $('td:eq(8)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/renew')}}/"+id+"'><i class='bx bx-analyse'></i> Renew</a><a class='dropdown-item' href='{{url('app/cancelled')}}/"+id+"><i class='bx bxs-x-circle'></i>&nbsp;X Cancel</a></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a> <a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a> ");
 
                         
 
@@ -980,18 +1011,25 @@ div#chart3 {
                         $('td:eq(3)', nRow).css('color', '#c7c1c1');
                         $('td:eq(4)', nRow).css('color', '#c7c1c1');
 
-                        $('td:eq(7)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a> <a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a> ");
+                        $('td:eq(8)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a> <a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a> ");
 
                     }else{
-                      $('td:eq(7)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/renew')}}/"+id+"'><i class='bx bx-analyse'></i> Renew</a><a class='dropdown-item' href='{{url('app/agree')}}/"+id+"'><i class='bx bx-check'></i> Agree</a><a class='dropdown-item' href='{{url('app/cancelled')}}/"+id+"><i class='bx bxs-x-circle'></i>&nbsp;X Cancel</a></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a><a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a>  ");
+                      $('td:eq(8)', nRow).html("<div class='dropdown'><span style='"+contract_edit+"' class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/renew')}}/"+id+"'><i class='bx bx-analyse'></i> Renew</a><a class='dropdown-item' href='{{url('app/agree')}}/"+id+"'><i class='bx bx-check'></i> Agree</a><a class='dropdown-item' href='{{url('app/cancelled')}}/"+id+"><i class='bx bxs-x-circle'></i>&nbsp;X Cancel</a></div><a href='javascript:;' class='delete' data='"+id+"' style='"+style+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ictran/edit')}}/"+id+"' style='float: left !important;"+contract_edit+"'><i class='bx bx-edit-alt' ></i></a><a href='{{url('app/ictran/ticket')}}/"+id+"' style='float: left !important;"+styleticket+"'><i class='bx bxs-purchase-tag' ></i></a>  ");
                     }
 
                     if(aData.dueDateColor==1){
                          
-                        $('td:eq(6)', nRow).css('color', 'Red');
+                        $('td:eq(7)', nRow).css('color', 'Red');
                          
 
                     }
+
+                    if(color == 1){
+                        $('td:eq(4)', nRow).css('color', 'red');
+                        
+                        }
+                        $('td:eq(4)', nRow).css('text-align', 'center');
+                        $('td:eq(5)', nRow).css('text-align', 'center');
 
 
 
@@ -1136,16 +1174,26 @@ div#chart3 {
                       var tickect_edit= 'display:none';
                     }
 
+                      var actionNone = '';
+                    if(aData.ticketstatus==3){
+                      var actionNone = 'display:none';
+                      //$('td:eq(8)', nRow).html('Cancel').css('color','red');
+                    }
+
+                    //console.log('actionNone',actionNone);
 
                      
                          
                     if(aData.ticketstatus==2){   
                       $('td:eq(8)', nRow).html("<a href='javascript:;' style='"+hideDelete+"' class='delete1' data='"+id+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a>");
                       }else{
-                        $('td:eq(8)', nRow).html("<div class='dropdown' ><span class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/reassign')}}/"+id+"'><i class='bx bx-analyse'></i> Re-Assign</a><a class='dropdown-item' href='{{url('app/ticket/close')}}/"+id+"'><i class='bx bx-check'></i> Close</a></div><a href='javascript:;' class='delete1' data='"+id+"' style='"+hideDelete+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ticket/edit')}}/"+id+"' style='float: left !important;"+tickect_edit+"'><i class='bx bx-edit-alt' ></i></a>");
+                        $('td:eq(8)', nRow).html("<div style='"+actionNone+"' class='dropdown' ><span class='bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' role='menu'></span><div class='dropdown-menu dropdown-menu-right'> <a class='dropdown-item' href='{{url('app/reassign')}}/"+id+"'><i class='bx bx-analyse'></i> Re-Assign</a><a class='dropdown-item' href='{{url('app/ticket/close')}}/"+id+"'><i class='bx bx-check'></i> Close</a><a class='dropdown-item' href='{{url('app/ticket/cancelTicket')}}/"+id+"'><i class='bx bx-close'></i>&nbsp;X Cancel</a></div><a href='javascript:;' class='delete1' data='"+id+"' style='"+hideDelete+"' onclick='return confirm('Are you sure you want to delete this ?')' style='float: : left !important'><i class='bx bx-trash-alt'></i></a><a href='{{url('app/ticket/edit')}}/"+id+"' style='float: left !important;"+tickect_edit+"'><i class='bx bx-edit-alt' ></i></a>");
                       }
 
-                    
+                    if(aData.ticketstatus==3){
+                      //var actionNone = 'display:none';
+                      $('td:eq(8)', nRow).html('Cancel').css('color','red');
+                    }
 
 
 

@@ -135,6 +135,77 @@
   </div>
 </section>
 <!-- users list ends -->
+
+
+<section class="users-list-wrapper">
+  <div class="users-list-filter px-1">
+    <form>
+     <!--  <div class="row border rounded py-2 mb-2">
+        <div class="col-12 col-sm-6 col-lg-3">
+          <label for="users-list-verified">Verified</label>
+          <fieldset class="form-group">
+            <select class="form-control" id="users-list-verified">
+              <option value="">Any</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </fieldset>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <label for="users-list-role">Role</label>
+          <fieldset class="form-group">
+            <select class="form-control" id="users-list-role">
+              <option value="">Any</option>
+              <option value="User">User</option>
+              <option value="Staff">Staff</option>
+            </select>
+          </fieldset>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3">
+          <label for="users-list-status">Status</label>
+          <fieldset class="form-group">
+            <select class="form-control" id="users-list-status">
+              <option value="">Any</option>
+              <option value="Active">Active</option>
+              <option value="Close">Close</option>
+              <option value="Banned">Banned</option>
+            </select>
+          </fieldset>
+        </div>
+        <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center">
+          <button type="reset" class="btn btn-primary btn-block glow users-list-clear mb-0">Clear</button>
+        </div>
+      </div> -->
+    </form>
+  </div>
+  <div class="users-list-table">
+    <div class="card">
+      <div class="card-body">
+       <h4>Update Cost Per Support Price</h4>
+      <br>
+      <br>
+      <?php
+      $results = \DB::table('costPerSupport')->first();
+      //dd($results->cost_per_support);
+      ?>
+      
+        <!-- datatable start -->
+        <div class="table-responsive">
+          <form action="{{url('app/updateCostPerSupport')}}/{{(@$results->id == '') ? $results->id : 1 }}" method="post">
+          @csrf
+          <div class="form-group">
+          <input type="number" name="cost_per_support" placeholder="Cost Per Support" class="form-control" style="width:50%;float:left" min="1" required="" value="{{@$results->cost_per_support}}">
+          <button type="submit" class="btn btn-success" style="margin-left:10px">Update</button>
+          </div>
+          </form>
+        </div>
+        <!-- datatable ends -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
 @endsection
 
 {{-- vendor scripts --}}

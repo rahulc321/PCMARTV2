@@ -148,6 +148,7 @@
  							} 
 
  							$realPrice= $actPrice+$price;
+ 							$realPrice1= $actPrice+$price;
 
  							if($tax==1){
  								$tax=($realPrice*$info->tax)/100;
@@ -186,8 +187,26 @@
  							$sum+=$realPrice;
 
 
+ 							// New changes
+ 							$word = "{x}";
+							$mystring = $prod->description;
 
- 							$firstArray[$key+5]['description']=  $prod->description;
+							$costData = \DB::table('costPerSupport')->first();
+							//dd($costData->cost_per_support);
+							$cPs =1;
+							if($costData){
+								$cPs = $costData->cost_per_support;
+							}
+
+							$replaceValue = round($realPrice1/$cPs);
+
+							// Test if string contains the word 
+							$descriptionNew = $prod->description;
+							if(strpos($mystring, $word) !== false){
+							$descriptionNew = str_replace("{x}",$replaceValue, $prod->description);
+							}
+
+ 							$firstArray[$key+5]['description']=  $descriptionNew;
  							$firstArray[$key+5]['exp_date']=  date('d-m-Y',strtotime($custInfo[$key]['exp_date']));
  							$firstArray[$key+5]['realPrice']=  $realPrice;
  							$firstArray[$key+5]['[sno_number]']=  '';

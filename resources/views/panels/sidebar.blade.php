@@ -246,6 +246,13 @@ $perm = Helper::checkPermission();
           @endif
 
 
+          <li class="nav-item {{ (request()->is('app/prospect')) ? 'active' : '' }}">
+            <a href="{{route('prospect.index')}}">
+           <!--  <i class="menu-livicon livicon-evo-holder livicon-evo-error" data-icon="envelope-pull"></i> -->
+            <i class="bx bx-category"></i>
+            <span class="menu-title text-truncate">Prospect Management</span>
+            </a>
+          </li>
 
 
 

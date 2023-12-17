@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page title --}}
-@section('title','Edit Setting')
+@section('title','Add Lead')
 {{-- vendor styles --}}
 @section('vendor-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/validation/form-validation.css')}}">
@@ -14,8 +14,12 @@
 @endsection
 
 @section('content')
- 
 <!-- users edit start -->
+<style type="text/css">
+ .mb-3, .my-3 {
+    margin-bottom: 1rem !important;
+}
+</style>
 <section class="users-edit">
   <div class="card">
     <div class="card-body">
@@ -33,7 +37,7 @@
         <li class="nav-item">
         <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab"
             href="#account" aria-controls="account" role="tab" aria-selected="true">
-          <i class="bx bx-user mr-25"></i><span class="d-none d-sm-block">Edit Setting</span>
+          <i class="bx bx-user mr-25"></i><span class="d-none d-sm-block">Add Lead</span>
         </a>
         </li>
         <li class="nav-item">
@@ -49,7 +53,7 @@
              
             <!-- users edit media object ends -->
             <!-- users edit account form start -->
-            <form class="form-validate" action="{{url('/app/settings/update')}}/{{$edit->id}}" method="post">
+            <form class="form-validate" action="{{route('prospect.store')}}" method="post">
                 
                 @csrf
                 <div class="row">
@@ -57,36 +61,27 @@
                        
                       <div class="form-group">
                         <div class="controls">
-                            <label>Title</label>
-                            <input type="text" class="form-control" placeholder="title"
-                                 " value="{{$edit->title}}"
-                                name="title" required="">
+                            <label>Lead Owner</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Lead Owner" name="lead_owner" required="" readonly="" value="{{\Auth::user()->name }}">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="controls">
-                            <label>Description</label>
-                            <input type="text" class="form-control" placeholder="Description"
-                                 " value="{{$edit->description}}"
-                                name="description" required="">
-                                <p style="color:red;font-size: 11px;border-bottom: 1px dotted #f51d1d;border-top: 1px dotted #f51d1d;"><i class="bx bx-info-circle" aria-hidden="true"></i> If you want to add cost per support count above description you need to add {x}.</p>
+                            <label>Name</label>
+                             <input type="text" class="form-control form-control-sm mb-3" placeholder="Name" name="name" required="">
                         </div>
                       </div>
 
                       <div class="form-group">
                         <div class="controls">
-                            <label>1st User : RM</label>
-                            <input type="text" class="form-control" placeholder="1st User"
-                                 " value="{{$edit->first_user}}"
-                                name="first_user" required="">
+                            <label>Phone </label>
+                             <input type="text" class="form-control form-control-sm mb-3" placeholder="Phone" name="phone" required="">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="controls">
-                            <label>Add User : RM</label>
-                            <input type="text" class="form-control" placeholder="Add User"
-                                 " value="{{$edit->add_user}}"
-                                name="add_user" required="">
+                            <label>Mobile</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Mobile" name="mobile" required="">
                         </div>
                       </div>
                       <?php
@@ -94,11 +89,11 @@
                        ?>
                       <div class="form-group">
                         <div class="controls">
-                            <label>Category Name</label>
-                             <select class="form-control" name="cat">
+                            <label>Lead Source</label>
+                             <select class="form-control form-control-sm mb-3" name="lead_source">
                                 <option value="">Select</option>
                                 @foreach($catName as $cName)
-                                <option value="{{$cName->id}}" @if($edit->cat==$cName->id) {{'selected'}} @endif>{{$cName->cat_name}}</option>
+                                <option value="{{$cName->id}}">{{$cName->cat_name}}</option>
                                 @endforeach
                              </select>
                         </div>
@@ -108,21 +103,16 @@
                       
                   </div>
                   <div class="col-12 col-sm-6">
-
                   <div class="form-group">
                         <div class="controls">
-                            <label>New</label>
-                            <input type="text" class="form-control" placeholder="Add User"
-                                 " value="{{$edit->new}}"
-                                name="new" required="">
+                            <label>Company</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Company" name="company" required="">
                         </div>
                       </div>
-                  <div class="form-group">
+                     <div class="form-group">
                         <div class="controls">
-                            <label>Renew</label>
-                            <input type="text" class="form-control" placeholder="Renew"
-                                 " value="{{$edit->renew}}"
-                                name="renew" required="">
+                            <label>Email</label>
+                            <input type="email" class="form-control form-control-sm mb-3" placeholder="Email" name="email" required="">
                         </div>
                       </div>
 
@@ -130,41 +120,79 @@
 
                       <div class="form-group">
                         <div class="controls">
-                            <label>Company Name</label>
-                            <!-- <input type="text" class="form-control" placeholder="Company Name"
-                                 " value="{{$edit->company_name}}"
-                                name="company_name" required=""> -->
-
-                            <select class="form-control" name="company_name" required="">
-
-                            @foreach($info as $infos)
-
-                            <option value="{{$infos->id}}" <?php if($edit->company_name==$infos->id){ echo 'selected'; } ?> >{{$infos->company_name}}</option>
-
-                            @endforeach
-                              
-                            </select>
-
+                            <label>Website</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Website" name="website" required="">
                         </div>
                       </div>
 
                       <div class="form-group">
                         <div class="controls">
-                            <label>Tax</label>
-                            <br>
-                            <input type="radio"  name="tax" @if($edit->tax==1) {{'checked' }} @endif required="" checked value="1"> Yes
-                            <input type="radio" @if($edit->tax==0) {{'checked' }} @endif name="tax" required="" value="0"> No
+                            <label>Lead Status</label>
+                            <select class="form-control form-control-sm mb-3" name="lead_status">
+                                <option value="Open">Open</option>
+                                <option value="Close">Close</option>
+                                <option value="Not interest">Not interest</option>
+                            </select>
+                             
                         </div>
                       </div>
                   </div>
-                  
+                </div>
+                  <h5>Additional Information</h5>
+                  <div class="row">
+                  <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>Street</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Street" name="street" required="">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>State</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="State" name="state" required="">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>Country</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Country" name="country" required="">
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>City</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="City" name="City" required="">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>ZipCode</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="ZipCode" name="zipcode" required="">
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <div class="controls">
+                            <label>Description</label>
+                            <input type="text" class="form-control form-control-sm mb-3" placeholder="Description"  name="description" required="">
+                        </div>
+                      </div>
+
+                  </div>
+                  </div>
 
                   
                   <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">
                       <button type="submit" class="btn btn-primary glow mb-1 mb-sm-0 mr-0 mr-sm-1">Submit</button>
                       <button type="reset" class="btn btn-light" onclick="goBack()">Cancel</button>
                   </div>
-                </div>
+                
             </form>
             <!-- users edit account form ends -->
         </div>

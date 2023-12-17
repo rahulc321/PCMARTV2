@@ -21,8 +21,8 @@
 <section class="users-edit">
   <div class="card">
     <div class="card-body">
-      @if(Session::has('message'))
-      <p class="alert alert-info">{{ Session::get('message') }}</p>
+      @if(Session::has('error'))
+      <p class="alert alert-info">{{ Session::get('success') }}</p>
       @endif
       @if(Session::has('error'))
       <p class="alert alert-danger">{{ Session::get('error') }}</p>
@@ -231,8 +231,79 @@
                   
                   
                 </div>
-             
+
+                <div class="brder"></div>
+            <a href="{{route('upload-settings.create')}}">Add</a>  
             <!-- users edit account form ends -->
+            <style type="text/css">
+            .mb-3, .my-3 {
+            margin-bottom: 0rem !important;
+            }
+            .brder {
+            border-bottom: 0px solid;
+            /* border-style: dashed; */
+            color: #f2b95f;
+            margin-top: 10px;
+            border-bottom: 2px dotted;
+            }
+            </style>
+             <table id="users-list-datatable" class="table">
+            <thead>
+              <tr>
+                 
+                <th>Type</th>
+                <th>Path</th>
+                <th>From</th>
+                <th>To</th>
+                
+                <th>Action</th>
+                <th></th>
+                 
+                 
+                 
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+              $sets = \DB::table('upload_settings')->get();
+              ?>  
+              @foreach($sets as $data)
+                <tr>
+                    <td>
+                             <select class="form-control form-control-sm mb-3" name="type">
+                                <option value="Arcust" <?php if($data->type=="Arcust"){ echo 'selected'; }?>>Arcust</option>
+                                <option value="Support" <?php if($data->type=="Support"){ echo 'selected'; }?>>Support</option>
+                                <option value="Subscription(csv)" <?php if($data->type=="Subscription(csv)"){ echo 'selected'; }?>>Subscription(csv)</option>
+                                <option value="Subscription(ictran)" <?php if($data->type=="Subscription(ictran)"){ echo 'selected'; }?>>Subscription(ictran)</option>
+                                <option value="Subscription(ictran)" <?php if($data->type=="Subscription(ictran)"){ echo 'selected'; }?>>Training</option>
+                            </select>
+
+                    </td>
+
+                    <td>
+                      <input type="text" class="form-control form-control-sm mb-3" placeholder="Path" name="path" value="{{$data->path}}">
+                    </td>
+
+                    <td>
+                      <input type="text" class="form-control form-control-sm mb-3" placeholder="From" name="from_s" value="{{$data->from_s}}">
+                    </td>
+
+                    <td>
+                      <input type="text" class="form-control form-control-sm mb-3" placeholder="To" name="to_s" value="{{$data->to_s}}">
+                    </td>
+                    <td>
+                        <a href="{{ route('upload-settings.edit', $data->id)}}" style="float: left !important;"><i class="bx bx-edit-alt" style="float: left !important;"></i></a>
+
+                         <a href="{{ route('upload-settings.show', $data->id)}}" onclick="return confirm('Are you sure you want to delete this user')"><i class="bx bx-trash-alt"></i></a>
+                    </td>
+                    <td><input type="submit"></td>
+                     
+
+                     
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
          
       </div>

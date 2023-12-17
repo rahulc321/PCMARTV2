@@ -13,4 +13,9 @@ class Product extends Model
  // 	return $this->hasMany('App\Models\ModuleAccess','module_id','id');
  // }
 
+
+ public function supportPrice(){
+ 	return $this->hasMany('App\Models\Info','id','company_name');
+ }
+
 }

@@ -6500,7 +6500,7 @@ span.select2-dropdown.select2-dropdown--above {
             ]);
         }
 
-        if ($request->type != "") {
+        if ($request->type != "" && $searchValue == "") {
             // wecho $request->type;die;
             if ($request->type == 1) {
                 // echo 'sda';

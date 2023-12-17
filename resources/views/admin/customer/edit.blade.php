@@ -206,9 +206,9 @@
         </div>
         </div>
 
-      <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs" id="myTab">
         <li class="nav-item">
-            <a href="#home" class="nav-link active" data-toggle="tab">Detail</a>
+            <a href="#home" class="nav-link" data-toggle="tab">Detail</a>
         </li>
         <li class="nav-item">
             <a href="#profile" class="nav-link" data-toggle="tab">Support</a>
@@ -225,7 +225,7 @@
        <?php $module='customer_subscription_show'; ?>
         @if(in_array($module,$perm))
         <li class="nav-item">
-            <a href="#subscription" class="nav-link" data-toggle="tab">Subscription</a>
+            <a href="#subscription" class="nav-link subscription" data-toggle="tab">Subscription</a>
         </li>
          @endif
          <?php $module='contract_show'; ?>
@@ -244,6 +244,9 @@
         @if(in_array($module,$perm))
         <li class="nav-item">
             <a href="#training" class="nav-link" data-toggle="tab">Training</a>
+        </li>
+        <li class="nav-item">
+            <a href="#scheduling" class="nav-link" data-toggle="tab">Scheduling</a>
         </li>
 
          @endif
@@ -762,7 +765,7 @@
                         <div class="form-group cstmFormCO">
                           <div class="controls">
                               <label>Status</label>
-                              <select class="j" name="status[]" {{$o}}>
+                              <select class="j" name="cstatus[]" {{$o}}>
                                 <option @if( $fsubAI['status'] == 1 ){{'selected'}}@endif value="1">Active</option>
                                 <option @if( $fsubAI['status'] == 0 ){{'selected'}}@endif value="0">Non-Active</option>
                               </select>
@@ -804,7 +807,7 @@
 
                               <div class="form-group cstmFormCO">
                                 <div class="controls">
-                                    <select class="j" name="status[]" {{$o}}>
+                                    <select class="j" name="cstatus[]" {{$o}}>
                                       <option @if( $singleBI['status'] == 1 ){{'selected'}}@endif value="1">Active</option>
                                       <option @if( $singleBI['status'] == 0 ){{'selected'}}@endif value="0">Non-Active</option>
                                     </select>
@@ -825,6 +828,23 @@
               @endif
           </div>
         </div>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+   
+  $('a[data-toggle="tab"]').on('click', function(e) {
+     
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+   // alert(activeTab)
+    if(activeTab){
+        $('#myTab a[href="' + activeTab + '"]').trigger('click');
+    }
+
+  });
+</script>
      
     <!-- For subscription -->
      <div class="tab-pane fade" id="subscription">
@@ -836,7 +856,7 @@
 
      <!-- For service contract -->
       <div class="tab-pane fade" id="servicec">
-         @include('admin.ictran.listictrain')
+          @include('admin.ictran.listictrain') 
       </div>
 
     <!-- For service contract -->
@@ -848,11 +868,23 @@
       </div>
     <!-- For ticket -->
 
-     <!-- For training -->
+       <!-- For training -->
       <div class="tab-pane fade" id="training">
-        @include('admin.training.listTrainingUser')  
+        @include('admin.training.listTrainingUser')
+        
       </div>
     <!-- For training -->
+
+    <!-- For scheduling -->
+      <div class="tab-pane fade" id="scheduling">
+        
+        @include('pages.userschedule')  
+      </div>
+    <!-- For scheduling -->
+
+     
+
+    
 
 
 
@@ -893,6 +925,19 @@
 <script>
 
 $(document).ready(function(){
+
+   
+  // $('a[data-toggle="tab"]').on('click', function(e) {
+     
+  //       localStorage.setItem('activeTab', $(e.target).attr('href'));
+  //   });
+  //   var activeTab = localStorage.getItem('activeTab');
+  //   alert(activeTab)
+  //   if(activeTab){
+  //       $('#myTab a[href="' + activeTab + '"]').trigger('click');
+  //   }
+
+
   $.noConflict();
     $('.expcheck').click(function(){
       var atr= $(this).attr('data');

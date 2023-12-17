@@ -51,7 +51,7 @@
              
             <!-- users edit media object ends -->
             <!-- users edit account form start -->
-            <form class="form-validate" action="{{url('/app/ticket/update')}}/{{$edit->id}}" method="post">
+            <form class="form-validate" action="{{url('/app/ticket/update')}}/{{$edit->ticket_id}}" method="post">
                 
                 @csrf
                 <div class="row">
@@ -61,7 +61,7 @@
                         <div class="controls">
                             <label>Organization Name <span style="color:red"> (Please Type Slowly Slowly...)</span></label>
                              
-                        <select class="js-example-basic-single oname form-control" name="ictran_id">
+                        <select class="js-example-basic-single oname form-control" name="ictran_id" >
                         <option value="">--Select--</option>
                         <option value="{{$oname->id}}" selected>{{$oname->Organization_Name}}</option>
                         <!--  @foreach($records as $record)
@@ -104,6 +104,31 @@
                             <input type="text" class="form-control c" placeholder="Contact Person
                                  "
                                 name="contact_person" required="" value="{{$edit->contact_person}}">
+                        </div>
+                      </div>
+
+                      <!-- Orher info -->
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>Other Info</label>
+                            <select class="form-control us" name="otherCustomerId">
+                            <option value="">--Select--</option>
+                              @foreach($customerInfo as $data)
+
+                              <?php
+                             //echo '<pre>';print_r($data);
+
+                              ?>
+
+                                <option <?php if($edit->otherCustomerId == $data->id){ echo 'selected'; } ?> value="{{$data->id}}" rel1="<?=$data->name?>" rel2="<?=$data->email?>" rel3="<?=$data->phone?>" rel4="<?=$data->teamviewer_id?>">{{$data->name.' - '.$data->phone.' (TeamViewer : '.$data->teamviewer_id.')'}}</option>
+                              @endforeach 
+                            </select>
+                            <p class="infod" style="display: none;font-size: 12px;">
+                            <span><b>Name: </b><span class="name"></span></span>
+                            <span><b>Email: </b><span class="email"></span></span>
+                            <span><b>Phone: </b><span class="phone"></span></span>
+                            <span><b>Teamviewer: </b><span class="tm"></span></span>
+                            </p>
                         </div>
                       </div>
 
@@ -179,8 +204,8 @@ $(document).on('keyup','.select2-search__field', function(){
             method:"post",
             success:function(res){
                     
-                  $('.c').val(res.Contact);
-                  $('.p').val(res.Primary_Phone);
+                  $('.c').val(res.custInfo.Contact);
+                  $('.p').val(res.custInfo.Primary_Phone);
             }
         });
 
@@ -199,6 +224,7 @@ $(document).on('change','.oname', function(){
   var id= $(this).val();
   $('.c').val(' ');
   $('.p').val(' ');
+  $('.us').html('');
   $.ajax({
             url:"{{url('/')}}/app/getInfo",
             dataType: "json", // data type of response
@@ -206,8 +232,33 @@ $(document).on('change','.oname', function(){
             method:"post",
             success:function(res){
                     
-                  $('.c').val(res.Contact);
-                  $('.p').val(res.Primary_Phone);
+              $('.c').val(res.custInfo.Contact);
+              $('.p').val(res.custInfo.Primary_Phone);
+              var dd=  res.customerInfo;
+              $.each(dd, function(key, value) {
+                console.log('value',value);
+
+              if(value.phone === null){
+                var phone = "";
+              }else{
+                var phone = value.phone;
+              }
+
+              if(value.name === null){
+                var name = "";
+              }else{
+                var name = value.name;
+              }
+
+              $('.us')
+              .append($('<option>', { value : value.id })
+              .attr('rel1',(value.name === null) ? " " : value.name)
+              .attr('rel2',(value.email === null) ? " " : value.email)
+              .attr('rel3',(value.phone === null) ? " " : value.phone)
+              .attr('rel4',(value.teamviewer_id === null) ? " " : value.teamviewer_id)
+              .text(name +' - '+phone+' (TeamViewer : '+value.teamviewer_id+')')); 
+              });
+
             }
         });
 

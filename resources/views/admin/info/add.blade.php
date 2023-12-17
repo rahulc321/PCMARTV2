@@ -104,6 +104,15 @@
                                 name="email" required="">
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <div class="controls">
+                            <label>Cost Per Support</label>
+                            <input type="number" class="form-control" placeholder="Cost Per Support"
+                                 " value="{{@$edit->cost_per_support}}"
+                                name="cost_per_support" required="" min="1">
+                        </div>
+                      </div>
                      
                       
                        

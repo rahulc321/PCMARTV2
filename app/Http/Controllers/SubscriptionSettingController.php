@@ -460,7 +460,7 @@ class SubscriptionSettingController extends Controller
         }
 
         if (@$_GET["searchUser"] != "") {
-            $records = $records->where("Organization_Name", "like", "%" . $_GET["searchUser"] . "%");
+            $records = $records->where("customer_id", $_GET["searchUser"]);
         }
 
         if ($_GET["type"] != "") {
